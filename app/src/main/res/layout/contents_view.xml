@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.databinding.ObservableArrayList"/>
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/titleWhite"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추천콘텐츠"
+                android:textSize="@dimen/contents_detail_content"
+                />
+
+        </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/layout_left_padding"
+        android:paddingRight="5dp"
+        >
+
+        <!--오늘의 추천 콘텐츠-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="오늘의 추천 콘텐츠"
+            android:textSize="@dimen/contents_title"
+            android:layout_marginTop="@dimen/title_top_padding"
+            android:layout_marginBottom="@dimen/title_contents_interval"
+            android:textColor="@color/white"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_today_recommend_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            />
+
+        <!--주간 인기 콘텐츠-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="주간 인기 콘텐츠"
+            android:textSize="@dimen/contents_title"
+            android:layout_marginTop="@dimen/title_top_padding"
+            android:layout_marginBottom="@dimen/title_contents_interval"
+            android:textColor="@color/white"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_week_hot_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            />
+
+
+        <!--방금 선택된 콘텐츠-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="방금 선택된 콘텐츠"
+            android:textSize="@dimen/contents_title"
+            android:layout_marginTop="@dimen/title_top_padding"
+            android:layout_marginBottom="@dimen/title_contents_interval"
+            android:textColor="@color/white"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_just_selected_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            />
+
+        </LinearLayout>
+    </ScrollView>
+    </LinearLayout>
+
+</layout>

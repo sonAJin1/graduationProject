@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="OnClick"
+            type="com.example.sonaj.graduationproject.View.SalonView.OnClick"/>
+
+
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_post_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_off"
+        >
+
+        <ImageView
+            android:id="@+id/ll_neon_on"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_on"
+            />
+
+        <ImageView
+            android:id="@+id/im_neon_off"
+            android:layout_width="232dp"
+            android:layout_height="231dp"
+            android:layout_marginTop="64dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/neon_logo_off"
+            android:clickable="true"
+            android:focusable="true"
+           />
+
+        <ImageView
+            android:id="@+id/im_neon_on"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/neon_logo_on"
+            android:layout_centerHorizontal="true"
+            android:onClick="@{OnClick::animClick}"
+            android:clickable="true"
+            android:focusable="true"
+            />
+        
+        <ImageView
+            android:id="@+id/im_main_char"
+            android:layout_width="203dp"
+            android:layout_height="240dp"
+            android:background="@drawable/main_char"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="226dp"/>
+        
+        <ImageView
+            android:id="@+id/im_divider"
+            android:layout_width="209dp"
+            android:layout_height="10dp"
+            android:background="@drawable/textview_white_background"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/im_main_char"
+            android:layout_marginTop="18dp"/>
+
+        <TextView
+            android:id="@+id/tv_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="트레이에 술잔을 올려주세요"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/im_divider"
+            android:layout_marginTop="13dp"/>
+
+
+        <TextView
+            android:id="@+id/tv_select_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_salon_status1"
+            />
+        <TextView
+            android:id="@+id/tv_salon_status1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <!--Bluetooth Status-->
+        <ImageView
+            android:id="@+id/bluetooth_status"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_margin="20dp"
+            android:layout_alignParentRight="true"
+            />
+
+
+       
+    </RelativeLayout>
+</layout>

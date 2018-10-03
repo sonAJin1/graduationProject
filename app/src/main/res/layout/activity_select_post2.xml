@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_content"
+            android:layout_width="286dp"
+            android:layout_height="380dp"
+            android:background="@drawable/post_rounding"
+            android:orientation="vertical"
+            android:layout_marginTop="90dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rl_drink_color"
+                android:layout_width="38.8dp"
+                android:layout_height="38.8dp"
+                android:layout_marginLeft="16.7dp"
+                android:layout_marginTop="20.7dp"
+                android:background="@drawable/emotion_select_background">
+
+                <ImageView
+                    android:id="@+id/im_emotion"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_centerInParent="true"
+                    android:tint="@color/black"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_usr_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="6sp"
+                android:layout_marginLeft="68dp"
+                android:layout_marginTop="30dp"
+                android:layout_alignBaseline="@+id/rl_drink_color"/>
+            <TextView
+                android:id="@+id/tv_usr_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="6sp"
+                android:layout_alignLeft="@+id/tv_usr_nickname"
+                android:layout_below="@+id/tv_usr_nickname"
+                />
+
+            <TextView
+                android:id="@+id/tv_write_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="6sp"
+                android:layout_below="@+id/tv_usr_nickname"
+                android:layout_toRightOf="@+id/tv_usr_content"
+                android:layout_marginLeft="20dp"
+                />
+
+            <TextView
+                android:id="@+id/receive_cocktail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="받은 칵테일"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_alignLeft="@+id/rl_drink_color"
+                android:layout_marginTop="21.5dp"
+                />
+            <TextView
+                android:id="@+id/receive_cocktail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_toRightOf="@+id/receive_cocktail_title"
+                android:layout_marginTop="21.5dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_comment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="댓글"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_toRightOf="@+id/receive_cocktail"
+                android:layout_marginTop="21.5dp"
+                android:layout_marginLeft="20dp" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00개"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_toRightOf="@+id/tv_comment_title"
+                android:layout_marginTop="21.5dp"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/tv_views_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="조회"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_toRightOf="@+id/tv_comment"
+                android:layout_marginTop="21.5dp"
+                android:layout_marginLeft="20dp" />
+
+            <TextView
+                android:id="@+id/tv_views"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:layout_below="@+id/rl_drink_color"
+                android:layout_toRightOf="@+id/tv_views_title"
+                android:layout_marginTop="21.5dp"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/tv_post_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="6sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="16.7dp"
+                android:layout_below="@+id/receive_cocktail_title"
+                android:layout_alignLeft="@+id/rl_drink_color"
+                />
+
+            <TextView
+                android:id="@+id/tv_content_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="더보기"
+                android:textSize="10sp"
+                android:layout_marginTop="8dp"
+                android:layout_below="@+id/tv_post_content"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:background="#c9c9c9"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="14dp"
+                android:layout_below="@+id/tv_content_more"
+                />
+            <LinearLayout
+                android:id="@+id/ll_content_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/view_divider"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <Button
+                    android:id="@+id/ib_cocktail_send"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_cocktail_icon"
+                    android:background="@color/white"
+                    android:text="칵테일 주기"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="15dp"
+                    />
+                <Button
+                    android:id="@+id/ib_comment_send"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_coment_icon"
+                    android:background="@color/white"
+                    android:text="댓글 달기"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="20dp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_divider2"
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:background="#c9c9c9"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/ll_content_option"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rc_like_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="28dp"
+                android:layout_below="@+id/view_divider2"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/im_trash_btn"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:src="@drawable/ic_trash_icon"
+            android:scaleType="center"
+            android:background="@drawable/trash_btn_background"
+            android:layout_below="@+id/rl_content"
+            android:layout_marginLeft="114dp"
+            android:layout_marginTop="36dp"
+            />
+    </RelativeLayout>
+</layout>

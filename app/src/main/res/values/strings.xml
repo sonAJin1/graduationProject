@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">혼술살롱</string>
+    <string name="title_home">HOME</string>
+    <string name="title_contents">CONTENTS</string>
+    <string name="title_like">LIKE</string>
+    <string name="title_activity_salon_view">SalonView</string>
+
+    <!--recycleViewItem-->
+    <string name="naver_score">네이버 평점</string>
+    <string name="IMDB_score">IMDB 평점</string>
+    <string name="RTTomato_score">로튼 토마토 \n지수</string>
+
+    <string name="service_name">BT Chat Service</string>
+
+
+    <!--  Bluetooth -->
+    <string name="bt_title">Bluetooth</string>
+
+    <string name="bt_state_init">초기화 중...</string>
+    <string name="bt_state_wait">대기중.. (우측 상단 아이콘으로 수동 검색)</string>
+    <string name="bt_state_connect">연결중...</string>
+    <string name="bt_state_connected">연결됨</string>
+    <string name="bt_state_error">error</string>
+
+    <string name="bt_not_enabled_leaving">블루투스가 꺼져 있습니다. 폰의 Settings 에서 블루투스를 활성화 하세요.</string>
+    <string name="bt_cmd_sending_error">전송 실패</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">장치 검색중...</string>
+    <string name="select_device">연결할 장치 선택</string>
+    <string name="none_paired">페어링 된 장치가 없습니다.</string>
+    <string name="none_found">검색된 장치가 없습니다.</string>
+    <string name="title_paired_devices">페어링 된 장치들</string>
+    <string name="title_other_devices">사용가능한 다른 장치들</string>
+    <string name="button_scan">장치 스캔</string>
+
+    <!-- Options Menu -->
+    <string name="connect">장치에 연결</string>
+    <string name="discoverable">Make\ndiscoverable</string>
+</resources>

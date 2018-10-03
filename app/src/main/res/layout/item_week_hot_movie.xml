@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <!--주소확인ㄴ-->
+        <variable name="weekMovieItem" type="com.example.sonaj.graduationproject.ItemWeekHotMovie"/>
+    </data>
+
+    <!--Data 변수명확인-->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        <ImageView
+            android:id="@+id/iv_week_hot_movie"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:imageUrl="@{weekMovieItem.getimageUrl}"
+            />
+
+        <TextView
+            android:id="@+id/tv_week_hot_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{weekMovieItem.getTitle}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_sub_title"
+            android:layout_marginTop="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ToggleButton
+                android:id="@+id/btn_week_hot_movie_like"
+                android:layout_width="15dp"
+                android:layout_height="13dp"
+                android:layout_centerInParent="true"
+                android:textOff=""
+                android:textOn=""
+                android:background="@drawable/like_selector"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
+                android:id="@+id/tv_week_hot_movie_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{Integer.toString(weekMovieItem.getLikeCount)}"
+                android:textSize="@dimen/layout_sub_title"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

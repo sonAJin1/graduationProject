@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="onClick" type="com.example.sonaj.graduationproject.Activity.MainActivity.OnClick"/>
+    </data>
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Salon 화면 (default 화면)-->
+    <include
+    android:id="@+id/view_salon"
+    layout="@layout/salon_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+    <!-- 콘텐츠 추천 화면 -->
+    <include
+    android:id="@+id/view_contents"
+    layout="@layout/contents_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" />
+
+    <!--좋아요 화면-->
+    <include
+        android:id="@+id/view_like"
+        layout="@layout/like_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!--Salon 게시물 보는 화면-->
+    <include
+        android:id="@+id/view_post"
+        layout="@layout/post_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</android.support.constraint.ConstraintLayout>
+</layout>

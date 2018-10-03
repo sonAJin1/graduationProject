@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="RelativeContentsItem" type="com.example.sonaj.graduationproject.ItemRelativeContentsLink"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="270dp"
+        android:layout_height="156dp"
+        android:background="@drawable/background_rounding">
+
+        <ImageView
+            android:id="@+id/im_relative_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:imageUrl="@{RelativeContentsItem.getImgURL}"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_rounding"/>
+
+        <TextView
+            android:id="@+id/tv_relative_content_title"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_left_padding"
+            android:layout_alignParentLeft="true"
+            android:text="@{RelativeContentsItem.getSubTitle}"
+            android:layout_marginTop="@dimen/title_recyclerView_interval"
+            android:textSize="@dimen/today_recomend_movie_large_score"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+</layout>

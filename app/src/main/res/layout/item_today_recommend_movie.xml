@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="todayMovieItem" type="com.example.sonaj.graduationproject.ItemTodayRecommendMovie"/>
+    </data>
+    <RelativeLayout
+        android:id="@+id/rl_today_recommend_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/iv_today_movies"
+            android:layout_width="310dp"
+            android:layout_height="210dp"
+            app:imageUrl="@{todayMovieItem.getimageUrl}"
+            />
+
+        <ImageView
+            android:layout_width="310dp"
+            android:layout_height="210dp"
+            android:background="@drawable/background_rounding"/>
+
+        <TextView
+            android:id="@+id/tv_today_movies_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/item_title"
+            android:text="@{todayMovieItem.getTitle}"
+            android:textColor="@color/white"
+            android:paddingLeft="@dimen/recycle_main_item_padding"
+            android:paddingBottom="@dimen/recycle_main_item_padding"
+            android:paddingTop="30dp"
+
+            />
+        <TextView
+            android:id="@+id/tv_today_movies_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_today_movies_title"
+            android:text="@{Integer.toString(todayMovieItem.getDate)}"
+            android:textColor="@color/white"
+            android:layout_alignBaseline="@+id/tv_today_movies_title"
+            android:layout_marginLeft="7dp"/>
+
+        <ToggleButton
+            android:id="@+id/btn_today_like"
+            android:layout_width="15dp"
+            android:layout_height="13dp"
+            android:layout_marginLeft="10dp"
+            android:textOff=""
+            android:textOn=""
+            android:background="@drawable/like_selector"
+            android:layout_toRightOf="@+id/tv_today_movies_year"
+            android:layout_alignBottom="@+id/tv_today_movies_year"
+            />
+
+        <TextView
+            android:id="@+id/tv_today_movies_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_today_movies_title"
+            android:text="@{todayMovieItem.getSubtitle}"
+            android:layout_marginLeft="@dimen/recycle_main_item_padding"/>
+
+        <TextView
+            android:id="@+id/tv_naver_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_today_movies_sub"
+            android:textSize="@dimen/today_recomend_movie_large_score"
+            android:layout_marginLeft="@dimen/recycle_item_score_side_padding"
+            android:layout_marginTop="@dimen/recycle_main_item_score_interval"
+            android:text="@{Float.toString(todayMovieItem.getNaverScore)}"
+            />
+
+        <TextView
+            android:id="@+id/tv_naver_score_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/recycle_item_score_side_padding"
+            android:layout_below="@+id/tv_naver_score"
+            android:text="@string/naver_score"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_sub_title"/>
+
+        <TextView
+            android:id="@+id/tv_imbd_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@{Float.toString(todayMovieItem.getIMDBScore)}"
+            android:layout_alignTop="@+id/tv_naver_score"
+            android:textColor="@color/white"
+            android:textSize="@dimen/today_recomend_movie_large_score"/>
+
+        <TextView
+            android:id="@+id/tv_imbd_score_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@+id/tv_naver_score_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_sub_title"
+            android:text="@string/IMDB_score"/>
+
+        <TextView
+            android:id="@+id/tv_rttomato_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_naver_score"
+            android:layout_alignRight="@+id/iv_today_movies"
+            android:layout_marginRight="@dimen/recycle_item_score_side_padding"
+            android:textColor="@color/white"
+            android:textSize="@dimen/today_recomend_movie_large_score"
+            android:text="@{todayMovieItem.getRTTomatoScore}"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/iv_today_movies"
+            android:layout_alignTop="@+id/tv_naver_score_title"
+            android:text="@string/RTTomato_score"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/recycle_item_score_side_padding"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_sub_title"/>
+
+
+    </RelativeLayout>
+</layout>

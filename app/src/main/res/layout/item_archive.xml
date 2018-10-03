@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable name="PostItem" type="com.example.sonaj.graduationproject.ItemGetPost"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:padding="10.7dp"
+            android:layout_below="@+id/tv_date_title">
+
+            <RelativeLayout
+                android:id="@+id/rl_drink_color"
+                android:layout_width="38.8dp"
+                android:layout_height="38.8dp"
+                android:background="@drawable/emotion_select_background">
+
+            <ImageView
+                android:id="@+id/im_emotion"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_centerInParent="true"
+                android:tint="@color/black"
+                />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_usr_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_toRightOf="@+id/rl_drink_color"
+                android:layout_marginLeft="10.5dp"
+                android:textColor="@color/black"
+                android:text="@{PostItem.getNickname}"/>
+
+            <TextView
+                android:id="@+id/tv_usr_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#c5c5c5"
+                android:layout_alignParentRight="true"
+                android:text="@{PostItem.getSelectContent}"/>
+
+            <TextView
+                android:id="@+id/tv_usr_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/rl_drink_color"
+                android:layout_marginLeft="10.5dp"
+                android:layout_below="@+id/tv_usr_nickname"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:maxLength="19"
+                android:text="@{PostItem.getText}"
+                />
+
+            <TextView
+                android:id="@+id/tv_usr_text_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_toRightOf="@+id/tv_usr_text"
+                android:layout_marginLeft="3dp"
+                android:layout_alignBaseline="@+id/tv_usr_text"
+                android:textColor="@color/black"
+                android:text="···"
+                android:visibility="gone"/>
+
+
+
+        </RelativeLayout>
+</RelativeLayout>
+</layout>

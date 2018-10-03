@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="onClick"
+            type="com.example.sonaj.graduationproject.EnterPostInformationDialog.OnClick"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+
+        <RadioGroup
+            android:id="@+id/drink_btn_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/btn_beer"
+                android:layout_width="33.5dp"
+                android:layout_height="68dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/beer_click"
+                android:layout_marginRight="44.8dp"
+                />
+
+            <RadioButton
+                android:id="@+id/btn_soju"
+                android:layout_width="33.5dp"
+                android:layout_height="68dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/soju_click"
+                android:layout_marginRight="44.8dp"
+                />
+
+            <RadioButton
+                android:id="@+id/btn_traditional"
+                android:layout_width="33.5dp"
+                android:layout_height="68dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/traditional_click"
+                android:layout_marginRight="44.8dp"
+                />
+
+            <RadioButton
+                android:id="@+id/btn_wine"
+                android:layout_width="33.5dp"
+                android:layout_height="68dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/wine_click"
+                />
+
+        </RadioGroup>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_marginLeft="37dp"
+            android:layout_marginRight="37dp"
+            android:layout_marginBottom="21dp"
+            android:layout_marginTop="20.8dp"
+            android:layout_below="@+id/drink_btn_group"
+            />
+
+
+
+        <RadioGroup
+            android:id="@+id/emotion_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/divider">
+
+            <RadioButton
+                android:id="@+id/emotion_00"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="24.4dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/emotion_click"
+                />
+
+            <RadioButton
+                android:id="@+id/emotion_01"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="24.4dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/emotion_click"
+
+                />
+
+            <RadioButton
+                android:id="@+id/emotion_02"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="24.4dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/emotion_click"
+                />
+
+            <RadioButton
+                android:id="@+id/emotion_03"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="24.4dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/emotion_click"
+                />
+
+            <RadioButton
+                android:id="@+id/emotion_04"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/emotion_click"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/notification_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘 즐길 주류와 현재 감정을 선택해 주세요"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_sub_title"
+            android:layout_marginTop="20.4dp"
+            android:layout_below="@+id/emotion_group"
+            android:layout_centerHorizontal="true"/>
+
+        
+        <EditText
+            android:id="@+id/et_usr_nickname"
+            android:layout_width="271dp"
+            android:layout_height="30dp"
+            android:background="@drawable/textview_white_background"
+            android:hint="오늘, 혼술살롱에서 사용할 닉네임을 입력해주세요"
+            android:textSize="@dimen/item_sub_title"
+            android:layout_marginTop="55dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="21dp"
+            android:layout_below="@+id/notification_text"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:layout_alignBaseline="@+id/et_usr_nickname"
+            android:layout_alignRight="@+id/et_usr_nickname"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/item_sub_title"
+            android:visibility="gone"
+            android:onClick="@{onClick::clickOkBtn}"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_emotion00"
+            android:layout_marginTop="119dp"
+            android:layout_marginLeft="40dp"/>
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_emotion01"
+            android:layout_marginTop="119dp"
+            android:layout_marginLeft="96dp"/>
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_emotion02"
+            android:layout_marginTop="119dp"
+            android:layout_marginLeft="151.5dp"
+            />
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_emotion03"
+            android:layout_marginTop="119dp"
+            android:layout_marginLeft="208dp"
+            />
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_emotion04"
+            android:layout_marginTop="119dp"
+            android:layout_marginLeft="264dp"
+            />
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,46 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--
+    Because the window insets on round devices are larger than 15dp, this padding only applies
+    to square screens.
+    -->
+    <dimen name="box_inset_layout_padding">0dp</dimen>
+
+    <!--
+    This padding applies to both square and round screens. The total padding between the buttons
+    and the window insets is box_inset_layout_padding (above variable) on square screens and
+    inner_frame_layout_padding (below variable) on round screens.
+    -->
+    <dimen name="inner_frame_layout_padding">5dp</dimen>
+
+
+    <!--RecyclerView-->
+    <dimen name="recycle_main_item_padding">12dp</dimen>
+    <dimen name="recycle_item_score_side_padding">30dp</dimen>
+    <dimen name="recycle_main_item_score_interval">35dp</dimen>
+
+    <!--Layout-->
+    <dimen name="title_top_padding">30dp</dimen>
+    <dimen name="layout_left_padding">20dp</dimen>
+    <dimen name="title_contents_interval">10dp</dimen>
+
+    <!--contents detail-->
+    <dimen name="contents_title_interval">40dp</dimen>
+    <dimen name="title_recyclerView_interval">15dp</dimen>
+
+
+
+
+
+
+    <!-- SP -->
+    <dimen name="item_title">30sp</dimen>
+    <dimen name="today_recomend_movie_large_score">24sp</dimen>
+    <dimen name="item_sub_title">10sp</dimen>
+    <dimen name="contents_title">18sp</dimen>
+    <dimen name="layout_sub_title">12sp</dimen>
+    <dimen name="contents_detail_content">14sp</dimen>
+
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#e6000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="titleWhite">#d6ffffff</color>
+    <color name="imageT">#5a000000</color>
+    <color name="backgroundColor">#1d1d25</color>
+    <color name="unSelectedColor">#818181</color>
+
+    <color name="transperencyBackground">#d8000000</color>
+
+    <color name="deerColor">#e0ad2d</color>
+    <color name="sojuColor">#3daf37</color>
+    <color name="transitionColor">#a37e6d</color>
+    <color name="wineColor">#ef2056</color>
+
+
+    <color name="transferBackground">#bd000000</color>
+
+    <color name="sendBtnStatusColor">#4979ce</color>
+
+
+</resources>
