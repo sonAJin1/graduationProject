@@ -37,7 +37,8 @@
                             android:layout_height="38.8dp"
                             android:layout_marginLeft="16.7dp"
                             android:layout_marginTop="20.7dp"
-                            android:background="@drawable/emotion_select_background">
+                            android:background="@drawable/emotion_select_background"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:id="@+id/im_emotion"
@@ -49,6 +50,7 @@
                         </RelativeLayout>
                         
                         <ImageView
+                            android:id="@+id/drink_gauge"
                             android:layout_width="81.2dp"
                             android:layout_height="160dp"
                             android:layout_centerHorizontal="true"
@@ -61,33 +63,42 @@
                             android:textSize="14sp"
                             android:textColor="@color/black"
                             android:lineSpacingExtra="6sp"
-                            android:layout_marginLeft="68dp"
-                            android:layout_marginTop="30dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
                             android:text="@{PostItem.getNickname}"
-                            android:layout_alignBaseline="@+id/rl_drink_color"/>
-                        <TextView
-                            android:id="@+id/tv_usr_content"
+                            android:layout_below="@+id/drink_gauge"
+                            android:layout_marginBottom="3dp"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/ll_usr_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="@color/black"
-                            android:lineSpacingExtra="6sp"
-                            android:layout_alignLeft="@+id/tv_usr_nickname"
+                            android:orientation="horizontal"
+                            android:layout_centerHorizontal="true"
                             android:layout_below="@+id/tv_usr_nickname"
-                            android:text="@{PostItem.getSelectContent}"/>
+                            android:layout_marginBottom="15dp">
 
-                        <TextView
-                            android:id="@+id/tv_write_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="@color/black"
-                            android:lineSpacingExtra="6sp"
-                            android:layout_below="@+id/tv_usr_nickname"
-                            android:layout_toRightOf="@+id/tv_usr_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="@{PostItem.getUploadTime}"/>
+                            <TextView
+                                android:id="@+id/tv_usr_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:textColor="#c5c5c5"
+                                android:lineSpacingExtra="6sp"
+                                android:text="@{PostItem.getSelectContent}"/>
 
+                            <TextView
+                                android:id="@+id/tv_write_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:textColor="#c5c5c5"
+                                android:lineSpacingExtra="6sp"
+                                android:layout_below="@+id/tv_usr_nickname"
+                                android:layout_toRightOf="@+id/tv_usr_content"
+                                android:text="@{PostItem.getUploadTime}"/>
+                        </LinearLayout>
                         <TextView
                             android:id="@+id/receive_cocktail_title"
                             android:layout_width="wrap_content"
@@ -95,9 +106,9 @@
                             android:text="받은 칵테일"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
+                            android:layout_marginLeft="16.7dp"
                             android:layout_alignLeft="@+id/rl_drink_color"
-                            android:layout_marginTop="21.5dp"
                             />
                         <TextView
                             android:id="@+id/receive_cocktail"
@@ -105,9 +116,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
                             android:layout_toRightOf="@+id/receive_cocktail_title"
-                            android:layout_marginTop="21.5dp"
                             android:layout_marginLeft="5dp"
                             />
 
@@ -118,9 +128,8 @@
                             android:text="댓글"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
                             android:layout_toRightOf="@+id/receive_cocktail"
-                            android:layout_marginTop="21.5dp"
                             android:layout_marginLeft="20dp" />
 
                         <TextView
@@ -130,9 +139,8 @@
                             android:text="00개"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
                             android:layout_toRightOf="@+id/tv_comment_title"
-                            android:layout_marginTop="21.5dp"
                             android:layout_marginLeft="5dp" />
 
                         <TextView
@@ -142,9 +150,8 @@
                             android:text="조회"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
                             android:layout_toRightOf="@+id/tv_comment"
-                            android:layout_marginTop="21.5dp"
                             android:layout_marginLeft="20dp" />
 
                         <TextView
@@ -153,9 +160,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:textSize="10sp"
-                            android:layout_below="@+id/rl_drink_color"
+                            android:layout_below="@+id/ll_usr_info"
                             android:layout_toRightOf="@+id/tv_views_title"
-                            android:layout_marginTop="21.5dp"
                             android:layout_marginLeft="5dp" />
 
                         <TextView
@@ -168,7 +174,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="16.7dp"
                             android:layout_below="@+id/receive_cocktail_title"
-                            android:layout_alignLeft="@+id/rl_drink_color"
+                            android:layout_marginLeft="16.7dp"
                             android:text="@{PostItem.getText}"
                             />
                         <TextView
@@ -381,7 +387,7 @@
                             android:id="@+id/rv_comment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="28dp"
+                            android:layout_marginTop="14dp"
                             android:layout_below="@+id/view_divider2"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp">

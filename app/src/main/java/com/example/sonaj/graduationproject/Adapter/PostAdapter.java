@@ -109,7 +109,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
             CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColor);
             CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotion);
-
+            CharactorMake.setPostTitleImage(item.getDrinkKind(),item.getEmotion(),binding.drinkGauge);
 
             // text 부분 limint (더보기 출력)
             final int limit = 4;
@@ -246,7 +246,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
                 //170이상으로 넘어가면
                 if(scrollY>170){
-                    binding.scrollViewPostItem.smoothScrollTo(0,0);
+//                    binding.scrollViewPostItem.smoothScrollTo(0,0);
 
                 }
             }
