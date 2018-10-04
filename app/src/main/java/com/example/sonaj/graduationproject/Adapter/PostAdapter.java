@@ -130,6 +130,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             showCocktailSend(binding); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
             selectCocktailSend(binding);
             setScrollViewEffect(binding); //scroll관련 효과
+        setScrollAnimation(binding);
 
     }
 
@@ -242,7 +243,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             @Override
             public void onScrollChanged() {
                 int scrollY = binding.scrollViewPostItem.getScrollY();
-                Log.e("scrollY", String.valueOf(scrollY));
+             ///   Log.e("scrollY", String.valueOf(scrollY));
 
                 //170이상으로 넘어가면
                 if(scrollY>170){
@@ -253,7 +254,42 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         });
     }
 
+    public void setScrollAnimation(ItemPostBinding binding){
+        int[] location = new int[2];
+        binding.rlDrinkColor.getLocationOnScreen(location);
+        int ivX = location[0];
+        int ivY = location[1];
 
+        int[] img_coordinates = new int[2];
+        binding.rlDrinkColor.getLocationOnScreen(img_coordinates);
+        float x = img_coordinates[0];
+        float y = img_coordinates[1];
+
+//        ViewTreeObserver vto = binding.getRoot().getViewTreeObserver();
+//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                int[] location = new int[2];
+//                binding.rlDrinkColor.getLocationInWindow(location);
+//                 Log.e("location[0]", String.valueOf(location[0]));//x postion
+//                 Log.e("location[1]", String.valueOf(location[1]));//x postion
+//
+//            }
+//        }); // 값은 나오는데 값이 다 달라서(같은위치에 있는 item) 테스트가 필요하다
+
+
+        // 이값이 맞는것 같다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! > 이 값 먼저 테스트 후 위에 주석처리한 부분 확인하기
+        binding.rlDrinkColor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                binding.rlDrinkColor.getViewTreeObserver().removeOnPreDrawListener(this);
+                //여기서 뷰의 크기를 가져온다.
+                Log.e("getX()", String.valueOf(binding.rlDrinkColor.getX()));
+                Log.e("getY()", String.valueOf(binding.rlDrinkColor.getY()));
+                return true;
+            }
+        });
+    }
 
 
     public class PViewHolder extends RecyclerView.ViewHolder {
