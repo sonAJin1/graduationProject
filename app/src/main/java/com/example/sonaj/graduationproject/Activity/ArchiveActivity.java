@@ -16,10 +16,15 @@ import android.view.View;
 
 import com.example.sonaj.graduationproject.Adapter.ArchiveMyPostAdapter;
 import com.example.sonaj.graduationproject.Adapter.ArchivePostAdapter;
+import com.example.sonaj.graduationproject.Adapter.CustomContentAdapter;
 import com.example.sonaj.graduationproject.Adapter.LikeConentsAdapter;
 import com.example.sonaj.graduationproject.Adapter.PostAdapter;
+import com.example.sonaj.graduationproject.ItemGetContentsServer;
 import com.example.sonaj.graduationproject.ItemGetPost;
+import com.example.sonaj.graduationproject.ItemJustSelected;
 import com.example.sonaj.graduationproject.ItemLikeContents;
+import com.example.sonaj.graduationproject.ItemTodayRecommendMovie;
+import com.example.sonaj.graduationproject.ItemWeekHotMovie;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.View.PostView;
@@ -49,9 +54,13 @@ public class ArchiveActivity extends AppCompatActivity {
     List<ItemGetPost> receivePostList;
     List<ItemGetPost> sendPostList;
 
+    // 맞춤 콘텐츠
+    List<ItemWeekHotMovie> customContent;
+
     /** 서버 통신 */
     private static String POST_IP_ADDRESS = "http://13.209.48.183/getPost.php";
     private static String MY_POST_IP_ADDRESS = "http://13.209.48.183/getMyPost.php";
+    private static String CUTSOM_CONTENT = "http://13.209.48.183/getCustomContent.php";
 
     /**sharedPreference */
     static String sharedKey = "usrInfo";
@@ -82,6 +91,7 @@ public class ArchiveActivity extends AppCompatActivity {
 
         receivePostList = new ArrayList<>();
         sendPostList = new ArrayList<>();
+        customContent = new ArrayList<>();
     }
 
     // 다른사람 이야기 화면 보여줄 때
@@ -102,6 +112,7 @@ public class ArchiveActivity extends AppCompatActivity {
 
     public void setReceiveCocktailVieW(){
         showReceiveCocktailCount(); // 받은 칵테일 갯수
+        getCustomContentPHP(); // 맞춤 콘텐츠 받아오기
 
     }
 
@@ -123,43 +134,71 @@ public class ArchiveActivity extends AppCompatActivity {
                 isReceivePost = false;
                 task.execute(MY_POST_IP_ADDRESS);
                 break;
-
         }
+    }
+
+    public void getCustomContentPHP(){
+        getCustomContent task = new getCustomContent();
+        task.execute(CUTSOM_CONTENT);
     }
 
         /** 받은 이야기, 보낸 이야기에 따라서 recyclerView item을 바꿔 껴준다
          *  받은 이야기는 postView 에서 받아서 넘기는 순간 저장될것, 보낸이야기는 local 에 저장할 것인지 server에서 가져올것인지? > server에서 가져오기 (해당되는 댓글도 가져와야하기때문)
          * */
-    public void setRecyclerView(int postType){
+    public void setRecyclerView(int postType, boolean isReceivePost){
 
-                RecyclerView.Adapter adapter = null;
+        if(isReceivePost){ // 이야기 관련 된 경우
+            RecyclerView.Adapter adapter = null;
 
-                switch (postType){
-                    case POST:
-                        adapter = new ArchivePostAdapter(mContext, receivePostList);
-                        break;
-                    case MY_POST :
-                        adapter = new ArchiveMyPostAdapter(mContext,sendPostList);
-                        break;
+            switch (postType){
+                case POST:
+                    adapter = new ArchivePostAdapter(mContext, receivePostList);
+                    break;
+                case MY_POST :
+                    adapter = new ArchiveMyPostAdapter(mContext,sendPostList);
+                    break;
+            }
+
+            binding.rcArchiveList.setAdapter(adapter);
+
+            //recyclerView 스크롤 방향 설정
+            binding.rcArchiveList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+
+            if(binding.rcArchiveList.getItemDecorationCount()>0){ // 전에 설정된 간격이 있으면
+                binding.rcArchiveList.removeItemDecorationAt(0); // 전에 간격 없애기
+            }
+
+            // recyclerView 사이 간격 설정
+            binding.rcArchiveList.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                    super.getItemOffsets(outRect, view, parent, state);
+                    outRect.bottom = 20; // recyclerView 사이 간격 10
                 }
+            });
+        }
 
-                binding.rcArchiveList.setAdapter(adapter);
+        else{ // 맞춤 콘텐츠
+            CustomContentAdapter customContentAdapter = new CustomContentAdapter(mContext,customContent);
+            binding.rcCustomContentList.setAdapter(customContentAdapter);
 
-                //recyclerView 스크롤 방향 설정
-                binding.rcArchiveList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+            //recyclerView 스크롤 방향 설정
+            binding.rcCustomContentList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
 
-                if(binding.rcArchiveList.getItemDecorationCount()>0){ // 전에 설정된 간격이 있으면
-                    binding.rcArchiveList.removeItemDecorationAt(0); // 전에 간격 없애기
+            if(binding.rcCustomContentList.getItemDecorationCount()>0){ // 전에 설정된 간격이 있으면
+                binding.rcCustomContentList.removeItemDecorationAt(0); // 전에 간격 없애기
+            }
+
+            // recyclerView 사이 간격 설정
+            binding.rcCustomContentList.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                    super.getItemOffsets(outRect, view, parent, state);
+                    outRect.right = 20; // recyclerView 사이 간격 10
                 }
+            });
 
-                // recyclerView 사이 간격 설정
-                binding.rcArchiveList.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                        super.getItemOffsets(outRect, view, parent, state);
-                        outRect.bottom = 20; // recyclerView 사이 간격 10
-                    }
-                });
+        }
 
     }
 
@@ -219,6 +258,7 @@ public class ArchiveActivity extends AppCompatActivity {
             binding.rcArchiveList.setVisibility(View.GONE);
             binding.llCustomContent.setVisibility(View.VISIBLE);
             binding.llReceiveCocktail.setVisibility(View.VISIBLE);
+            setReceiveCocktailVieW();
         }
     }
 
@@ -332,11 +372,91 @@ public class ArchiveActivity extends AppCompatActivity {
 
             }
             if(isReceivePost){
-                setRecyclerView(POST); // 받아온 데이터를 어뎁터에 넣어주기
+                setRecyclerView(POST,true); // 받아온 데이터를 어뎁터에 넣어주기
             }else{
-                setRecyclerView(MY_POST); // 받아온 데이터를 어뎁터에 넣어주기
+                setRecyclerView(MY_POST,true); // 받아온 데이터를 어뎁터에 넣어주기
             }
 
+        }
+    }
+
+
+    /** API에 DATA 요청*/
+    private class getCustomContent extends AsyncTask<String, Void, ItemGetContentsServer[]> {
+
+        @Override
+        protected ItemGetContentsServer[] doInBackground(String... params) {
+            String severURL = params[0];
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            Request request = new Request.Builder().url(severURL).build();
+
+            try{
+                Response response = client.newCall(request).execute();
+
+                //gson을 이용하여 json을 자바 객채로 전환하기
+                Gson gson = new GsonBuilder().create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootObject = parser.parse(response.body().charStream())
+                        .getAsJsonObject().get("result");
+                Log.e("rootObject", String.valueOf(rootObject));
+                ItemGetContentsServer[] post = gson.fromJson(rootObject,ItemGetContentsServer[].class);
+
+                //sharedPreference
+                SharedPreferences serverContent = mContext.getSharedPreferences("serverContentKey",0);
+                SharedPreferences.Editor editor = serverContent.edit();
+                editor.putString("likeContent", String.valueOf(rootObject)); // key 에 title 저장, value 에 serverContentItem gson 으로 변형한 값
+                editor.commit();
+
+                return post;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(ItemGetContentsServer[] posts){
+            super.onPostExecute(posts);
+            customContent.clear();
+            if(posts!=null || posts.length>0){
+
+                for(ItemGetContentsServer post : posts){
+
+                    // localdb 가져와서 postTitle에 일치하는게 있는지 확인 후 boolean value 하나 만들어서 true false 값 담아 Item 추가하는 부분에 넣어주기
+                    SharedPreferences likeSP = mContext.getSharedPreferences(sharedKey, 0);
+                    String value = likeSP.getString(post.getTitle(),"없음");
+                    boolean like;
+                    if(value.equals(post.getTitle())){ // like list 에 있는 작품이면
+                        like = true;
+
+                        /** TODO 만약 like list에는 있는데 서버에서 받아왔을 때 없는 작품이면 삭제*/
+                    }else{
+                        like = false;
+                    }
+
+                    // CustomContent
+                        customContent.add(new ItemWeekHotMovie(
+                                post.getTitle(),
+                                post.getSubtitle(),
+                                post.getDate(),
+                                post.getNaverScore(),
+                                post.getimdbScore(),
+                                post.getrtScore(),
+                                post.getDirector(),
+                                post.getActor(),
+                                post.getSummary(),
+                                post.getContents(),
+                                post.getimgURL(),
+                                like,
+                                post.getLikeCount(),
+                                post.getType()
+                        ));
+
+
+                }
+
+            }
+            setRecyclerView(3,false); // 받아온 데이터를 어뎁터에 넣어주기
         }
     }
 

@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/tv_post_content"
-            android:layout_marginTop="14.8dp"
+            android:layout_marginTop="30.8dp"
             android:layout_centerHorizontal="true">
 
             <ImageView
@@ -244,6 +244,7 @@
                 android:textSize="10sp"
                 android:textColor="@color/white"
                 android:gravity="center"
+                android:text="(37)"
                 />
 
             <TextView
@@ -253,7 +254,8 @@
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="(10)"/>
 
             <TextView
                 android:id="@+id/tv_comfort_cocktail_count"
@@ -262,7 +264,8 @@
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="(53)"/>
 
             <TextView
                 android:id="@+id/tv_sad_cocktail_count"
@@ -271,7 +274,8 @@
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="(21)"/>
 
             <TextView
                 android:id="@+id/tv_anger_cocktail_count"
@@ -280,7 +284,8 @@
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="(12)"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -320,7 +325,6 @@
             android:layout_height="wrap_content"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             android:layout_marginLeft="25dp"
-            android:layout_marginRight="37dp"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/tv_custom_content_title"
             />

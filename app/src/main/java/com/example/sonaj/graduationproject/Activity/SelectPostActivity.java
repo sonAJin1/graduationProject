@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.R;
@@ -69,6 +71,7 @@ public class SelectPostActivity extends AppCompatActivity {
 
         setContentText();
         setTextViewMaxLine();
+        showBackgroundLight(DrinkKind);
 
     }
 
@@ -119,4 +122,27 @@ public class SelectPostActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void showBackgroundLight(int drinkKind){
+        Animation showAnimation = new AlphaAnimation(0.6f,1);
+        showAnimation.setDuration(500);
+
+        switch (drinkKind){
+            case 0: // 맥주인 경우
+                binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_beer02);
+                break;
+            case 1: // 소주인 경우
+                binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_soju02);
+                break;
+            case 2: // 막걸리인 경우
+                binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_traditional02);
+                break;
+            case 3: // 와인인 경우
+                binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_wine02);
+                break;
+        }
+        binding.rlDrinkBackgroundColor.startAnimation(showAnimation);
+
+    }
+
 }

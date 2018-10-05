@@ -3,6 +3,7 @@ package com.example.sonaj.graduationproject.Adapter;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.ItemGetPost;
@@ -32,6 +34,7 @@ import com.example.sonaj.graduationproject.databinding.ItemLikeContentBinding;
 import com.example.sonaj.graduationproject.databinding.ItemMyPostBinding;
 import com.example.sonaj.graduationproject.databinding.ItemPostBinding;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,6 +42,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Handler;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
@@ -50,8 +59,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     CommentAdapter commentAdapter;
     TreeMap<Integer,ItemGetPost> commentList;
 
+    // 댓글쓰기 위한 변수
+    String comment;
+    int commentGroup;
+
     final float[] targetX = new float[1];
     final float[] targetY = new float[1];
+
+    ItemPostBinding binding;
 
 
 
@@ -79,9 +94,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         if (PostList == null) return;
         final ItemGetPost item = PostList.get(i);
         pViewHolder.bind(item);
-        final ItemPostBinding binding = pViewHolder.binding;
+        binding = pViewHolder.binding;
 
-        showCommentList(item,binding); // 댓글
+        showCommentList(item); // 댓글
 
             //댓글
             int commentCount = 0;
@@ -131,17 +146,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                 }
             });
 
+        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
+        selectCocktailSend();
 
-            showCocktailSend(binding); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
-            selectCocktailSend(binding);
-//            setScrollViewEffect(binding); //scroll관련 효과
-//            setScrollAnimation(binding);
-        sendMessage(binding);
-
+        writeMessage(binding);
+        sendMessage(binding,item);
 
     }
 
-    private void sendMessage(ItemPostBinding binding){
+    private void writeMessage(ItemPostBinding binding){
          binding.ibCommentSend.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -153,8 +166,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
          });
     }
 
+    private void sendMessage(ItemPostBinding binding,ItemGetPost item){
+         binding.imSendCommend.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 comment = binding.etComment.getText();
+                 commentGroup = item.getGroup();
 
-    private void showCocktailSend(ItemPostBinding binding){
+             }
+         });
+    }
+
+
+    private void showCocktailSend(){
         binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +188,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
     }
 
-    private void selectCocktailSend(ItemPostBinding binding){
+    private void selectCocktailSend(){
         binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -189,7 +213,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         });
     }
 
-    private void showCommentList(ItemGetPost item,ItemPostBinding binding){
+    private void showCommentList(ItemGetPost item){
         commentList = new TreeMap<>();
         TreeMap<Integer,ItemGetPost> sortCommentList = new TreeMap<>();
 
@@ -257,7 +281,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         sendCocktailPosition = -1;
     }
 
-    private void setScrollViewEffect(ItemPostBinding binding){
+    private void setScrollViewEffect(){
         binding.scrollViewPostItem.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -327,6 +351,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
         }
 
+    }
+
+    /** 내 이야기 쓰기 요청 */
+    /** API에 DATA 요청*/
+    private class writePost extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String severURL = params[0];
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            /**post로 게시물 내용 보내기*/
+            RequestBody formBody = new FormBody.Builder()
+                     .add("group", String.valueOf(commentGroup))
+                    .add("lvl","1")
+                  //  .add("postOrder","0")
+                    .add("usrNickname",usrNickname) // 얘네는 sharedPreference 에서 가져와서 보여주기
+                    .add("drinkKind", String.valueOf(usrDrink))
+                    .add("emotion", String.valueOf(usrEmotion))
+                    .add("selectContent",usrContent)
+                    .add("text",comment)
+//                    .add("uploadTime","") > uploadTime 은 서버에 현재시간으로 넣어줄 것
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(severURL)
+                    .post(formBody)
+                    .build();
+
+            try{
+                Response response = client.newCall(request).execute();
+                String phpResponse = response.body().string();
+                Log.e("response", phpResponse);
+
+                return phpResponse;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(String posts){
+            super.onPostExecute(posts);
+            // 성공했다는 메세지 받고 local list 에 추가
+            if(posts.equals("insert ok")){
+                Toast.makeText(context,"이야기가 등록되었습니다",Toast.LENGTH_LONG).show();
+                //보내고 초기화
+               binding.etComment.setText("");
+                //자체 list에 add
+//                MyPostList.add();
+//                notifyDataSetChanged();
+            }
+        }
     }
 
 }

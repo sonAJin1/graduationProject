@@ -293,8 +293,8 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 writePostBinding.tvWriteMyPost.setText("");
 
                 //자체 list에 add
-//                MyPostList.add();
-//                notifyDataSetChanged();
+                MyPostList.add();
+                notifyDataSetChanged();
             }
         }
     }

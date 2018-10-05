@@ -17,13 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_off"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <ImageView
                 android:id="@+id/ll_neon_on"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="520dp"
+                android:layout_centerInParent="true"
                 />
 
             <ImageView
@@ -33,7 +34,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/neon_logo_on"
                 android:layout_centerInParent="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 />
 
             <RelativeLayout
@@ -156,7 +157,6 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 android:layout_below="@+id/tv_count_post"
                 android:background="@drawable/recyclerview_round_background"
-
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -201,6 +201,7 @@
             layout="@layout/salon_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             />
 
     </RelativeLayout>

@@ -8,7 +8,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.R;
@@ -70,6 +73,8 @@ public class SelectMyPostActivity extends AppCompatActivity {
         nickname = intent.getStringExtra("nickname");
 
         setContentText();
+        showBackgroundLight(DrinkKind);
+        clickTrashBtn();
 
     }
 
@@ -107,5 +112,37 @@ public class SelectMyPostActivity extends AppCompatActivity {
         CharactorMake.setDrinkBackgroundColor(DrinkKind,binding.rlDrinkColor);
         CharactorMake.setEmotionFace(Emotion,binding.imEmotion);
 
+    }
+
+    public void showBackgroundLight(int drinkKind){
+        Animation showAnimation = new AlphaAnimation(0.6f,1);
+        showAnimation.setDuration(500);
+
+            switch (drinkKind){
+                case 0: // 맥주인 경우
+                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_beer02);
+                    break;
+                case 1: // 소주인 경우
+                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_soju02);
+                    break;
+                case 2: // 막걸리인 경우
+                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_traditional02);
+                    break;
+                case 3: // 와인인 경우
+                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_wine02);
+                    break;
+            }
+            binding.rlDrinkBackgroundColor.startAnimation(showAnimation);
+
+        }
+
+
+    public void clickTrashBtn(){
+        binding.imTrashBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }

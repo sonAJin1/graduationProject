@@ -248,9 +248,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }
     }
 
-    public void sendCommend(){
-       // binding.
-    }
+
 
 
     public void startBlinkAnimation(){
