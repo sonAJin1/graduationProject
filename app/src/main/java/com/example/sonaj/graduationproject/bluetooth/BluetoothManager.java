@@ -485,7 +485,6 @@ public class BluetoothManager {
                     // Send the obtained bytes to the main thread
                     mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
-                    Log.e("보낸메세지", String.valueOf(buffer));
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

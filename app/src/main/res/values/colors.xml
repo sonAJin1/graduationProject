@@ -22,5 +22,10 @@
 
     <color name="sendBtnStatusColor">#4979ce</color>
 
+    <color name="bluetoothInvisible">#5A5A5A</color>
+    <color name="bluetoothError">#FF6969</color>
+    <color name="bluetoothAway">#F69863</color>
+    <color name="bluetoothOnline">#AAFF7A</color>
+
 
 </resources>

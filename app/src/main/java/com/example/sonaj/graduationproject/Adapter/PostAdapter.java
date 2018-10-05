@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Handler;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
@@ -47,6 +48,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     List<ItemGetPost> allCommentList;
     CommentAdapter commentAdapter;
     TreeMap<Integer,ItemGetPost> commentList;
+
+    final float[] targetX = new float[1];
+    final float[] targetY = new float[1];
 
 
 
@@ -130,7 +134,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             showCocktailSend(binding); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
             selectCocktailSend(binding);
             setScrollViewEffect(binding); //scroll관련 효과
-        setScrollAnimation(binding);
+            setScrollAnimation(binding);
+
 
     }
 
@@ -247,7 +252,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
                 //170이상으로 넘어가면
                 if(scrollY>170){
-//                    binding.scrollViewPostItem.smoothScrollTo(0,0);
+                //    binding.scrollViewPostItem.smoothScrollTo(0,0);
+
+                    new android.os.Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Animation moveAnimation = new TranslateAnimation(0,targetX[0],0,targetY[0]);
+                            moveAnimation.setDuration(500);
+                            binding.drinkGauge.startAnimation(moveAnimation);
+                        }
+                    },100);
 
                 }
             }
@@ -255,16 +270,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     }
 
     public void setScrollAnimation(ItemPostBinding binding){
-        int[] location = new int[2];
-        binding.rlDrinkColor.getLocationOnScreen(location);
-        int ivX = location[0];
-        int ivY = location[1];
-
-        int[] img_coordinates = new int[2];
-        binding.rlDrinkColor.getLocationOnScreen(img_coordinates);
-        float x = img_coordinates[0];
-        float y = img_coordinates[1];
-
 //        ViewTreeObserver vto = binding.getRoot().getViewTreeObserver();
 //        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //            @Override
@@ -278,14 +283,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 //        }); // 값은 나오는데 값이 다 달라서(같은위치에 있는 item) 테스트가 필요하다
 
 
+
+
         // 이값이 맞는것 같다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! > 이 값 먼저 테스트 후 위에 주석처리한 부분 확인하기
         binding.rlDrinkColor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 binding.rlDrinkColor.getViewTreeObserver().removeOnPreDrawListener(this);
                 //여기서 뷰의 크기를 가져온다.
-                Log.e("getX()", String.valueOf(binding.rlDrinkColor.getX()));
-                Log.e("getY()", String.valueOf(binding.rlDrinkColor.getY()));
+                targetX[0] = binding.rlDrinkColor.getX()/2 -binding.rlDrinkColor.getWidth()/4;
+                targetY[0] = binding.rlDrinkColor.getY()/2;
                 return true;
             }
         });

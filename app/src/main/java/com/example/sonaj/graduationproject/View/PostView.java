@@ -21,6 +21,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -246,6 +247,40 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }
     }
 
+
+    public void startBlinkAnimation(){
+        binding.icSalonView.imNeonOn.setAlpha(1f); //켜진 neon 보이게 변경
+        binding.icSalonView.llNeonOn.setAlpha(1f); //켜진 neon 배경 보이게 변경
+
+        Animation animation = new AlphaAnimation(0.1f,1);
+        animation.setDuration(110);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator()); //점점 빠르게
+        animation.setRepeatCount(2);
+        animation.setRepeatMode(Animation.REVERSE);
+        binding.icSalonView.imNeonOn.startAnimation(animation);
+        binding.icSalonView.llNeonOn.startAnimation(animation);
+
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation showAnimation = new AlphaAnimation(0.2f,1);
+                showAnimation.setDuration(1000);
+                binding.icSalonView.imNeonOn.startAnimation(showAnimation);
+                binding.icSalonView.llNeonOn.startAnimation(showAnimation);
+
+            }
+        },400);
+
+        salonView.isCoaster =true; // 정보 입력할 수 있는 
+
+    }
+
+    public void changeOnView(){
+        binding.icSalonView.imDivider.setVisibility(View.GONE); //하단의 하얀색 바 제거
+        binding.icSalonView.tvNotification.setText("혼술살롱에 오신 것을 환영합니다"); //text 변경
+    }
 
 
     public void setRecyclerView(int post){

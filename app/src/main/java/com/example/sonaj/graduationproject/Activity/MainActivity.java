@@ -122,18 +122,23 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         switch (status){
             case 0: //초기화중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_invisible));
+               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothInvisible));
                 break;
             case 1: // 대기중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_invisible));
+              //  binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothInvisible));
                 break;
             case 2: //연결중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_away));
+               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothAway));
                 break;
             case 3:  //연결됨
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_online));
+               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothOnline));
                 break;
             case 4: //연결오류
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_error));
+              //  binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothError));
                 break;
         }
     }
@@ -145,7 +150,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     public void init() {
 
         //사용자들이 선택해서 보여질 VIEW
-       // salonView = new SalonView(this, binding.appBarContent.viewSalon);
         contentsView = new ContentsView(this, binding.appBarContent.viewContents);
         likeView = new LikeView(this, binding.appBarContent.viewLike);
         postView = new PostView(this,binding.appBarContent.viewPost,this);
@@ -433,7 +437,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                               getResources().getString(R.string.bt_state_init)));
 
                     //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                    //salonView.setBluetoothStatus(0);
                     setBluetoothStatus(0);
                     break;
                 case Constants.MESSAGE_BT_STATE_LISTENING:
@@ -441,7 +444,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                             getResources().getString(R.string.bt_state_wait)));
 
                     //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                 //   salonView.setBluetoothStatus(1);
                     setBluetoothStatus(1);
                     break;
                 case Constants.MESSAGE_BT_STATE_CONNECTING:
@@ -449,7 +451,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                             getResources().getString(R.string.bt_state_connect)));
 
                     //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                    //salonView.setBluetoothStatus(2);
                     setBluetoothStatus(2);
                     break;
                 case Constants.MESSAGE_BT_STATE_CONNECTED:
@@ -460,7 +461,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                                     getResources().getString(R.string.bt_state_connected) + " " + deviceName));
 
                             //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                           // salonView.setBluetoothStatus(3);
                             setBluetoothStatus(3);
                         }
                     }
@@ -468,7 +468,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                 case Constants.MESSAGE_BT_STATE_ERROR:
                     Log.e("Bluetooth", String.valueOf(R.string.bt_state_error));
                     //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                    //salonView.setBluetoothStatus(4);
                     setBluetoothStatus(4);
                     break;
 
@@ -476,7 +475,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                 case Constants.MESSAGE_CMD_ERROR_NOT_CONNECTED:
                     Log.e("Bluetooth", String.valueOf(R.string.bt_cmd_sending_error));
                     //salon view 에 있는 bluetooth 상태 알 수 있는 이미지 변경
-                    //salonView.setBluetoothStatus(4);
                     setBluetoothStatus(4);
                     break;
 
@@ -486,8 +484,13 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                 ///////////////////////////////////////////////
                 case Constants.MESSAGE_READ_CHAT_DATA:
                     if(msg.obj != null) {
-//					ExampleFragment frg = (ExampleFragment) mSectionsPagerAdapter.getItem(FragmentAdapter.FRAGMENT_POS_EXAMPLE);
-//					frg.showMessage((String)msg.obj);
+                        Log.e("message", String.valueOf(msg.obj));
+                        switch (String.valueOf(msg.obj)){
+                            case "0": // 맨 처음 코스터에 올렸을 때
+                                postView.startBlinkAnimation();
+                                postView.changeOnView();
+                                break;
+                        }
                     }
                     break;
 

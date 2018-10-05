@@ -66,6 +66,15 @@
                 android:textSize="@dimen/contents_detail_content"
                 android:layout_marginTop="24.5dp"/>
 
+            <ImageView
+                android:id="@+id/im_bluetooth_status"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/emotion_select_background"
+                android:layout_toRightOf="@+id/tv_usr_nickname"/>
+
             <TextView
                 android:id="@+id/tv_usr_select_content"
                 android:layout_width="wrap_content"
@@ -192,7 +201,8 @@
             android:id="@+id/ic_salon_view"
             layout="@layout/salon_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
     </RelativeLayout>
 </layout>
