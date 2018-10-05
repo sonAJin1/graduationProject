@@ -100,6 +100,11 @@ public class ArchiveActivity extends AppCompatActivity {
         getPostPHP(MY_POST); // 서버에 내가 쓴 데이터 요청
     }
 
+    public void setReceiveCocktailVieW(){
+        showReceiveCocktailCount(); // 받은 칵테일 갯수
+
+    }
+
 
     /** API에 DATA 요청*/
     public void getPostPHP(int post) {
@@ -215,6 +220,15 @@ public class ArchiveActivity extends AppCompatActivity {
             binding.llCustomContent.setVisibility(View.VISIBLE);
             binding.llReceiveCocktail.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void showReceiveCocktailCount(){
+        binding.tvCheeringCocktailCount.setText("(37)");
+        binding.tvLaughCocktailCount.setText("(10)");
+        binding.tvComfortCocktailCount.setText("(53)");
+        binding.tvSadCocktailCount.setText("(21)");
+        binding.tvAngerCocktailCount.setText("(12)");
+
     }
 
 

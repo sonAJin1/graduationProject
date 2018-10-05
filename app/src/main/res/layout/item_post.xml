@@ -394,6 +394,39 @@
                             android:layout_marginRight="10dp">
 
                         </android.support.v7.widget.RecyclerView>
+
+                        <LinearLayout
+                            android:id="@+id/ll_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/rv_comment"
+                            android:visibility="gone"
+                            >
+
+                            <EditText
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/send_comment_round"
+                                android:layout_margin="10dp"
+                                android:focusable="true"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="21dp"
+                                android:hint="이야기에 댓글 달기..."
+                                android:textSize="10sp"/>
+
+                            <ImageButton
+                                android:id="@+id/im_send_commend"
+                                android:layout_width="26dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/ic_send_un"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="10dp"
+                                />
+
+                        </LinearLayout>
                     </RelativeLayout>
                 </ScrollView>
 

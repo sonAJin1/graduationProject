@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.CharactorMake;
@@ -119,7 +120,13 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                         writePostBinding.tvWriteMyPost.setFocusable(true);
                         writePostBinding.btnUnSendMyPost.setVisibility(View.GONE); // 버튼 비활성화 된거 사라짐
                         writePostBinding.btnSendMyPost.setVisibility(View.VISIBLE); // 활성화 된 버튼 살아남
-                        ((Activity)context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); //키보드 올라오게
+
+                        //키보드 보이게 하는 부분
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+
+
                     }
                 });
 

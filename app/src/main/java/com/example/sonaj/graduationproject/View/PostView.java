@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -247,6 +248,10 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }
     }
 
+    public void sendCommend(){
+       // binding.
+    }
+
 
     public void startBlinkAnimation(){
         binding.icSalonView.imNeonOn.setAlpha(1f); //켜진 neon 보이게 변경
@@ -273,7 +278,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             }
         },400);
 
-        salonView.isCoaster =true; // 정보 입력할 수 있는 
+        salonView.isCoaster =true; // 정보 입력할 수 있는 다이얼로그를 띄울 수 있게 boolean 값 true 로 변경
 
     }
 
@@ -340,9 +345,10 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         postCount++;
                         binding.tvCountPost.setText("오늘의 "+postCount+"번째 이야기");
 
-                        if(postAdapter.getItemCount()==0){ //이야기를 다 봤으면
+                        if(postAdapter.getItemCount()==0) { //이야기를 다 봤으면
                             binding.llNeonOn.setBackgroundResource(R.drawable.background_on);
-                            Toast.makeText(context,"이야기를 모두 보셨습니다",Toast.LENGTH_LONG).show();
+                            binding.imNeonOn.setVisibility(View.VISIBLE);
+                            Toast.makeText(context, "이야기를 모두 보셨습니다", Toast.LENGTH_LONG).show();
                         }
 
                         if(swipedPosition>0){

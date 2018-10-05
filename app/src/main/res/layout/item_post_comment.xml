@@ -11,6 +11,31 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_comment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--&gt;-->
+
+        <!--<EditText-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/comment_round"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:focusable="true"/>-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="26dp"-->
+            <!--android:layout_height="28dp"-->
+            <!--android:background="@drawable/ic_send_un"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--/>-->
+
+    <!--</LinearLayout>-->
+
     <RelativeLayout
         android:id="@+id/rl_main_comment"
         android:layout_width="match_parent"
@@ -18,7 +43,7 @@
         android:orientation="horizontal"
         android:background="@null"
         android:padding="5dp"
-        android:layout_below="@+id/tv_date_title">
+        android:layout_below="@+id/ll_comment">
 
         <RelativeLayout
             android:id="@+id/rl_drink_color"

@@ -307,7 +307,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="31dp"
-            android:text="맞춤 콘텐츠"
+            android:text="위로가 필요할 때"
             android:textSize="12sp"
             android:textColor="@color/white"
             android:layout_toRightOf="@+id/tv_custom_content_title"

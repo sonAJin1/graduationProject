@@ -17,6 +17,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.RadioGroup;
 
@@ -133,10 +134,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
             showCocktailSend(binding); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
             selectCocktailSend(binding);
-            setScrollViewEffect(binding); //scroll관련 효과
-            setScrollAnimation(binding);
+//            setScrollViewEffect(binding); //scroll관련 효과
+//            setScrollAnimation(binding);
+        sendMessage(binding);
 
 
+    }
+
+    private void sendMessage(ItemPostBinding binding){
+         binding.ibCommentSend.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                binding.llComment.setVisibility(View.VISIBLE);
+                 //키보드 보이게 하는 부분
+                 InputMethodManager imm = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+             }
+         });
     }
 
 
@@ -257,7 +271,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                     new android.os.Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             Animation moveAnimation = new TranslateAnimation(0,targetX[0],0,targetY[0]);
                             moveAnimation.setDuration(500);
                             binding.drinkGauge.startAnimation(moveAnimation);
