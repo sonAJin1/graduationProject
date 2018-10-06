@@ -367,7 +367,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             case MY_POST:
 
                 /** 내 이야기 recyclerView */
-                writePostAdapter = new WritePostAdapter(context, myPostList);
+                writePostAdapter = new WritePostAdapter(context, myPostList,myPostCommentList);
                 binding.rcMyPostListView.setAdapter(writePostAdapter);
 
                 // recyclerView 스크롤 방향설정

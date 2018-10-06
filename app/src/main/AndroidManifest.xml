@@ -55,8 +55,10 @@
             android:label="@string/service_name" />
 
         <activity android:name=".Activity.ArchiveActivity" />
-        <activity android:name=".Activity.SelectPostActivity" />
-        <activity android:name=".Activity.SelectMyPostActivity" />
+        <activity android:name=".Activity.SelectPostActivity"
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity android:name=".Activity.SelectMyPostActivity"
+            android:theme="@android:style/Theme.Translucent"/>
     </application>
 
 </manifest>

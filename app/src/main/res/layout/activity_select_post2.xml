@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:background="@android:color/transparent"
-        >
+
+         >
         <RelativeLayout
             android:id="@+id/rl_drink_background_color"
             android:layout_width="match_parent"
@@ -45,6 +46,17 @@
                     />
 
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/x_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16.7dp"
+                android:layout_marginTop="20.7dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:tint="@color/black"
+                />
 
             <TextView
                 android:id="@+id/tv_usr_nickname"
@@ -202,6 +214,8 @@
                     android:text="칵테일 주기"
                     android:textSize="13sp"
                     android:textStyle="bold"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="15dp"
                     />
@@ -215,6 +229,8 @@
                     android:text="댓글 달기"
                     android:textSize="13sp"
                     android:textStyle="bold"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="20dp" />
             </LinearLayout>

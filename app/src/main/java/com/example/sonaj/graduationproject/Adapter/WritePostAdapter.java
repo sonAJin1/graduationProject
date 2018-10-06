@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,7 +34,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -66,14 +70,20 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
     int usrEmotion;
     String usrContent;
 
-    public WritePostAdapter(Context context, List<ItemGetPost> MyPostList) {
+    // 댓글 관련 리스트, 어댑터
+    List<ItemGetPost> allCommentList;
+    CommentAdapter commentAdapter;
+    TreeMap<Integer,ItemGetPost> commentList;
+
+    public WritePostAdapter(Context context, List<ItemGetPost> MyPostList, List<ItemGetPost> allCommentList) {
         this.context = context;
         this.MyPostList = MyPostList;
+        //댓글 list
+        this.allCommentList = allCommentList;
     }
 
     @Override
     public int getItemViewType(int position){
-
         if(position==0){
             return CELL_TYPE_WRITE;
         }else{
@@ -144,8 +154,6 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                             //서버에 보내기
                             writePost task = new writePost();
                             task.execute(WRITE_POST_IP_ADDRESS);
-
-
                         }else{
                             Toast.makeText(context,"내용이 너무 짧습니다 (5글자 이상)",Toast.LENGTH_LONG).show();
                         }
@@ -157,6 +165,7 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 ItemMyPostBinding myPostBinding = wViewHolder.MyPostbinding;
                 myPostBinding.setItemMyPost(item);
 
+                showCommentList(item, myPostBinding); // 댓글 보여주기
 
                 //shadow
                 ShadowUtils.generateBackgroundWithShadow(myPostBinding.rlMyPost, R.color.white,R.dimen.recycle_main_item_padding,R.color.deerColor,R.dimen.contents_title_interval, Gravity.BOTTOM);
@@ -190,6 +199,29 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 CharactorMake.setEmotionFace(item.getEmotion(),myPostBinding.imEmotion);
 
                 break;
+        }
+
+    }
+
+    private void showCommentList(ItemGetPost item, ItemMyPostBinding myPostBinding){
+        commentList = new TreeMap<>();
+        List<ItemGetPost> sortCommentList = new ArrayList<>();
+
+        if(allCommentList.size()>0){
+
+            for(int i = 0; i<allCommentList.size(); i++){
+                if(item.getGroup()==allCommentList.get(i).getGroup()){ //post group 값과 comment group 값이 같으면
+                    commentList.put(allCommentList.get(i).getOrder(),allCommentList.get(i));
+                }
+            }
+            Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
+            while(integerIteratorKey.hasNext()){
+                int key = integerIteratorKey.next();
+                sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
+            }
+            commentAdapter = new CommentAdapter(context, sortCommentList);
+            myPostBinding.rcLikeContents.setAdapter(commentAdapter);
+            myPostBinding.rcLikeContents.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         }
 
     }

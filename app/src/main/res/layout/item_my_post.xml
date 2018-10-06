@@ -5,6 +5,9 @@
         <variable name="ItemMyPost" type="com.example.sonaj.graduationproject.ItemGetPost"/>
     </data>
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="330dp">
 <RelativeLayout
     android:id="@+id/rl_my_post"
     android:layout_width="286dp"
@@ -347,4 +350,5 @@
 
 
 </RelativeLayout>
+    </ScrollView>
 </layout>

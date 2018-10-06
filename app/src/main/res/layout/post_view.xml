@@ -109,14 +109,14 @@
 
             <Button
                 android:id="@+id/btn_close_write"
-                android:layout_width="23.8dp"
-                android:layout_height="23.8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ic_close_black_24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="16dp"
                 android:onClick="@{OnClick::closeWritePost}"
-                android:visibility="gone"
-                android:layout_marginTop="24.5dp"/>
+                android:layout_marginTop="16dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_count_post"
@@ -201,6 +201,7 @@
             layout="@layout/salon_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             />
 
     </RelativeLayout>

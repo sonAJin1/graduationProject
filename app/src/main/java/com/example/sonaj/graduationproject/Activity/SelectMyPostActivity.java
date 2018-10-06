@@ -1,5 +1,6 @@
 package com.example.sonaj.graduationproject.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,17 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.databinding.ActivitySelectPostBinding;
 
-public class SelectMyPostActivity extends AppCompatActivity {
+public class SelectMyPostActivity extends Activity {
 
     Context mContext;
-    ActivitySelectPostBinding binding;
+   // ActivitySelectPostBinding binding;
 
     //intent 로 받아오는 값
     int group;
@@ -41,15 +46,41 @@ public class SelectMyPostActivity extends AppCompatActivity {
     String text;
     String nickname;
 
+    //
+    TextView tvUsrNickname;
+    TextView tvUsrContent;
+    TextView tvWriteTime;
+    TextView tvPostContent;
+    TextView tvViews;
+    TextView tvreceiveCocktail;
+    TextView tvCheeringCocktailCount;
+    TextView tvLaughCocktailCount;
+    TextView tvComfortCocktailCount;
+    TextView tvSadCocktailCount;
+    TextView tvAngerCocktailCount;
+    RelativeLayout rlDrinkColor;
+    RelativeLayout rlDrinkBackgroundColor;
+    ImageView imEmotion;
+    TextView tvContentMore;
+    ImageView imTrashBtn;
+    ImageView x_btn;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 바 삭제
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mContext = this;
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_select_post);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.8f;
+        getWindow().setAttributes(layoutParams);
+        setContentView(R.layout.activity_select_post);
+       // binding = DataBindingUtil.setContentView(this, R.layout.activity_select_post);
 
 
+        init();
 
 
         //인텐트로 관련 내용 받아오기
@@ -78,18 +109,38 @@ public class SelectMyPostActivity extends AppCompatActivity {
 
     }
 
+    public void init(){
+        tvUsrNickname = (TextView)findViewById(R.id.tv_usr_nickname);
+        tvUsrContent = (TextView)findViewById(R.id.tv_usr_content);
+        tvWriteTime = (TextView)findViewById(R.id.tv_write_time);
+        tvPostContent = (TextView)findViewById(R.id.tv_post_content);
+        tvViews = (TextView)findViewById(R.id.tv_views);
+        tvContentMore = (TextView)findViewById(R.id.tv_content_more);
+        tvreceiveCocktail = (TextView)findViewById(R.id.receive_cocktail);
+        rlDrinkColor = (RelativeLayout) findViewById(R.id.rl_drink_color);
+        rlDrinkBackgroundColor = (RelativeLayout) findViewById(R.id.rl_drink_background_color);
+        imEmotion = (ImageView) findViewById(R.id.im_emotion);
+        tvCheeringCocktailCount = (TextView)findViewById(R.id.tv_cheering_cocktail_count);
+        tvLaughCocktailCount = (TextView)findViewById(R.id.tv_laugh_cocktail_count);
+        tvComfortCocktailCount = (TextView)findViewById(R.id.tv_comfort_cocktail_count);
+        tvSadCocktailCount = (TextView)findViewById(R.id.tv_sad_cocktail_count);
+        tvAngerCocktailCount = (TextView)findViewById(R.id.tv_anger_cocktail_count);
+        imTrashBtn = (ImageView)findViewById(R.id.im_trash_btn);
+        x_btn = (ImageView)findViewById(R.id.x_btn);
+    }
+
     public void setContentText(){
-        binding.tvUsrNickname.setText(nickname);
-        binding.tvUsrContent.setText(SelectContent);
-        binding.tvWriteTime.setText(UploadTime);
-        binding.tvPostContent.setText(text);
+        tvUsrNickname.setText(nickname);
+        tvUsrContent.setText(SelectContent);
+        tvWriteTime.setText(UploadTime);
+        tvPostContent.setText(text);
 
         // int 에 String 처리가 필요한 item 들 처리
-        binding.tvCheeringCocktailCount.setText("("+CheeringCock+")");
-        binding.tvLaughCocktailCount.setText("("+LaughCock+")");
-        binding.tvComfortCocktailCount.setText("("+ComfortCock+")");
-        binding.tvSadCocktailCount.setText("("+SadCock+")");
-        binding.tvAngerCocktailCount.setText("("+AngerCock+")");
+        tvCheeringCocktailCount.setText("("+CheeringCock+")");
+        tvLaughCocktailCount.setText("("+LaughCock+")");
+        tvComfortCocktailCount.setText("("+ComfortCock+")");
+        tvSadCocktailCount.setText("("+SadCock+")");
+        tvAngerCocktailCount.setText("("+AngerCock+")");
 
         //view
         String views = "";
@@ -98,7 +149,7 @@ public class SelectMyPostActivity extends AppCompatActivity {
         }else{
             views = "0"+Views+"회";
         }
-        binding.tvViews.setText(views);
+        tvViews.setText(views);
 
         //receive cocktail
         String receiveCocktail = "";
@@ -107,10 +158,10 @@ public class SelectMyPostActivity extends AppCompatActivity {
         }else{
             receiveCocktail = "0"+CocktailReceived+"개";
         }
-        binding.receiveCocktail.setText(receiveCocktail);
+        tvreceiveCocktail.setText(receiveCocktail);
 
-        CharactorMake.setDrinkBackgroundColor(DrinkKind,binding.rlDrinkColor);
-        CharactorMake.setEmotionFace(Emotion,binding.imEmotion);
+        CharactorMake.setDrinkBackgroundColor(DrinkKind,rlDrinkColor);
+        CharactorMake.setEmotionFace(Emotion,imEmotion);
 
     }
 
@@ -120,25 +171,31 @@ public class SelectMyPostActivity extends AppCompatActivity {
 
             switch (drinkKind){
                 case 0: // 맥주인 경우
-                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_beer02);
+                    rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_beer02);
                     break;
                 case 1: // 소주인 경우
-                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_soju02);
+                    rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_soju02);
                     break;
                 case 2: // 막걸리인 경우
-                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_traditional02);
+                    rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_traditional02);
                     break;
                 case 3: // 와인인 경우
-                    binding.rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_wine02);
+                    rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_wine02);
                     break;
             }
-            binding.rlDrinkBackgroundColor.startAnimation(showAnimation);
+            rlDrinkBackgroundColor.startAnimation(showAnimation);
 
         }
 
 
     public void clickTrashBtn(){
-        binding.imTrashBtn.setOnClickListener(new View.OnClickListener() {
+        imTrashBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        x_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

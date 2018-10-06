@@ -45,6 +45,17 @@
 
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/x_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16.7dp"
+                android:layout_marginTop="20.7dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:tint="@color/black"
+                />
+
             <TextView
                 android:id="@+id/tv_usr_nickname"
                 android:layout_width="wrap_content"

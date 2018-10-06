@@ -107,11 +107,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         pViewHolder.bind(item);
         binding = pViewHolder.binding;
 
+        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
+        selectCocktailSend();
 
         showCommentList(item); // 댓글
 
-        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
-        selectCocktailSend();
+
 
         writeMessage(binding);
         sendMessage(binding,item);
@@ -164,10 +165,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                 }
             });
 
-
-
-
-
     }
 
     private void writeMessage(ItemPostBinding binding){
@@ -208,10 +205,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.llCocktailSendGroup.setVisibility(View.VISIBLE);
+                binding.llCocktailSendGroup.setVisibility(View.GONE);
+
             }
         });
-
     }
 
     private void selectCocktailSend(){
@@ -262,8 +259,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
     }
 
-
-
     @Override
     public int getItemCount() {
         if (PostList == null) return 0;
@@ -306,59 +301,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         sendCocktailPosition = -1;
     }
 
-    private void setScrollViewEffect(){
-        binding.scrollViewPostItem.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollY = binding.scrollViewPostItem.getScrollY();
-             ///   Log.e("scrollY", String.valueOf(scrollY));
-
-                //170이상으로 넘어가면
-                if(scrollY>170){
-                //    binding.scrollViewPostItem.smoothScrollTo(0,0);
-
-                    new android.os.Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Animation moveAnimation = new TranslateAnimation(0,targetX[0],0,targetY[0]);
-                            moveAnimation.setDuration(500);
-                            binding.drinkGauge.startAnimation(moveAnimation);
-                        }
-                    },100);
-
-                }
-            }
-        });
-    }
-
-    public void setScrollAnimation(ItemPostBinding binding){
-//        ViewTreeObserver vto = binding.getRoot().getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                int[] location = new int[2];
-//                binding.rlDrinkColor.getLocationInWindow(location);
-//                 Log.e("location[0]", String.valueOf(location[0]));//x postion
-//                 Log.e("location[1]", String.valueOf(location[1]));//x postion
-//
-//            }
-//        }); // 값은 나오는데 값이 다 달라서(같은위치에 있는 item) 테스트가 필요하다
-
-
-
-
-        // 이값이 맞는것 같다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! > 이 값 먼저 테스트 후 위에 주석처리한 부분 확인하기
-        binding.rlDrinkColor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                binding.rlDrinkColor.getViewTreeObserver().removeOnPreDrawListener(this);
-                //여기서 뷰의 크기를 가져온다.
-                targetX[0] = binding.rlDrinkColor.getX()/2 -binding.rlDrinkColor.getWidth()/4;
-                targetY[0] = binding.rlDrinkColor.getY()/2;
-                return true;
-            }
-        });
-    }
 
 
     public class PViewHolder extends RecyclerView.ViewHolder {
