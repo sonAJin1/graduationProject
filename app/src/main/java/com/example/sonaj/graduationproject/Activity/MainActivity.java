@@ -68,6 +68,12 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     final int POSITION_CONTENTS_VIEW = 1;
     final int POSITION_MARKET_VIEW = 2;
 
+    //bluetooth 로 gauge 조절
+    int currentWeight = 100; // 처음엔 100 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 100으로 회복
+    int drunkDegree=0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
+    int newWeight;
+    int oldWeight = 0;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,13 +115,20 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
        // salonView.setBluetoothStatus(0);
         setBluetoothStatus(0);
 
+        //맨처음 취한 정도
+        drunkDegree = 0;
+        oldWeight = 0;
+        currentWeight = 100;
+        showDrunk(drunkDegree);
+
+
         // Do data initialization after service started and binded
         doStartService();
 
         // 맨 처음 화면은 살롱 화면
         onClick.showSalonView();
 
-        Log.e("create","");
+        Log.e("현재 포커스", String.valueOf(getCurrentFocus()));
     }
 
     public void setBluetoothStatus(int status){
@@ -485,11 +498,33 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                 case Constants.MESSAGE_READ_CHAT_DATA:
                     if(msg.obj != null) {
                         Log.e("message", String.valueOf(msg.obj));
-                        switch (String.valueOf(msg.obj)){
-                            case "0": // 맨 처음 코스터에 올렸을 때
+                        String bMsg = String.valueOf(msg.obj);
+                        bMsg = bMsg.replaceAll("(\r\n|\r|\n|\n\r)", ""); // 줄바꿈 제거
+                        bMsg = bMsg.replaceAll(" ",""); // 공백제거
+
+                        if (bMsg.equals("s")) {
+                            if(oldWeight==0){ // 처음 들어오는 값이라면
                                 postView.startBlinkAnimation();
                                 postView.changeOnView();
-                                break;
+                            }
+
+                        }else if(isStringDouble(bMsg)){ // 숫자로 바꿀 수 있는 값인지 확인하고
+                            newWeight = Integer.parseInt(bMsg); // 지금 들어 온 값은 new
+                            if(oldWeight>0){
+                                if(newWeight>oldWeight){ // 새로운 값이 더 크다면 새잔
+                                    currentWeight = 100; //new (새잔)을 받으면 게이지는 100으로 돌아감
+                                    Log.e("currentWeight", String.valueOf(currentWeight));
+                                    if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
+                                        drunkDegree++;
+                                    }
+                                    showDrunk(drunkDegree); // 취한 정도 보여주기
+                                }else{
+                                    currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
+                                    Log.e("currentWeight", String.valueOf(currentWeight));
+                                }
+                            }
+                            binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight); // 게이지에 반영
+                            oldWeight = newWeight;
                         }
                     }
                     break;
@@ -501,6 +536,47 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
             super.handleMessage(msg);
         }
     }	// End of class ActivityHandler
+
+    public boolean isStringDouble(String s){ // string 이 숫자인지 아닌지 판단할 때 사용
+        try {
+            Double.parseDouble(s);
+            return true;
+        }catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    public void showDrunk(int drunk){
+        switch (drunk){
+            case 0:
+                binding.appBarContent.viewPost.imDrunk01.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.GONE);
+                break;
+            case 1:
+                binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken01);
+                break;
+            case 2:
+                binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken02);
+                break;
+            case 3:
+                binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunk03.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken03);
+                break;
+        }
+    }
 
     /**
      * Auto-refresh Timer

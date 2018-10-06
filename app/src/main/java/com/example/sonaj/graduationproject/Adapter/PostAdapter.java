@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,6 +26,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.CharactorMake;
+import com.example.sonaj.graduationproject.EnterPostInformationDialog;
 import com.example.sonaj.graduationproject.ItemGetPost;
 import com.example.sonaj.graduationproject.ItemJustSelected;
 import com.example.sonaj.graduationproject.ItemLikeContents;
@@ -74,10 +76,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     int usrDrink;
     int usrEmotion;
 
-    final float[] targetX = new float[1];
-    final float[] targetY = new float[1];
-
     ItemPostBinding binding;
+
+
 
     /** 서버 통신 */
     private static String IP_ADDRESS = "http://13.209.48.183/setComment.php";
@@ -90,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         //댓글 list
          this.allCommentList = allCommentList;
 
+
     }
 
     @NonNull
@@ -97,22 +99,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     public PostAdapter.PViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         ItemPostBinding Binding = ItemPostBinding.
                 inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
+
         return new PostAdapter.PViewHolder(Binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.PViewHolder pViewHolder, int i) {
         if (PostList == null) return;
+
         final ItemGetPost item = PostList.get(i);
         pViewHolder.bind(item);
         binding = pViewHolder.binding;
 
-        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
+//        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
         selectCocktailSend();
 
         showCommentList(item); // 댓글
 
-
+        setScroll();
 
         writeMessage(binding);
         sendMessage(binding,item);
@@ -201,17 +205,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     }
 
 
-    private void showCocktailSend(){
-        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.llCocktailSendGroup.setVisibility(View.GONE);
+    private void selectCocktailSend(){
+//        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                binding.ibCocktailSend.setFocusableInTouchMode(true);
+////                binding.ibCocktailSend.requestFocus();
+//                binding.llCocktailSendGroup.setVisibility(View.GONE);
+//                Log.e("dididi","");
+//            }
+//        });
 
+        binding.ibCocktailSend.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                binding.llCocktailSendGroup.setVisibility(View.GONE);
+                Log.e("dididi","");
+                return false;
             }
         });
-    }
 
-    private void selectCocktailSend(){
+
         binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -258,6 +272,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         }
 
     }
+
+    public void setScroll(){
+         binding.rlPostItem.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+             @Override
+             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                if(i1>10){
+                    binding.rlUnderExpand.setVisibility(View.GONE);
+                }
+             }
+         });
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -377,6 +404,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                     //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for (ItemGetPost post : posts) {
                         // 등록된 댓글
+                        binding.rlMainComment.setVisibility(View.VISIBLE);
+                        binding.tvUsrNicknameSubComment.setText(post.getNickname());
+                        binding.tvUsrContentSubComment.setText(post.getSelectContent());
+                        binding.tvUsrText.setText(post.getText());
+                        CharactorMake.setDrinkBackgroundColor(post.getDrinkKind(), binding.rlDrinkColor);
+                        CharactorMake.setEmotionFace(post.getEmotion(), binding.imEmotion);
+
                         commentAdapter.add(new ItemGetPost(
                                 post.getGroup(),
                                 post.getLvl(),

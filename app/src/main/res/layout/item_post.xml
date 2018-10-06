@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="PostItem" type="com.example.sonaj.graduationproject.ItemGetPost"/>
-    </data>
+        </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
             <RelativeLayout
                 android:id="@+id/rl_post_item"
                 android:layout_width="286dp"
-                android:layout_height="330dp"
+                android:layout_height="365dp"
                 android:background="@drawable/post_rounding"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
@@ -65,7 +65,7 @@
                             android:textColor="@color/black"
                             android:lineSpacingExtra="6sp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="10dp"
                             android:text="@{PostItem.getNickname}"
                             android:layout_below="@+id/drink_gauge"
                             android:layout_marginBottom="3dp"
@@ -199,6 +199,7 @@
                             android:padding="8dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
+                            android:visibility="gone"
                             >
 
                             <RadioGroup
@@ -378,7 +379,6 @@
                             android:layout_height="1dp"
                             android:layout_width="match_parent"
                             android:background="#c9c9c9"
-
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_below="@+id/ll_content_option"
@@ -391,16 +391,96 @@
                             android:layout_marginTop="14dp"
                             android:layout_below="@+id/view_divider2"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp">
+                            android:layout_marginRight="10dp"
+                            android:descendantFocusability="blocksDescendants">
 
                         </android.support.v7.widget.RecyclerView>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_main_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@null"
+                            android:padding="5dp"
+                            android:layout_below="@+id/rv_comment"
+                            android:visibility="gone"
+                            >
+
+                            <RelativeLayout
+                                android:id="@+id/rl_drink_color_sub_comment"
+                                android:layout_width="38.8dp"
+                                android:layout_height="38.8dp"
+                                android:background="@drawable/emotion_select_background">
+
+                                <ImageView
+                                    android:id="@+id/im_emotion_sub_comment"
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:layout_centerInParent="true"
+                                    android:tint="@color/black"
+                                    />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rl_comment_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6.5dp"
+                                android:background="@drawable/comment_round"
+                                android:layout_toRightOf="@+id/rl_drink_color_sub_comment"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/tv_usr_nickname_sub_comment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/black"
+                                    android:text="@{PostItem.getNickname}"/>
+
+                                <TextView
+                                    android:id="@+id/tv_usr_content_sub_comment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="#c5c5c5"
+                                    android:layout_alignParentRight="true"
+                                    android:text="@{PostItem.getSelectContent}"/>
+
+                                <TextView
+                                    android:id="@+id/tv_usr_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:layout_below="@+id/tv_usr_nickname_sub_comment"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/black"
+                                    android:maxLength="19"
+                                    android:text="@{PostItem.getText}"
+                                    />
+                            </RelativeLayout>
+                            <TextView
+                                android:id="@+id/tv_comment_send"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:layout_below="@+id/rl_comment_text"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="53.8dp"
+                                android:textColor="#c5c5c5"
+                                android:maxLength="19"
+                                android:text="답글 달기"
+                                />
+
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/ll_comment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_below="@+id/rv_comment"
+                            android:layout_below="@+id/rl_main_comment"
                             android:visibility="gone"
                             >
 
@@ -411,10 +491,10 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/send_comment_round"
                                 android:layout_margin="10dp"
-                                android:focusable="true"
                                 android:paddingTop="8dp"
                                 android:paddingBottom="8dp"
                                 android:paddingLeft="21dp"
+                                android:focusable="true"
                                 android:hint="이야기에 댓글 달기..."
                                 android:textSize="10sp"/>
 
@@ -426,11 +506,26 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_marginRight="10dp"
                                 />
-
                         </LinearLayout>
+
                     </RelativeLayout>
                 </ScrollView>
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_under_expand"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_marginLeft="16.7dp"-->
+                    <!--android:layout_marginRight="16.7dp"-->
+                    <!--android:background="@color/white">-->
 
+                    <!--<ImageView-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_alignParentBottom="true"-->
+                        <!--android:background="@drawable/ic_expand_more_black_24dp"/>-->
+                <!--</RelativeLayout>-->
 
     </RelativeLayout>
 </RelativeLayout>

@@ -159,7 +159,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
-        CharactorMake.setEmotionFace(usrEmotion,binding.imEmotion);
+       // CharactorMake.setEmotionFace(usrEmotion,binding.imEmotion);
 
     }
 
@@ -313,7 +313,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
            //      recyclerView 사이 간격 설정
                 binding.rcPostListView.addItemDecoration(new ItemDecoration() {
 
-                    int verOverlap = -1040, horiOverlap = -60;
+                    int verOverlap = -1140, horiOverlap = 60;
 
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -321,6 +321,11 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         final int itemPosition = parent.getChildAdapterPosition(view);
 
                         outRect.set(0, verOverlap,0,0);
+//                        if(itemPosition==postAdapter.getItemCount()-1){
+//
+//                        }else{
+//                            outRect.set(horiOverlap, verOverlap,0,0);
+//                        }
 
 
                     }

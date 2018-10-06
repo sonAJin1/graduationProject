@@ -36,7 +36,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/neon_logo_off"
             android:clickable="true"
-            android:focusable="true"
+
            />
 
         <ImageView

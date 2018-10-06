@@ -53,4 +53,6 @@ dependencies {
     implementation 'tk.zielony:carbon:0.15.0.1'
     /**navigation custom 을 위한 라이브러리*/
     implementation 'com.android.support:design:25.0.0'
+    /**게이지 애니메이션을 위한 라이브러리*/
+    implementation 'me.itangqi.waveloadingview:library:0.3.5'
 }
