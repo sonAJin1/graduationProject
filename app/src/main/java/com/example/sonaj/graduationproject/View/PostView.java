@@ -574,25 +574,28 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                             if(isPost){
                                 // 다른사람들의 post
                                 if(post.getLvl()==0) { // 댓글 말고 게시글만
-                                    postList.add(new ItemGetPost(
-                                            post.getGroup(),
-                                            post.getLvl(),
-                                            post.getOrder(),
-                                            post.getNickname(),
-                                            post.getDrinkKind(),
-                                            post.getEmotion(),
-                                            post.getSelectContent(),
-                                            post.getCocktailReceived(),
-                                            post.getCheeringCock(),
-                                            post.getLaughCock(),
-                                            post.getComfortCock(),
-                                            post.getSadCock(),
-                                            post.getAngerCock(),
-                                            post.getViews(),
-                                            post.getText(),
-                                            post.getImage(),
-                                            post.getUploadTime()
-                                    ));
+                                    if(!post.getNickname().equals(usrNickname)){ // 사용자가 쓰지 않은 글들만
+                                        postList.add(new ItemGetPost(
+                                                post.getGroup(),
+                                                post.getLvl(),
+                                                post.getOrder(),
+                                                post.getNickname(),
+                                                post.getDrinkKind(),
+                                                post.getEmotion(),
+                                                post.getSelectContent(),
+                                                post.getCocktailReceived(),
+                                                post.getCheeringCock(),
+                                                post.getLaughCock(),
+                                                post.getComfortCock(),
+                                                post.getSadCock(),
+                                                post.getAngerCock(),
+                                                post.getViews(),
+                                                post.getText(),
+                                                post.getImage(),
+                                                post.getUploadTime()
+                                        ));
+                                    }
+
                                 }else if(post.getLvl()>0){ // 댓글
                                     postCommentList.add(new ItemGetPost(
                                             post.getGroup(),
@@ -670,6 +673,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             }else if(!isPost){
                 setRecyclerView(MY_POST); // 받아온 데이터를 어뎁터에 넣어주기
             }
+            Log.e("postCommentList", String.valueOf(postCommentList.size()));
             //처음 보여지는 post 사용자의 주류 종류에 따른 배경 빛색깔
             showBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),false);
 

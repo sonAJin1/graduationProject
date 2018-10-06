@@ -1,6 +1,7 @@
 package com.example.sonaj.graduationproject.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -27,12 +28,18 @@ import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.ItemGetPost;
 import com.example.sonaj.graduationproject.ItemJustSelected;
 import com.example.sonaj.graduationproject.ItemLikeContents;
+import com.example.sonaj.graduationproject.ItemWeekHotMovie;
 import com.example.sonaj.graduationproject.R;
+import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.Util.ShadowUtils;
 import com.example.sonaj.graduationproject.databinding.ItemJustSelectedBinding;
 import com.example.sonaj.graduationproject.databinding.ItemLikeContentBinding;
 import com.example.sonaj.graduationproject.databinding.ItemMyPostBinding;
 import com.example.sonaj.graduationproject.databinding.ItemPostBinding;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,16 +69,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     // 댓글쓰기 위한 변수
     String comment;
     int commentGroup;
+    String usrContent;
+    String usrNickname;
+    int usrDrink;
+    int usrEmotion;
 
     final float[] targetX = new float[1];
     final float[] targetY = new float[1];
 
     ItemPostBinding binding;
 
-
+    /** 서버 통신 */
+    private static String IP_ADDRESS = "http://13.209.48.183/setComment.php";
 
     int sendCocktailPosition = -1; //칵테일 보내기로 선택한 칵테일 position 값, 없으면 -1
-
 
      public PostAdapter(Context context, List<ItemGetPost> PostList, List<ItemGetPost> allCommentList) {
         this.context = context;
@@ -170,9 +181,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
          binding.imSendCommend.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 comment = binding.etComment.getText();
+                 comment = String.valueOf(binding.etComment.getText());
                  commentGroup = item.getGroup();
+                 Log.e("group", String.valueOf(commentGroup));
 
+                 SharedPreferences usrSP = context.getSharedPreferences("usrInfo", 0);
+                 usrContent = usrSP.getString("usrContent","선택한 콘텐츠가 없습니다");
+                 usrNickname = usrSP.getString("usrNickname","사용자 닉네임");
+                 usrDrink = usrSP.getInt("usrDrink",0);
+                 usrEmotion = usrSP.getInt("usrEmotion",0);
+
+                 // 댓글 서버로 보내기
+                 writePost task = new writePost();
+                 task.execute(IP_ADDRESS);
              }
          });
     }
@@ -355,10 +376,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
     /** 내 이야기 쓰기 요청 */
     /** API에 DATA 요청*/
-    private class writePost extends AsyncTask<String, Void, String> {
+    private class writePost extends AsyncTask<String, Void, ItemGetPost[]> {
+
 
         @Override
-        protected String doInBackground(String... params) {
+        protected ItemGetPost[] doInBackground(String... params) {
             String severURL = params[0];
 
             OkHttpClient client = new OkHttpClient.Builder().build();
@@ -382,27 +404,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
             try{
                 Response response = client.newCall(request).execute();
-                String phpResponse = response.body().string();
-                Log.e("response", phpResponse);
 
-                return phpResponse;
+                //gson을 이용하여 json을 자바 객채로 전환하기
+                Gson gson = new GsonBuilder().setLenient().create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootObject = parser.parse(response.body().charStream())
+                        .getAsJsonObject().get("result");
+                Log.e("rootObject", String.valueOf(rootObject));
+                ItemGetPost[] post = gson.fromJson(rootObject,ItemGetPost[].class);
+                return post;
+
+
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
         }
         @Override
-        protected void onPostExecute(String posts){
+        protected void onPostExecute(ItemGetPost[] posts){
             super.onPostExecute(posts);
-            // 성공했다는 메세지 받고 local list 에 추가
-            if(posts.equals("insert ok")){
-                Toast.makeText(context,"이야기가 등록되었습니다",Toast.LENGTH_LONG).show();
-                //보내고 초기화
-               binding.etComment.setText("");
-                //자체 list에 add
-//                MyPostList.add();
-//                notifyDataSetChanged();
+            if(ObjectUtils.isEmpty(posts)){
+                Toast.makeText(context,"댓글 등록에 실패했습니다",Toast.LENGTH_LONG).show();
+            }else {
+
+                if (posts != null || posts.length > 0) {
+                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
+                    for (ItemGetPost post : posts) {
+                        // 등록된 댓글
+                        PostList.add(new ItemGetPost(
+                                post.getGroup(),
+                                post.getLvl(),
+                                post.getOrder(),
+                                post.getNickname(),
+                                post.getDrinkKind(),
+                                post.getEmotion(),
+                                post.getSelectContent(),
+                                post.getCocktailReceived(),
+                                post.getCheeringCock(),
+                                post.getLaughCock(),
+                                post.getComfortCock(),
+                                post.getSadCock(),
+                                post.getAngerCock(),
+                                post.getViews(),
+                                post.getText(),
+                                post.getImage(),
+                                post.getUploadTime()
+                        ));
+                        notifyDataSetChanged();
+                    }
+                }
+                Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
+
             }
+
         }
     }
 
