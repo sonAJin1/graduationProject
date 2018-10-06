@@ -638,7 +638,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                                             post.getText(),
                                             post.getImage(),
                                             post.getUploadTime()
-
                                     ));
                                 }
                                 else if(post.getLvl()>0){ // 댓글

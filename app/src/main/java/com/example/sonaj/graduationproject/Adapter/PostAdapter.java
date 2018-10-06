@@ -107,7 +107,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         pViewHolder.bind(item);
         binding = pViewHolder.binding;
 
+
         showCommentList(item); // 댓글
+
+        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
+        selectCocktailSend();
+
+        writeMessage(binding);
+        sendMessage(binding,item);
 
             //댓글
             int commentCount = 0;
@@ -157,11 +164,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                 }
             });
 
-        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
-        selectCocktailSend();
 
-        writeMessage(binding);
-        sendMessage(binding,item);
+
+
 
     }
 
@@ -236,11 +241,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
     private void showCommentList(ItemGetPost item){
         commentList = new TreeMap<>();
-        TreeMap<Integer,ItemGetPost> sortCommentList = new TreeMap<>();
+        List<ItemGetPost> sortCommentList = new ArrayList<>();
 
         if(allCommentList.size()>0){
 
-            for(int i =0; i<allCommentList.size(); i++){
+            for(int i = 0; i<allCommentList.size(); i++){
                 if(item.getGroup()==allCommentList.get(i).getGroup()){ //post group 값과 comment group 값이 같으면
                     commentList.put(allCommentList.get(i).getOrder(),allCommentList.get(i));
                 }
@@ -248,8 +253,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
             while(integerIteratorKey.hasNext()){
                 int key = integerIteratorKey.next();
-                sortCommentList.put(key,commentList.get(key)); // 오름차순으로 정렬한 것 정렬 리스트에 담기
-                Log.e("key,value","key:"+key);
+                sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
             }
             commentAdapter = new CommentAdapter(context, sortCommentList);
             binding.rvComment.setAdapter(commentAdapter);
@@ -431,7 +435,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                     //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for (ItemGetPost post : posts) {
                         // 등록된 댓글
-                        PostList.add(new ItemGetPost(
+                        commentAdapter.add(new ItemGetPost(
                                 post.getGroup(),
                                 post.getLvl(),
                                 post.getOrder(),
@@ -450,10 +454,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                                 post.getImage(),
                                 post.getUploadTime()
                         ));
-                        notifyDataSetChanged();
+
                     }
                 }
                 Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
+                binding.etComment.setText(""); //올리면 초기화
 
             }
 

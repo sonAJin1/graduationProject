@@ -23,10 +23,10 @@ import java.util.TreeMap;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHolder>{
 
-    TreeMap<Integer,ItemGetPost> itemPostList;
+    List<ItemGetPost> itemPostList;
     static Context context;
 
-    public CommentAdapter(Context context, TreeMap<Integer, ItemGetPost> itemPostList){
+    public CommentAdapter(Context context, List<ItemGetPost> itemPostList){
         this.context = context;
         this.itemPostList = itemPostList;
     }
@@ -46,12 +46,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
         rViewHolder.bind(item);
         final ItemPostCommentBinding binding = rViewHolder.binding;
 
-
-        CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColor);
-        CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotion);
-        CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColorSub);
-        CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotionSub);
-
         int commentPosition = item.getLvl();
 
         if(commentPosition==1){
@@ -61,6 +55,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
             binding.rlMainComment.setVisibility(View.GONE);
             binding.rlSubComment.setVisibility(View.VISIBLE);
         }
+
+        CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColor);
+        CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotion);
+        CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColorSub);
+        CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotionSub);
+
+
+    }
+
+    public void add(ItemGetPost item){
+        itemPostList.add(itemPostList.size(),item);
+        notifyDataSetChanged();
     }
 
     @Override

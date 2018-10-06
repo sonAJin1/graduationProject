@@ -17,10 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.databinding.DialogEnterPostInformationBinding;
+
+import carbon.widget.EditText;
 
 public class EnterPostInformationDialog extends Dialog{
     Context mContext;
@@ -34,7 +37,6 @@ public class EnterPostInformationDialog extends Dialog{
 
     // Usr 관련 데이터 저장해두는 sharedPreference
     static String sharedKey = "usrInfo";
-
 
     public EnterPostInformationDialog(@NonNull Context context) {
         super(context);
@@ -193,6 +195,11 @@ public class EnterPostInformationDialog extends Dialog{
                 editor.putInt("usrDrink",drinkItem); // usrDrink 저장
                 editor.putInt("usrEmotion",emotionItem); // usrEmotion 저장
                 editor.commit();
+
+                //키보드 내리는 부분
+                InputMethodManager immhide = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
 
                 // dialog 닫기
                 dismiss();
