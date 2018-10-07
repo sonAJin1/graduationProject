@@ -6,15 +6,20 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +64,7 @@ public class SelectPostActivity extends Activity {
     TextView tvContentMore;
     ImageView imTrashBtn;
     ImageView x_btn;
+    Button ibCocktailSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +120,7 @@ public class SelectPostActivity extends Activity {
         imEmotion = (ImageView) findViewById(R.id.im_emotion);
         imTrashBtn = (ImageView)findViewById(R.id.im_trash_btn);
         x_btn = (ImageView)findViewById(R.id.x_btn);
+        ibCocktailSend = (Button)findViewById(R.id.ib_cocktail_send);
     }
 
     public void setContentText(){
@@ -185,6 +192,44 @@ public class SelectPostActivity extends Activity {
         rlDrinkBackgroundColor.startAnimation(showAnimation);
 
     }
+//
+//    private void selectCocktailSend(){
+////        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View view) {
+//////                binding.ibCocktailSend.setFocusableInTouchMode(true);
+//////                binding.ibCocktailSend.requestFocus();
+////                binding.llCocktailSendGroup.setVisibility(View.GONE);
+////                Log.e("dididi","");
+////            }
+////        });
+//
+//
+//
+//        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                int sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
+//                binding.llCocktailSendGroup.setVisibility(View.GONE);
+//                if(sendCocktailPosition!=-1){
+//                    //textColor 변경
+//                    ibCocktailSend.setTextColor(mContext.getColor(R.color.sendBtnStatusColor));
+//                    // left icon color 변경
+//                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
+//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+//                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.sendBtnStatusColor));
+//                }else if(sendCocktailPosition==-1){
+//                    //textColor 변경
+//                    ibCocktailSend.setTextColor(mContext.getColor(R.color.black));
+//                    // left icon color 변경
+//                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
+//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+//                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.black));
+//                }
+//            }
+//        });
+//    }
+//
 
     public void clickTrashBtn(){
         imTrashBtn.setOnClickListener(new View.OnClickListener() {

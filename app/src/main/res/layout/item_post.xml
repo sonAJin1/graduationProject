@@ -472,7 +472,6 @@
                                 android:maxLength="19"
                                 android:text="답글 달기"
                                 />
-
                         </RelativeLayout>
 
                         <LinearLayout

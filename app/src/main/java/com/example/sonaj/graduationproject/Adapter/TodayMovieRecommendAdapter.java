@@ -53,9 +53,9 @@ public class TodayMovieRecommendAdapter extends RecyclerView.Adapter<TodayMovieR
         tMovieViewHolder.bind(item);
 
         if(item.getisLike()){ // 좋아요가 눌러져서 true 값을 가지고 있는 작품은 눌려지게
-            tMovieViewHolder.Tbinding.btnTodayLike.setChecked(true);
+         //   tMovieViewHolder.Tbinding.btnTodayLike.setChecked(true);
         }else{ // 아니면 좋아요 해제
-            tMovieViewHolder.Tbinding.btnTodayLike.setChecked(false);
+         //   tMovieViewHolder.Tbinding.btnTodayLike.setChecked(false);
         }
 
 
@@ -81,29 +81,29 @@ public class TodayMovieRecommendAdapter extends RecyclerView.Adapter<TodayMovieR
 
 
         // like 버튼 누를때 sharedPreference 에 저장하고 삭제하는 부분
-        tMovieViewHolder.Tbinding.btnTodayLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                if(tMovieViewHolder.Tbinding.btnTodayLike.isChecked()) {
-                    SharedPreferences likeSP = context.getSharedPreferences(sharedKey,0);
-                    SharedPreferences.Editor editor = likeSP.edit();
-                    editor.putString(item.getTitle(),item.getTitle()); // key 에 title 저장
-                    editor.commit();
-                    item.setLike(true);
-                }else{
-                    SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
-                    String value = likeSP.getString(item.getTitle(),"없음");
-
-                    if(value!=null) { // 해당 값이 있는 경우
-                        SharedPreferences.Editor editor = likeSP.edit();
-                        editor.remove(item.getTitle()); // 삭제
-                        editor.commit();
-                        item.setLike(false);
-                    }
-                }
-            }
-        });
+//        tMovieViewHolder.Tbinding.btnTodayLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+////                if(tMovieViewHolder.Tbinding.btnTodayLike.isChecked()) {
+////                    SharedPreferences likeSP = context.getSharedPreferences(sharedKey,0);
+////                    SharedPreferences.Editor editor = likeSP.edit();
+////                    editor.putString(item.getTitle(),item.getTitle()); // key 에 title 저장
+////                    editor.commit();
+////                    item.setLike(true);
+////                }else{
+////                    SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
+////                    String value = likeSP.getString(item.getTitle(),"없음");
+////
+////                    if(value!=null) { // 해당 값이 있는 경우
+////                        SharedPreferences.Editor editor = likeSP.edit();
+////                        editor.remove(item.getTitle()); // 삭제
+////                        editor.commit();
+////                        item.setLike(false);
+////                    }
+////                }
+//            }
+//        });
 
 
 

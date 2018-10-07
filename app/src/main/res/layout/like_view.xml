@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/backgroundColor">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,6 +29,11 @@
                 android:textSize="@dimen/contents_detail_content"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/backgroundColor">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,5 +149,6 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             />
 
+    </LinearLayout>
     </LinearLayout>
 </layout>

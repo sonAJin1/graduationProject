@@ -95,7 +95,20 @@ public class LikeConentsAdapter extends RecyclerView.Adapter<LikeConentsAdapter.
             }
         });
 
-
+        //title 에 type 추가
+        String type="";
+        switch (item.getType()){
+            case 0: //영화
+                type = "영화/";
+                break;
+            case 1: //책
+                type = "책/";
+                break;
+            case 2: //드라마
+                type = "드라마/";
+                break;
+        }
+        likeViewHolder.Lbinding.tvLikeTitle.setText(type+item.getTitle());
 
     }
 

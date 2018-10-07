@@ -15,7 +15,7 @@ public class ImageUtil {
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView imageView, String url){
         if(!url.equals("")){
-            Picasso.with(imageView.getContext()).load(url).transform(new RoundedCornersTransformation(12,0)).fit().centerCrop().into(imageView);
+            Picasso.with(imageView.getContext()).load(url).transform(new RoundedCornersTransformation(15,0)).fit().centerCrop().into(imageView);
         }
     }
 

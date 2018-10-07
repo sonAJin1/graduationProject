@@ -5,7 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="titleWhite">#d6ffffff</color>
+    <color name="titleWhite">#ffffff</color>
+    <color name="titleWhite_detail">#d6ffffff</color>
     <color name="imageT">#5a000000</color>
     <color name="backgroundColor">#1d1d25</color>
     <color name="unSelectedColor">#818181</color>

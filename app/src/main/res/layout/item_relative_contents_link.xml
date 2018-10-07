@@ -32,7 +32,8 @@
             android:text="@{RelativeContentsItem.getSubTitle}"
             android:layout_marginTop="@dimen/title_recyclerView_interval"
             android:textSize="@dimen/today_recomend_movie_large_score"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:lineSpacingExtra="5sp"/>
 
     </RelativeLayout>
 </layout>

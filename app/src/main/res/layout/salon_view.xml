@@ -32,7 +32,7 @@
             android:id="@+id/im_neon_off"
             android:layout_width="232dp"
             android:layout_height="231dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="79dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/neon_logo_off"
             android:clickable="true"
@@ -43,7 +43,7 @@
             android:id="@+id/im_neon_on"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="45dp"
             android:background="@drawable/neon_logo_on"
             android:layout_centerHorizontal="true"
             android:onClick="@{OnClick::animClick}"
@@ -57,7 +57,7 @@
             android:layout_height="240dp"
             android:background="@drawable/main_char"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="226dp"/>
+            android:layout_marginTop="241dp"/>
         
         <ImageView
             android:id="@+id/im_divider"
@@ -66,7 +66,7 @@
             android:background="@drawable/textview_white_background"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/im_main_char"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="20dp"/>
 
         <TextView
             android:id="@+id/tv_notification"

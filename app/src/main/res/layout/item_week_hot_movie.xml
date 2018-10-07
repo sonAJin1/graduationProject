@@ -10,10 +10,10 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        >
         
         <ImageView
             android:id="@+id/iv_week_hot_movie"
@@ -26,15 +26,31 @@
             android:id="@+id/tv_week_hot_movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{weekMovieItem.getTitle}"
+            android:maxLength="15"
             android:textColor="@color/white"
             android:textSize="@dimen/layout_sub_title"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/iv_week_hot_movie"/>
+
+        <TextView
+            android:id="@+id/tv_usr_text_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/tv_week_hot_movie_title"
+            android:layout_marginLeft="5dp"
+            android:text="···"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:layout_below="@+id/iv_week_hot_movie"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_below="@+id/tv_week_hot_movie_title"
             >
             <ToggleButton
                 android:id="@+id/btn_week_hot_movie_like"
@@ -58,5 +74,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

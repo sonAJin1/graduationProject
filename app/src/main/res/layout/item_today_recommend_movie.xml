@@ -45,17 +45,17 @@
             android:layout_alignBaseline="@+id/tv_today_movies_title"
             android:layout_marginLeft="7dp"/>
 
-        <ToggleButton
-            android:id="@+id/btn_today_like"
-            android:layout_width="15dp"
-            android:layout_height="13dp"
-            android:layout_marginLeft="10dp"
-            android:textOff=""
-            android:textOn=""
-            android:background="@drawable/like_selector"
-            android:layout_toRightOf="@+id/tv_today_movies_year"
-            android:layout_alignBottom="@+id/tv_today_movies_year"
-            />
+        <!--<ToggleButton-->
+            <!--android:id="@+id/btn_today_like"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="13dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textOff=""-->
+            <!--android:textOn=""-->
+            <!--android:background="@drawable/like_selector"-->
+            <!--android:layout_toRightOf="@+id/tv_today_movies_year"-->
+            <!--android:layout_alignBottom="@+id/tv_today_movies_year"-->
+            <!--/>-->
 
         <TextView
             android:id="@+id/tv_today_movies_sub"

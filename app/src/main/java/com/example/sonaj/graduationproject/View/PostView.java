@@ -134,10 +134,10 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         postCommentList = new ArrayList<>();
         myPostCommentList = new ArrayList<>();
 
-        binding.tvCountPost.setText("오늘의 "+postCount+"번째 이야기");
+        binding.tvCountPost.setText("오늘 "+postCount+"번째 받은 이야기");
         salonView = new SalonView(context, binding.icSalonView,this);
         setSalonViewButton();
-        showSelectContent(); // salon view 에 선택한 콘텐츠 보여주기
+
 
         binding.icSalonView.tvSalonStatus1.setText("1,266명의 사용자, 3,541개의 이야기");
 
@@ -170,7 +170,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }
         getPostPHP(POST); // 서버에 다른사람 데이터 요청
         binding.imNeonOn.setVisibility(View.VISIBLE);
-
+        showSelectContent(); // salon view 에 선택한 콘텐츠 보여주기
 
     }
 
@@ -204,7 +204,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     public void showSelectContent(){
         SharedPreferences usrSP = context.getSharedPreferences(sharedKey, 0);
-        String usrContent = usrSP.getString("usrContent","");
+        String usrContent = usrSP.getString("usrContent","즐길 콘텐츠를 선택해주세요"); // 선택한 콘텐츠가 있으면 콘텐츠 출력, 없으면 선택해달라는 텍스트 출력
         binding.icSalonView.tvSelectContent.setText(usrContent);
     }
 
@@ -355,11 +355,9 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         }
 
                         if(swipedPosition>0){
-
-                            int currentDrinkKind = postAdapter.getItem(swipedPosition-1).getDrinkKind(); // 지금 이야기를 쓴 사람이 어떤 맥주를 마셨는지
+                            // TODO: 내가 선택한 주종과 같은 색이 나오는지 확인하기 원래는 swipePosition-1 이었음
+                            int currentDrinkKind = postAdapter.getItem(swipedPosition).getDrinkKind(); // 지금 이야기를 쓴 사람이 어떤 맥주를 마셨는지
                             showBackgroundLight(currentDrinkKind,false); // 주종에 따라서 배경 빛 색깔 바꾸기
-
-
                         }
 
                     }

@@ -57,7 +57,7 @@
                 android:id="@+id/im_contents_detail_title_bar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/titleWhite"
+                android:background="@color/titleWhite_detail"
                 android:layout_alignParentTop="true"/>
             <Button
                 android:id="@+id/btn_contents_detail_back"
@@ -67,6 +67,16 @@
                 android:layout_margin="18dp"
                 android:onClick="@{onClick::backClick}"/>
 
+            <TextView
+                android:id="@+id/tv_content_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_contents_detail_title_bar"
+                android:layout_marginTop="20dp"
+                android:layout_alignLeft="@+id/tv_contents_title"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                />
 
             <TextView
                 android:id="@+id/tv_contents_title"
@@ -74,7 +84,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="36sp"
                 android:textColor="@color/white"
-                android:layout_margin="@dimen/layout_left_padding"
+                android:layout_marginLeft="@dimen/layout_left_padding"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="20dp"
                 android:layout_alignBottom="@+id/im_contents_detail_title"
                 />
 
@@ -84,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_toRightOf="@+id/tv_contents_title"
-                android:layout_alignBottom="@+id/tv_contents_title"/>
+                android:layout_marginBottom="25dp"
+                android:layout_alignBottom="@+id/im_contents_detail_title"/>
 
             <ToggleButton
                 android:id="@+id/btn_detail_like"
@@ -95,8 +108,9 @@
                 android:textOn=""
                 android:background="@drawable/like_selector"
                 android:layout_toRightOf="@+id/tv_contents_year"
-                android:layout_alignBottom="@+id/tv_contents_title"
+                android:layout_alignBottom="@+id/im_contents_detail_title"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="30dp"
                 />
 
         </RelativeLayout>
@@ -181,8 +195,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="@dimen/layout_left_padding">
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="@dimen/layout_left_padding"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/tv_contents_detail_director_title"
@@ -198,6 +213,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/contents_detail_content"
+                android:lineSpacingExtra="9sp"
                 android:layout_marginLeft="@dimen/contents_title_interval"/>
         </LinearLayout>
 
@@ -205,7 +221,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/layout_left_padding">
+            android:layout_marginLeft="@dimen/layout_left_padding"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/tv_contents_detail_actor_title"
@@ -221,14 +238,17 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/contents_detail_content"
-                android:layout_marginLeft="@dimen/contents_title_interval"/>
+                android:layout_marginLeft="@dimen/contents_title_interval"
+                android:layout_marginRight="10dp"
+                android:lineSpacingExtra="5sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/layout_left_padding">
+            android:layout_marginLeft="@dimen/layout_left_padding"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/tv_contents_detail_summary_title"
@@ -244,8 +264,11 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="@dimen/contents_detail_content"
-                android:layout_marginLeft="@dimen/contents_title_interval"/>
+                android:layout_marginLeft="@dimen/contents_title_interval"
+                android:layout_marginRight="10dp"
+                android:lineSpacingExtra="2sp"/>
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -255,7 +278,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_left_padding"
                 android:layout_marginRight="@dimen/layout_left_padding"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="25dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/contents_detail_content"
                 android:lineSpacingExtra="9sp"/>
@@ -265,7 +288,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/contents_gradation"/>
+                android:background="@drawable/contents_gradation"
+                />
 
         </RelativeLayout>
         <TextView
@@ -287,7 +311,7 @@
             android:textSize="@dimen/today_recomend_movie_large_score"
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/layout_left_padding"
-            android:layout_marginTop="@dimen/title_top_padding"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="@dimen/title_recyclerView_interval"
             />
 
@@ -297,7 +321,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/layout_left_padding"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="25dp"
             />
 
         <!--<TextView-->
@@ -327,15 +351,16 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/white"
-            android:gravity="right">
+            android:gravity="right|center_vertical"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="23dp"
                 android:text="콘텐츠 선택"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_margin="@dimen/layout_left_padding"
+                android:layout_marginRight="@dimen/layout_left_padding"
                 android:textSize="@dimen/contents_title"
                 android:textColor="@color/black"
                 android:textStyle="bold"

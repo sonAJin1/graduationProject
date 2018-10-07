@@ -1,6 +1,7 @@
 package com.example.sonaj.graduationproject.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sonaj.graduationproject.Activity.MovieDetailActivity;
 import com.example.sonaj.graduationproject.ItemJustSelected;
 import com.example.sonaj.graduationproject.databinding.ItemJustSelectedBinding;
 import com.example.sonaj.graduationproject.databinding.ItemTodayRecommendMovieBinding;
@@ -38,6 +40,26 @@ public class JustSelectedAdapter extends RecyclerView.Adapter<JustSelectedAdapte
         if(justSelectedsItem == null) return;
         ItemJustSelected item = justSelectedsItem.get(i);
         jViewHolder.bind(item);
+
+        // list item 클릭해서 상세 화면으로 넘어가는 부분
+        jViewHolder.Jbindig.ivJustMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), MovieDetailActivity.class);
+                intent.putExtra("title",item.getTitle());
+                intent.putExtra("actor",item.getActor());
+                intent.putExtra("director",item.getDirector());
+                intent.putExtra("summary",item.getSummary());
+                intent.putExtra("contents",item.getContents());
+                intent.putExtra("naver",item.getNaverScore());
+                intent.putExtra("IMDB",item.getIMDBScore());
+                intent.putExtra("RTTomato",item.getRTTomatoScore());
+                intent.putExtra("imageUrl",item.getimageUrl());
+                intent.putExtra("type",item.getType());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -89,6 +89,29 @@ public class WeekHotMovieAdapter extends RecyclerView.Adapter<WeekHotMovieAdapte
             }
         });
 
+        //title 에 type 추가
+        String type="";
+        switch (item.getType()){
+            case 0: //영화
+                type = "영화/";
+                break;
+            case 1: //책
+                type = "책/";
+                break;
+            case 2: //드라마
+                type = "드라마/";
+                break;
+        }
+        wMovieViewHolder.Wbinding.tvWeekHotMovieTitle.setText(type+item.getTitle());
+
+        // title 길이 조절 '...'
+        // 리스트에서 보이는 글자 수 제한
+        if(item.getTitle().length()>14){
+            wMovieViewHolder.Wbinding.tvUsrTextMore.setVisibility(View.VISIBLE);
+        }else{
+            wMovieViewHolder.Wbinding.tvUsrTextMore.setVisibility(View.GONE);
+        }
+
 
         // list item 클릭해서 상세 화면으로 넘어가는 부분
         wMovieViewHolder.Wbinding.ivWeekHotMovie.setOnClickListener(new View.OnClickListener() {

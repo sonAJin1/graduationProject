@@ -278,7 +278,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
              @Override
              public void onScrollChange(View view, int i, int i1, int i2, int i3) {
                 if(i1>10){
-                    binding.rlUnderExpand.setVisibility(View.GONE);
+                  //  binding.rlUnderExpand.setVisibility(View.GONE);
                 }
              }
          });

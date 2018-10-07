@@ -133,11 +133,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                 binding.tvContentsDetailNaverScoreTitle.setVisibility(View.VISIBLE);
                 binding.tvContentsDetailRttomatoScore.setVisibility(View.VISIBLE);
                 binding.tvContentsDetailRttomatoScoreTitle.setVisibility(View.VISIBLE);
+                binding.tvContentsDetailImdbScoreTitle.setText("IMDB 평점");
                 binding.tvContentsDetailNaverScore.setText(String.valueOf(naver));
                 binding.tvContentsDetailRttomatoScore.setText(RTTomato);
                 binding.tvContentsDetailDirectorTitle.setText("감독"); //감독
                 binding.tvContentsDetailActorTitle.setText("출연"); // 배우
                 binding.tvContentsDetailSummaryTitle.setText("개요"); // 개요
+                binding.tvContentType.setText("영화");
 
                 break;
             case 1 : //책
@@ -145,19 +147,25 @@ public class MovieDetailActivity extends AppCompatActivity {
                 binding.tvContentsDetailNaverScoreTitle.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailRttomatoScore.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailRttomatoScoreTitle.setVisibility(View.INVISIBLE);
+                binding.tvContentsDetailImdbScoreTitle.setText("네이버 평점");
                 binding.tvContentsDetailDirectorTitle.setText("저자"); //감독
                 binding.tvContentsDetailActorTitle.setText("출판사"); // 배우
                 binding.tvContentsDetailSummaryTitle.setText("페이지"); // 개요
+                binding.tvContentType.setText("책");
 
                 break;
             case 2: //드라마
+                int imdb = Math.round(IMDB);
                 binding.tvContentsDetailNaverScore.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailNaverScoreTitle.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailRttomatoScore.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailRttomatoScoreTitle.setVisibility(View.INVISIBLE);
+                binding.tvContentsDetailImdbScoreTitle.setText("시즌");
+                binding.tvContentsDetailImdbScore.setText(imdb+"개");
                 binding.tvContentsDetailDirectorTitle.setText("주연"); //감독
                 binding.tvContentsDetailActorTitle.setText("장르"); // 배우
                 binding.tvContentsDetailSummaryTitle.setText("특징"); // 개요
+                binding.tvContentType.setText("드라마");
                 break;
         }
 

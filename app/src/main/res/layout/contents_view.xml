@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="추천콘텐츠"
+                android:text="추천 콘텐츠"
                 android:textSize="@dimen/contents_detail_content"
                 />
 
