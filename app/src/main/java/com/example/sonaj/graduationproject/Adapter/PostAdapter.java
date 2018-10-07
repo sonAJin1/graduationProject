@@ -206,48 +206,41 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
 
     private void selectCocktailSend(){
-//        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                binding.ibCocktailSend.setFocusableInTouchMode(true);
-////                binding.ibCocktailSend.requestFocus();
-//                binding.llCocktailSendGroup.setVisibility(View.GONE);
-//                Log.e("dididi","");
-//            }
-//        });
-
-        binding.ibCocktailSend.setOnLongClickListener(new View.OnLongClickListener() {
+        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
+//                binding.ibCocktailSend.setFocusableInTouchMode(true);
+//                binding.ibCocktailSend.requestFocus();
                 binding.llCocktailSendGroup.setVisibility(View.GONE);
                 Log.e("dididi","");
-                return false;
             }
         });
 
 
-        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
-                binding.llCocktailSendGroup.setVisibility(View.GONE);
-                if(sendCocktailPosition!=-1){
-                    //textColor 변경
-                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.sendBtnStatusColor));
-                    // left icon color 변경
-                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
-                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.sendBtnStatusColor));
-                }else if(sendCocktailPosition==-1){
-                    //textColor 변경
-                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.black));
-                    // left icon color 변경
-                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
-                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.black));
-                }
-            }
-        });
+
+
+//        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
+//                binding.llCocktailSendGroup.setVisibility(View.GONE);
+//                if(sendCocktailPosition!=-1){
+//                    //textColor 변경
+//                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.sendBtnStatusColor));
+//                    // left icon color 변경
+//                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
+//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+//                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.sendBtnStatusColor));
+//                }else if(sendCocktailPosition==-1){
+//                    //textColor 변경
+//                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.black));
+//                    // left icon color 변경
+//                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
+//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+//                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.black));
+//                }
+//            }
+//        });
     }
 
     private void showCommentList(ItemGetPost item){

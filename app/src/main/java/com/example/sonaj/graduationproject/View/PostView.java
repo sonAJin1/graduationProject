@@ -215,16 +215,16 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         if(isMyPost){ // 내 이야기를 보는 곳일 경우
             switch (drinkKind){
                 case 0: // 맥주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_beer02);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.beer_bg_);
                     break;
                 case 1: // 소주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_soju02);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.soju_bg_);
                     break;
                 case 2: // 막걸리인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_traditional02);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.traditional_bg_);
                     break;
                 case 3: // 와인인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_wine02);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.wine_bg_);
                     break;
             }
             binding.llNeonOn.startAnimation(showAnimation);
@@ -232,16 +232,16 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }else{// 다른사람의 이야기를 보는 곳일 경우
             switch (drinkKind){
                 case 0: // 맥주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_beer01);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.beer_bg_);
                     break;
                 case 1: // 소주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_soju01);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.soju_bg_);
                     break;
                 case 2: // 막걸리인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_traditional01);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.traditional_bg_);
                     break;
                 case 3: // 와인인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.bg_light_wine01);
+                    binding.llNeonOn.setBackgroundResource(R.drawable.wine_bg_);
                     break;
             }
             binding.llNeonOn.startAnimation(showAnimation);
@@ -313,7 +313,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
            //      recyclerView 사이 간격 설정
                 binding.rcPostListView.addItemDecoration(new ItemDecoration() {
 
-                    int verOverlap = -1140, horiOverlap = 60;
+                    int verOverlap = -1125, horiOverlap = 60;
 
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -346,7 +346,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         postAdapter.onItemDismiss(swipedPosition);
 
                         postCount++;
-                        binding.tvCountPost.setText("오늘의 "+postCount+"번째 이야기");
+                        binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");
 
                         if(postAdapter.getItemCount()==0) { //이야기를 다 봤으면
                             binding.llNeonOn.setBackgroundResource(R.drawable.background_on);
@@ -355,8 +355,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         }
 
                         if(swipedPosition>0){
-                            // TODO: 내가 선택한 주종과 같은 색이 나오는지 확인하기 원래는 swipePosition-1 이었음
-                            int currentDrinkKind = postAdapter.getItem(swipedPosition).getDrinkKind(); // 지금 이야기를 쓴 사람이 어떤 맥주를 마셨는지
+                            int currentDrinkKind = postAdapter.getItem(swipedPosition-1).getDrinkKind(); // 지금 이야기를 쓴 사람이 어떤 맥주를 마셨는지
                             showBackgroundLight(currentDrinkKind,false); // 주종에 따라서 배경 빛 색깔 바꾸기
                         }
 
@@ -385,7 +384,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                         super.getItemOffsets(outRect, view, parent, state);
-                        outRect.right = 50;
+                        outRect.right = 30;
+                        outRect.left = 30;
                     }
                 }); // 간격 설정 적용
 

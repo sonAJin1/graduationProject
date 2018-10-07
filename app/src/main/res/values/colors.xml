@@ -13,13 +13,13 @@
 
     <color name="transperencyBackground">#d8000000</color>
 
-    <color name="deerColor">#e0ad2d</color>
+    <color name="beerColor">#e0ad2d</color>
     <color name="sojuColor">#3daf37</color>
     <color name="transitionColor">#DCD9D6</color>
     <color name="wineColor">#ef2056</color>
 
 
-    <color name="transferBackground">#bd000000</color>
+    <color name="transferBackground">#9a000000</color>
 
     <color name="sendBtnStatusColor">#4979ce</color>
 

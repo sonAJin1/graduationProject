@@ -28,7 +28,7 @@
 
             <RadioButton
                 android:id="@+id/btn_beer"
-                android:layout_width="33.5dp"
+                android:layout_width="40.5dp"
                 android:layout_height="68dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/beer_click"
@@ -37,7 +37,7 @@
 
             <RadioButton
                 android:id="@+id/btn_soju"
-                android:layout_width="33.5dp"
+                android:layout_width="23.5dp"
                 android:layout_height="68dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/soju_click"
@@ -46,7 +46,7 @@
 
             <RadioButton
                 android:id="@+id/btn_traditional"
-                android:layout_width="33.5dp"
+                android:layout_width="38.5dp"
                 android:layout_height="68dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/traditional_click"
@@ -55,7 +55,7 @@
 
             <RadioButton
                 android:id="@+id/btn_wine"
-                android:layout_width="33.5dp"
+                android:layout_width="34.5dp"
                 android:layout_height="68dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/wine_click"
@@ -150,10 +150,10 @@
             android:background="@drawable/textview_white_background"
             android:hint="오늘, 혼술살롱에서 사용할 닉네임을 입력해주세요"
             android:textSize="@dimen/item_sub_title"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="35dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:paddingLeft="21dp"
+            android:paddingLeft="11dp"
             android:layout_below="@+id/notification_text"
             android:layout_centerHorizontal="true"/>
 

@@ -168,7 +168,7 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 showCommentList(item, myPostBinding); // 댓글 보여주기
 
                 //shadow
-                ShadowUtils.generateBackgroundWithShadow(myPostBinding.rlMyPost, R.color.white,R.dimen.recycle_main_item_padding,R.color.deerColor,R.dimen.contents_title_interval, Gravity.BOTTOM);
+                ShadowUtils.generateBackgroundWithShadow(myPostBinding.rlMyPost, R.color.white,R.dimen.recycle_main_item_padding,R.color.beerColor,R.dimen.contents_title_interval, Gravity.BOTTOM);
 
                 // int 에 String 처리가 필요한 item 들 처리
                 myPostBinding.tvCheeringCocktailCount.setText("("+item.getCheeringCock()+")");

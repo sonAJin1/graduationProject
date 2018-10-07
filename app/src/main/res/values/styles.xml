@@ -30,5 +30,9 @@
         <item name="android:background">#47000000</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
+
+        <item name="android:background">@color/transferBackground</item>
+    </style>
     <!--<style name="AppTheme" parent="carbon_Theme.Light.NoActionBar"/>-->
 </resources>

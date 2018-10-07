@@ -10,9 +10,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -50,10 +52,12 @@ public class EnterPostInformationDialog extends Dialog{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 바 삭제
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+      //  getWindow().setBackgroundDrawableResource(R.color.transferBackground);
+
         binding = DialogEnterPostInformationBinding.inflate(LayoutInflater.from(getContext()));
         setContentView(binding.getRoot());
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
 
         onClick = new OnClick();
         binding.setOnClick(onClick);

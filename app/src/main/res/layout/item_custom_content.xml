@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/iv_custom_content"
-            android:layout_width="222dp"
-            android:layout_height="222dp"
+            android:layout_width="252dp"
+            android:layout_height="252dp"
             app:imageUrl="@{customContentItem.getimageUrl}"
             />
 

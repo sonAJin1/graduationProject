@@ -69,7 +69,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     final int POSITION_MARKET_VIEW = 2;
 
     //bluetooth 로 gauge 조절
-    int currentWeight = 100; // 처음엔 100 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 100으로 회복
+    int currentWeight = 95; // 처음엔 95 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 95로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
     int drunkDegree=0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
     int newWeight;
     int oldWeight = 0;
@@ -512,7 +512,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                             newWeight = Integer.parseInt(bMsg); // 지금 들어 온 값은 new
                             if(oldWeight>0){
                                 if(newWeight>oldWeight){ // 새로운 값이 더 크다면 새잔
-                                    currentWeight = 100; //new (새잔)을 받으면 게이지는 100으로 돌아감
+                                    currentWeight = 95; //new (새잔)을 받으면 게이지는 95로 돌아감
                                     Log.e("currentWeight", String.valueOf(currentWeight));
                                     if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
                                         drunkDegree++;

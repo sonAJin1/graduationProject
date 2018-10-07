@@ -18,7 +18,6 @@
                 android:background="@drawable/post_rounding"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
-                android:elevation="10dp"
                 android:layout_marginBottom="10dp"
                 android:paddingBottom="8dp"
                 >
@@ -61,7 +60,7 @@
                             android:id="@+id/tv_usr_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textColor="@color/black"
                             android:lineSpacingExtra="6sp"
                             android:layout_centerHorizontal="true"
@@ -78,7 +77,7 @@
                             android:orientation="horizontal"
                             android:layout_centerHorizontal="true"
                             android:layout_below="@+id/tv_usr_nickname"
-                            android:layout_marginBottom="15dp">
+                            android:layout_marginBottom="10dp">
 
                             <TextView
                                 android:id="@+id/tv_usr_content"
@@ -172,7 +171,7 @@
                             android:textSize="12sp"
                             android:textColor="@color/black"
                             android:lineSpacingExtra="6sp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="15dp"
                             android:layout_marginRight="16.7dp"
                             android:layout_below="@+id/receive_cocktail_title"
                             android:layout_marginLeft="16.7dp"
@@ -328,7 +327,7 @@
                             android:layout_height="1dp"
                             android:layout_width="match_parent"
                             android:background="#c9c9c9"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="15dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_below="@+id/tv_content_more"
@@ -343,7 +342,8 @@
                             android:orientation="horizontal"
                             android:layout_below="@+id/view_divider"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp">
+                            android:layout_marginRight="10dp"
+                            >
                             <Button
                                 android:id="@+id/ib_cocktail_send"
                                 android:layout_width="0dp"

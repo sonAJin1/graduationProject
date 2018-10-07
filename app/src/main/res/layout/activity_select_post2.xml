@@ -15,7 +15,7 @@
             android:id="@+id/rl_drink_background_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"></RelativeLayout>
+            ></RelativeLayout>
 
 
         <RelativeLayout
@@ -24,8 +24,7 @@
             android:layout_height="380dp"
             android:background="@drawable/post_rounding"
             android:orientation="vertical"
-            android:layout_marginTop="90dp"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
 
             >
 
@@ -49,12 +48,12 @@
 
             <ImageView
                 android:id="@+id/x_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16.7dp"
                 android:layout_marginTop="20.7dp"
-                android:src="@drawable/ic_close_black_24dp"
+                android:src="@drawable/ic_exit"
                 android:tint="@color/black"
                 />
 
@@ -184,6 +183,142 @@
                 android:layout_below="@+id/tv_post_content"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/ll_cocktail_send_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cocktail_black_background"
+                android:orientation="vertical"
+                android:layout_above="@+id/view_divider"
+                android:padding="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:focusable="true"
+                >
+
+                <RadioGroup
+                    android:id="@+id/ll_cocktail_image_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/im_cheering_cocktail"
+                        android:layout_width="33dp"
+                        android:layout_height="41.6dp"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/cheering_cocktail"
+                        android:button="@android:color/transparent"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/im_laugh_cocktail"
+                        android:layout_width="24dp"
+                        android:layout_height="41.6dp"
+                        android:background="@drawable/laugh_cocktail"
+                        android:layout_below="@+id/tv_post_content"
+                        android:layout_marginLeft="22dp"
+                        android:button="@android:color/transparent"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/im_comfort_cocktail"
+                        android:layout_width="25dp"
+                        android:layout_height="41.6dp"
+                        android:background="@drawable/comfort_cocktail"
+                        android:layout_below="@+id/tv_post_content"
+                        android:layout_marginLeft="26dp"
+                        android:button="@android:color/transparent"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/im_sad_cocktail"
+                        android:layout_width="26dp"
+                        android:layout_height="41.6dp"
+                        android:background="@drawable/sad_cocktail"
+                        android:layout_below="@+id/tv_post_content"
+                        android:layout_marginLeft="26dp"
+                        android:button="@android:color/transparent"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/im_anger_cocktail"
+                        android:layout_width="31dp"
+                        android:layout_height="41.6dp"
+                        android:background="@drawable/anger_cocktail"
+                        android:layout_below="@+id/tv_post_content"
+                        android:layout_marginLeft="22dp"
+                        android:button="@android:color/transparent"
+
+                        />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/ll_cocktail_title_group"
+                    android:layout_width="253dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/ll_cocktail_image_group"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="3dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_cheering_cocktail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="응원주"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_laugh_cocktail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="웃음주"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_comfort_cocktail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="위로주"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_sad_cocktail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="슬픔주"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_anger_cocktail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="분노주"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/view_divider"

@@ -137,5 +137,38 @@ static Context context;
         }
     }
 
+    public static void setGuageImage(int drinkKind, int emotion, ImageView imageView){
+        switch (drinkKind){
+            case 0: // 맥주
+                if(emotion==0){imageView.setImageResource(R.drawable.ic_beer_00_post_title);}
+                if(emotion==1){imageView.setImageResource(R.drawable.ic_beer01_post_title);}
+                if(emotion==2){imageView.setImageResource(R.drawable.ic_beer02_post_title);}
+                if(emotion==3){imageView.setImageResource(R.drawable.ic_beer03_post_title);}
+                if(emotion==4){imageView.setImageResource(R.drawable.ic_beer04_post_title);}
+                break;
+            case 1: // 소주
+                if(emotion==0){imageView.setImageResource(R.drawable.ic_soju00_post_title);}
+                if(emotion==1){imageView.setImageResource(R.drawable.ic_soju01_post_title);}
+                if(emotion==2){imageView.setImageResource(R.drawable.ic_soju02_post_title);}
+                if(emotion==3){imageView.setImageResource(R.drawable.ic_soju03_post_title);}
+                if(emotion==4){imageView.setImageResource(R.drawable.ic_soju04_post_title);}
+                break;
+            case 2: // 막걸리
+                if(emotion==0){imageView.setImageResource(R.drawable.ic_traditional00_post_title);}
+                if(emotion==1){imageView.setImageResource(R.drawable.ic_traditional01_post_title);}
+                if(emotion==2){imageView.setImageResource(R.drawable.ic_traditional02_post_title);}
+                if(emotion==3){imageView.setImageResource(R.drawable.ic_traditional03_post_title);}
+                if(emotion==4){imageView.setImageResource(R.drawable.ic_traditional04_post_title);}
+                break;
+            case 3: // 와인
+                if(emotion==0){imageView.setImageResource(R.drawable.ic_wine00_post_title);}
+                if(emotion==1){imageView.setImageResource(R.drawable.ic_wine01_post_title);}
+                if(emotion==2){imageView.setImageResource(R.drawable.ic_wine02_post_title);}
+                if(emotion==3){imageView.setImageResource(R.drawable.ic_wine03_post_title);}
+                if(emotion==4){imageView.setImageResource(R.drawable.ic_wine04_post_title);}
+                break;
+        }
+    }
+
 
 }

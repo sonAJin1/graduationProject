@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_off"
-            android:visibility="gone"
+
             >
 
             <ImageView
@@ -41,14 +41,15 @@
                 android:layout_marginTop="20.5dp"
                 app:wlv_borderWidth="3dp"
                 app:wlv_shapeType="rectangle"
-                app:wlv_waveColor="@color/transitionColor"
+                app:wlv_waveColor="@color/beerColor"
                 app:wlv_wave_background_Color="@color/white"
+                app:wlv_progressValue="85"
                 />
 
                 <ImageView
                     android:layout_width="136dp"
                     android:layout_height="136dp"
-                    android:background="@drawable/traditional_gauge_cover"
+                    android:background="@drawable/traditional01"
                     android:layout_marginLeft="-10dp"
                     android:layout_marginTop="5dp"/>
 
@@ -60,16 +61,28 @@
                 android:layout_alignBottom="@+id/im_drink_gauge"
                 />
 
+            <!--<ImageView-->
+                <!--android:id="@+id/im_drunk_cheek_test"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="18dp"-->
+                <!--android:layout_alignBottom="@+id/im_drink_gauge"-->
+                <!--android:layout_marginBottom="3dp"-->
+                <!--android:background="@drawable/traditional_drunken03"-->
+                <!--/>-->
+
             <ImageView
                 android:id="@+id/ll_neon_on"
                 android:layout_width="match_parent"
-                android:layout_height="520dp"
-                android:layout_marginTop="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp"
                 />
+
+
             
             <ImageView
                 android:id="@+id/im_drunk01"
-                android:layout_width="24.9dp"
+                android:layout_width="20.9dp"
                 android:layout_height="40dp"
                 android:background="@drawable/ic_traditional_completion_0"
                 android:layout_toRightOf="@+id/im_drink_gauge"
@@ -78,7 +91,7 @@
                 />
             <ImageView
                 android:id="@+id/im_drunk02"
-                android:layout_width="24.9dp"
+                android:layout_width="20.9dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/ic_traditional_completion_0"
@@ -88,7 +101,7 @@
                 />
             <ImageView
                 android:id="@+id/im_drunk03"
-                android:layout_width="24.9dp"
+                android:layout_width="20.9dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/ic_traditional_completion_0"
@@ -125,7 +138,7 @@
                 android:textSize="@dimen/item_sub_title"
                 android:text="사용자가 선택한 콘텐츠"
                 android:textColor="@color/white"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 />
 
             <Button
@@ -150,10 +163,10 @@
 
             <Button
                 android:id="@+id/btn_close_write"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_close_black_24dp"
+                android:background="@drawable/ic_exit"
                 android:layout_marginRight="16dp"
                 android:onClick="@{OnClick::closeWritePost}"
                 android:layout_marginTop="16dp"
@@ -165,7 +178,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:text="오늘의 몇번째 이야기"
                 android:textSize="12sp"
                 android:layout_below="@+id/im_drink_gauge"
                 android:layout_marginBottom="@dimen/title_contents_interval"
@@ -198,6 +210,7 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 android:layout_below="@+id/tv_count_post"
                 android:background="@drawable/recyclerview_round_background"
+
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -205,8 +218,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                android:layout_below="@+id/im_drink_gauge"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/tv_count_my_post"
+                android:layout_marginLeft="29.5dp"
+                android:layout_marginRight="29.5dp"
                 android:visibility="gone"
                 />
 
@@ -214,11 +228,11 @@
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="혼술살롱에 몇번째 사용자, 몇개의 이야기"
+                android:text="혼술살롱에 1,134번째 사용자 2,314개의 이야기"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:textSize="8dp"
-                android:layout_marginTop="10dp"
+                android:textSize="10dp"
+                android:layout_marginTop="1dp"
                 android:layout_below="@+id/rc_post_list_view"
                 />
 
@@ -242,7 +256,7 @@
             layout="@layout/salon_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:visibility="gone"
             />
 
     </RelativeLayout>

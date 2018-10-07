@@ -6,10 +6,8 @@
     </data>
 
 <RelativeLayout  android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="37dp"
-
-    >
+    android:layout_height="wrap_content"
+     >
 
     <RelativeLayout
         android:layout_width="286dp"
@@ -36,7 +34,7 @@
             android:layout_height="93dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:background="@drawable/write_img"/>
+            android:background="@drawable/write_img_test"/>
 
         <EditText
             android:id="@+id/tv_write_my_post"

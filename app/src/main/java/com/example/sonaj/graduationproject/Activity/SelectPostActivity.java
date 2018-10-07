@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,6 +66,8 @@ public class SelectPostActivity extends Activity {
     ImageView imTrashBtn;
     ImageView x_btn;
     Button ibCocktailSend;
+    RadioGroup llCocktailImageGroup;
+    LinearLayout llCocktailSendGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +103,11 @@ public class SelectPostActivity extends Activity {
         UploadTime = intent.getStringExtra("UploadTime");
         nickname = intent.getStringExtra("nickname");
 
-        setContentText();
-        setTextViewMaxLine();
-        showBackgroundLight(DrinkKind);
-        clickTrashBtn();
+        setContentText(); // intent 로 보낸 내용 ui 에 적용
+        setTextViewMaxLine(); // 게시글 더보기 기능 설정
+        showBackgroundLight(DrinkKind); // 배경 빛 색상 설정
+        clickTrashBtn(); // 쓰레기통 적용
+        selectCocktailSend(); // 칵테일 보내기 버튼
 
     }
 
@@ -121,6 +125,8 @@ public class SelectPostActivity extends Activity {
         imTrashBtn = (ImageView)findViewById(R.id.im_trash_btn);
         x_btn = (ImageView)findViewById(R.id.x_btn);
         ibCocktailSend = (Button)findViewById(R.id.ib_cocktail_send);
+        llCocktailImageGroup = (RadioGroup) findViewById(R.id.ll_cocktail_image_group);
+        llCocktailSendGroup = (LinearLayout)findViewById(R.id.ll_cocktail_send_group);
     }
 
     public void setContentText(){
@@ -151,6 +157,7 @@ public class SelectPostActivity extends Activity {
         CharactorMake.setDrinkBackgroundColor(DrinkKind,rlDrinkColor);
         CharactorMake.setEmotionFace(Emotion,imEmotion);
 
+
     }
 
     public void setTextViewMaxLine(){
@@ -177,58 +184,27 @@ public class SelectPostActivity extends Activity {
 
         switch (drinkKind){
             case 0: // 맥주인 경우
-                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_beer02);
+                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.beer_bg_);
                 break;
             case 1: // 소주인 경우
-                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_soju02);
+                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.soju_bg_);
                 break;
             case 2: // 막걸리인 경우
-                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_traditional02);
+                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.traditional_bg_);
                 break;
             case 3: // 와인인 경우
-                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.bg_light_wine02);
+                rlDrinkBackgroundColor.setBackgroundResource(R.drawable.wine_bg_);
                 break;
         }
         rlDrinkBackgroundColor.startAnimation(showAnimation);
 
     }
 //
-//    private void selectCocktailSend(){
-////        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-//////                binding.ibCocktailSend.setFocusableInTouchMode(true);
-//////                binding.ibCocktailSend.requestFocus();
-////                binding.llCocktailSendGroup.setVisibility(View.GONE);
-////                Log.e("dididi","");
-////            }
-////        });
-//
-//
-//
-//        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                int sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
-//                binding.llCocktailSendGroup.setVisibility(View.GONE);
-//                if(sendCocktailPosition!=-1){
-//                    //textColor 변경
-//                    ibCocktailSend.setTextColor(mContext.getColor(R.color.sendBtnStatusColor));
-//                    // left icon color 변경
-//                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
-//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-//                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.sendBtnStatusColor));
-//                }else if(sendCocktailPosition==-1){
-//                    //textColor 변경
-//                    ibCocktailSend.setTextColor(mContext.getColor(R.color.black));
-//                    // left icon color 변경
-//                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
-//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-//                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.black));
-//                }
-//            }
-//        });
-//    }
+    private void selectCocktailSend(){
+
+
+
+    }
 //
 
     public void clickTrashBtn(){
@@ -242,6 +218,38 @@ public class SelectPostActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        ibCocktailSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                binding.ibCocktailSend.setFocusableInTouchMode(true);
+//                binding.ibCocktailSend.requestFocus();
+                llCocktailSendGroup.setVisibility(View.GONE);
+                Log.e("dididi","");
+            }
+        });
+
+        llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
+                llCocktailSendGroup.setVisibility(View.GONE);
+                if(sendCocktailPosition!=-1){
+                    //textColor 변경
+                    ibCocktailSend.setTextColor(mContext.getColor(R.color.sendBtnStatusColor));
+                    // left icon color 변경
+                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
+                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.sendBtnStatusColor));
+                }else if(sendCocktailPosition==-1){
+                    //textColor 변경
+                    ibCocktailSend.setTextColor(mContext.getColor(R.color.black));
+                    // left icon color 변경
+                    Drawable[] drawables = ibCocktailSend.getCompoundDrawables();
+                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+                    DrawableCompat.setTint(wrapDrawable, mContext.getColor(R.color.black));
+                }
             }
         });
     }
