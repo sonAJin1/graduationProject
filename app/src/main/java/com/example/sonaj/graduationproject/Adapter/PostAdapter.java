@@ -172,6 +172,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     }
 
     private void writeMessage(ItemPostBinding binding){
+
+         // 댓글 달기
          binding.ibCommentSend.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -181,12 +183,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
              }
          });
+
+         // 칵테일 보내기
          binding.ibCocktailSendM.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  binding.llCocktailSendGroup.setVisibility(View.VISIBLE);
              }
          });
+
+        // 칵테일 보내기 선택
         binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -211,7 +217,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         });
     }
 
+    private void sendNewComment(TreeMap<Integer,ItemGetPost> commentList){
+        List<ItemGetPost> sortCommentList = new ArrayList<>();
+
+        Log.e("commentList size", String.valueOf(commentList.size()));
+            Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
+            while(integerIteratorKey.hasNext()){
+                int key = integerIteratorKey.next();
+                sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
+                commentAdapter.add(commentList.get(key));
+        }
+        Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
+        binding.etComment.setText(""); //올리면 초기화
+
+    }
+
     private void sendMessage(ItemPostBinding binding,ItemGetPost item){
+
+         // 댓글 서버로 보내는 버튼
          binding.imSendCommend.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -238,7 +261,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         List<ItemGetPost> sortCommentList = new ArrayList<>();
 
         if(allCommentList.size()>0){
-
             for(int i = 0; i<allCommentList.size(); i++){
                 if(item.getGroup()==allCommentList.get(i).getGroup()){ //post group 값과 comment group 값이 같으면
                     commentList.put(allCommentList.get(i).getOrder(),allCommentList.get(i));
@@ -374,41 +396,35 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             }else {
 
                 if (posts != null || posts.length > 0) {
-                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for (ItemGetPost post : posts) {
-                        // 등록된 댓글
-                        binding.rlMainComment.setVisibility(View.VISIBLE);
-                        binding.tvUsrNicknameSubComment.setText(post.getNickname());
-                        binding.tvUsrContentSubComment.setText(post.getSelectContent());
-                        binding.tvUsrText.setText(post.getText());
-                        CharactorMake.setDrinkBackgroundColor(post.getDrinkKind(), binding.rlDrinkColor);
-                        CharactorMake.setEmotionFace(post.getEmotion(), binding.imEmotion);
+                        // 댓글을 등록하면 해당 게시물의 댓글을 모두 가져온다
+                        commentList.clear(); // 댓글창 clear
 
-                        commentAdapter.add(new ItemGetPost(
-                                post.getGroup(),
-                                post.getLvl(),
-                                post.getOrder(),
-                                post.getNickname(),
-                                post.getDrinkKind(),
-                                post.getEmotion(),
-                                post.getSelectContent(),
-                                post.getCocktailReceived(),
-                                post.getCheeringCock(),
-                                post.getLaughCock(),
-                                post.getComfortCock(),
-                                post.getSadCock(),
-                                post.getAngerCock(),
-                                post.getViews(),
-                                post.getText(),
-                                post.getImage(),
-                                post.getUploadTime()
-                        ));
-                        notifyDataSetChanged();
-                        Log.e("comment getItemCount()", String.valueOf(commentAdapter.getItemCount()));
-
+                        //lvl 이 0보다 큰것만 (댓글만)
+                        if(post.getLvl()>0){
+                            commentList.put(post.getOrder(),
+                                    new ItemGetPost(
+                                    post.getGroup(),
+                                    post.getLvl(),
+                                    post.getOrder(),
+                                    post.getNickname(),
+                                    post.getDrinkKind(),
+                                    post.getEmotion(),
+                                    post.getSelectContent(),
+                                    post.getCocktailReceived(),
+                                    post.getCheeringCock(),
+                                    post.getLaughCock(),
+                                    post.getComfortCock(),
+                                    post.getSadCock(),
+                                    post.getAngerCock(),
+                                    post.getViews(),
+                                    post.getText(),
+                                    post.getImage(),
+                                    post.getUploadTime()
+                            ));
+                        }
                     }
-                    Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
-                    binding.etComment.setText(""); //올리면 초기화
+                    sendNewComment(commentList); // adapter 에 들어온 댓글 적용
 
                 }
 

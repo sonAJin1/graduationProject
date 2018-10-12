@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -93,6 +94,9 @@ public class SelectPostActivity extends Activity {
     RadioGroup llCocktailImageGroup;
     LinearLayout llCocktailSendGroup;
     RecyclerView commentRecyclerview;
+    LinearLayout llComment;
+    EditText etComment;
+    ImageButton btnComment;
 
     // 댓글 관련 리스트, 어댑터
     CommentAdapter commentAdapter;
@@ -139,7 +143,7 @@ public class SelectPostActivity extends Activity {
         setTextViewMaxLine(); // 게시글 더보기 기능 설정
         showBackgroundLight(DrinkKind); // 배경 빛 색상 설정
         clickTrashBtn(); // 쓰레기통 적용
-        selectCocktailSend(); // 칵테일 보내기 버튼
+
         // 댓글 서버로 요청 보내기
         commentRequest task = new commentRequest();
         task.execute(IP_ADDRESS);
@@ -163,6 +167,9 @@ public class SelectPostActivity extends Activity {
         llCocktailImageGroup = (RadioGroup) findViewById(R.id.ll_cocktail_image_group);
         llCocktailSendGroup = (LinearLayout) findViewById(R.id.ll_cocktail_send_group);
         commentRecyclerview = (RecyclerView) findViewById(R.id.rc_like_contents);
+        llComment = (LinearLayout)findViewById(R.id.ll_comment);
+        etComment = (EditText)findViewById(R.id.et_comment);
+        btnComment = (ImageButton)findViewById(R.id.im_send_commend);
         commentList = new TreeMap<>();
     }
 
@@ -236,13 +243,6 @@ public class SelectPostActivity extends Activity {
         rlDrinkBackgroundColor.startAnimation(showAnimation);
 
     }
-
-    //
-    private void selectCocktailSend() {
-
-
-    }
-//
 
     public void clickTrashBtn() {
         imTrashBtn.setOnClickListener(new View.OnClickListener() {
@@ -378,6 +378,89 @@ public class SelectPostActivity extends Activity {
                                     post.getImage(),
                                     post.getUploadTime()
                             ));
+                        }
+
+                    }
+                    showCommentList();
+                }
+
+            }
+
+        }
+
+    }
+
+    /** 댓글 요청 */
+    /**
+     * API에 DATA 요청
+     */
+    private class commentSendRequest extends AsyncTask<String, Void, ItemGetPost[]> {
+
+
+        @Override
+        protected ItemGetPost[] doInBackground(String... params) {
+            String severURL = params[0];
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("group", String.valueOf(group))
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(severURL)
+                    .post(formBody)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+
+                //gson을 이용하여 json을 자바 객채로 전환하기
+                Gson gson = new GsonBuilder().setLenient().create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootObject = parser.parse(response.body().charStream())
+                        .getAsJsonObject().get("result");
+                Log.e("rootObject", String.valueOf(rootObject));
+                ItemGetPost[] post = gson.fromJson(rootObject, ItemGetPost[].class);
+                return post;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ItemGetPost[] posts) {
+            super.onPostExecute(posts);
+            if (ObjectUtils.isEmpty(posts)) {
+            } else {
+
+                if (posts != null || posts.length > 0) {
+                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
+                    for (ItemGetPost post : posts) {
+
+                        if(post.getLvl()>0){ // 댓글만
+                            commentList.put(post.getOrder(),
+                                    new ItemGetPost(
+                                            post.getGroup(),
+                                            post.getLvl(),
+                                            post.getOrder(),
+                                            post.getNickname(),
+                                            post.getDrinkKind(),
+                                            post.getEmotion(),
+                                            post.getSelectContent(),
+                                            post.getCocktailReceived(),
+                                            post.getCheeringCock(),
+                                            post.getLaughCock(),
+                                            post.getComfortCock(),
+                                            post.getSadCock(),
+                                            post.getAngerCock(),
+                                            post.getViews(),
+                                            post.getText(),
+                                            post.getImage(),
+                                            post.getUploadTime()
+                                    ));
                         }
 
                     }

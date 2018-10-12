@@ -65,7 +65,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
     }
 
     public void add(ItemGetPost item){
-        itemPostList.add(itemPostList.size(),item);
+        itemPostList.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void clean(){
+        itemPostList.clear();
         notifyDataSetChanged();
     }
 

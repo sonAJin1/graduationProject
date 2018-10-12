@@ -681,8 +681,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             }else if(!isPost){
                 setRecyclerView(MY_POST); // 받아온 데이터를 어뎁터에 넣어주기
             }
-            Log.e("postCommentList", String.valueOf(postCommentList.size()));
-            Log.e("myPostCommentList", String.valueOf(myPostCommentList.size()));
             //처음 보여지는 post 사용자의 주류 종류에 따른 배경 빛색깔
             setBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),binding.llNeonOn);
 
