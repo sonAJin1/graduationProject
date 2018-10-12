@@ -169,8 +169,14 @@ public class ItemGetPost {
     }
 
     public String getUploadTime() {
+
         return uploadTime;
     }
+
+    public String getTestTime(){
+        return "20분 전";
+    }
+
 
     public void setUploadTime(String uploadTime) {
         this.uploadTime = uploadTime;

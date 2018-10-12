@@ -74,6 +74,8 @@ public class SalonView extends BaseView {
         isCoaster = false; // 처음에는 다른 화면으로 넘어갈 수 없는 상태
 
         enterPostInformationDialog = new EnterPostInformationDialog(context); // 정보 입력하는 dialog
+        enterPostInformationDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        enterPostInformationDialog.getWindow().setDimAmount(0.7f);
         DialogDismissListener(); // dialog 가 닫혔을 때의 이벤트
 
         //showSelectContent(); //선택한 콘텐츠가 있으면 변경

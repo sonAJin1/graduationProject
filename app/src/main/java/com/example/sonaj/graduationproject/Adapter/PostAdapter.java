@@ -22,6 +22,8 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -111,12 +113,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         pViewHolder.bind(item);
         binding = pViewHolder.binding;
 
-//        showCocktailSend(); // 칵테일 보내기 버튼 누르면 칵테일 선택 창 뜸
-        selectCocktailSend();
-
         showCommentList(item); // 댓글
 
-        setScroll();
 
         writeMessage(binding);
         sendMessage(binding,item);
@@ -169,6 +167,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                 }
             });
 
+
+
     }
 
     private void writeMessage(ItemPostBinding binding){
@@ -181,6 +181,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
              }
          });
+         binding.ibCocktailSendM.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 binding.llCocktailSendGroup.setVisibility(View.VISIBLE);
+             }
+         });
+        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
+                binding.llCocktailSendGroup.setVisibility(View.GONE);
+                if(sendCocktailPosition!=-1){
+                    //textColor 변경
+                    binding.ibCocktailSendM.setTextColor(context.getColor(R.color.sendBtnStatusColor));
+                    // left icon color 변경
+                    Drawable[] drawables = binding.ibCocktailSendM.getCompoundDrawables();
+                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.sendBtnStatusColor));
+                }else if(sendCocktailPosition==-1){
+                    //textColor 변경
+                    binding.ibCocktailSendM.setTextColor(context.getColor(R.color.black));
+                    // left icon color 변경
+                    Drawable[] drawables = binding.ibCocktailSendM.getCompoundDrawables();
+                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
+                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.black));
+                }
+            }
+        });
     }
 
     private void sendMessage(ItemPostBinding binding,ItemGetPost item){
@@ -205,44 +233,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
     }
 
 
-    private void selectCocktailSend(){
-        binding.ibCocktailSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                binding.ibCocktailSend.setFocusableInTouchMode(true);
-//                binding.ibCocktailSend.requestFocus();
-                binding.llCocktailSendGroup.setVisibility(View.GONE);
-                Log.e("dididi","");
-            }
-        });
-
-
-
-
-//        binding.llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                sendCocktailPosition = radioGroup.indexOfChild(radioGroup.findViewById(i));
-//                binding.llCocktailSendGroup.setVisibility(View.GONE);
-//                if(sendCocktailPosition!=-1){
-//                    //textColor 변경
-//                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.sendBtnStatusColor));
-//                    // left icon color 변경
-//                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
-//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-//                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.sendBtnStatusColor));
-//                }else if(sendCocktailPosition==-1){
-//                    //textColor 변경
-//                    binding.ibCocktailSend.setTextColor(context.getColor(R.color.black));
-//                    // left icon color 변경
-//                    Drawable[] drawables = binding.ibCocktailSend.getCompoundDrawables();
-//                    Drawable wrapDrawable = DrawableCompat.wrap(drawables[0]);
-//                    DrawableCompat.setTint(wrapDrawable, context.getColor(R.color.black));
-//                }
-//            }
-//        });
-    }
-
     private void showCommentList(ItemGetPost item){
         commentList = new TreeMap<>();
         List<ItemGetPost> sortCommentList = new ArrayList<>();
@@ -266,16 +256,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
     }
 
-    public void setScroll(){
-         binding.rlPostItem.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-             @Override
-             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                if(i1>10){
-                  //  binding.rlUnderExpand.setVisibility(View.GONE);
-                }
-             }
-         });
-    }
 
 
 
@@ -423,11 +403,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                                 post.getImage(),
                                 post.getUploadTime()
                         ));
+                        notifyDataSetChanged();
+                        Log.e("comment getItemCount()", String.valueOf(commentAdapter.getItemCount()));
 
                     }
+                    Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
+                    binding.etComment.setText(""); //올리면 초기화
+
                 }
-                Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
-                binding.etComment.setText(""); //올리면 초기화
 
             }
 

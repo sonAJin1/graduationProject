@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,9 +22,28 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.sonaj.graduationproject.Adapter.CommentAdapter;
 import com.example.sonaj.graduationproject.CharactorMake;
+import com.example.sonaj.graduationproject.ItemGetPost;
 import com.example.sonaj.graduationproject.R;
+import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.databinding.ActivitySelectPostBinding;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SelectMyPostActivity extends Activity {
 
@@ -64,7 +87,13 @@ public class SelectMyPostActivity extends Activity {
     TextView tvContentMore;
     ImageView imTrashBtn;
     ImageView x_btn;
+    RecyclerView commentRecyclerview;
 
+    // 댓글 관련 리스트, 어댑터
+    CommentAdapter commentAdapter;
+    TreeMap<Integer,ItemGetPost> commentList;
+
+    final static String IP_ADDRESS =  "http://13.209.48.183/getComment.php";
 
 
     @Override
@@ -106,6 +135,9 @@ public class SelectMyPostActivity extends Activity {
         setContentText();
         showBackgroundLight(DrinkKind);
         clickTrashBtn();
+        // 댓글 서버로 요청 보내기
+        commentRequest task = new commentRequest();
+        task.execute(IP_ADDRESS);
 
     }
 
@@ -127,12 +159,14 @@ public class SelectMyPostActivity extends Activity {
         tvAngerCocktailCount = (TextView)findViewById(R.id.tv_anger_cocktail_count);
         imTrashBtn = (ImageView)findViewById(R.id.im_trash_btn);
         x_btn = (ImageView)findViewById(R.id.x_btn);
+        commentRecyclerview = (RecyclerView) findViewById(R.id.rc_like_contents);
+        commentList = new TreeMap<>();
     }
 
     public void setContentText(){
         tvUsrNickname.setText(nickname);
         tvUsrContent.setText(SelectContent);
-        tvWriteTime.setText(UploadTime);
+        tvWriteTime.setText("1분 전");
         tvPostContent.setText(text);
 
         // int 에 String 처리가 필요한 item 들 처리
@@ -201,5 +235,106 @@ public class SelectMyPostActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    private void showCommentList(){
+
+        List<ItemGetPost> sortCommentList = new ArrayList<>();
+
+        if(commentList.size()>0){
+
+            Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
+            while(integerIteratorKey.hasNext()){
+                int key = integerIteratorKey.next();
+                sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
+            }
+            commentAdapter = new CommentAdapter(mContext, sortCommentList);
+            commentRecyclerview.setAdapter(commentAdapter);
+            commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        }
+
+    }
+
+    /** 댓글 요청 */
+    /**
+     * API에 DATA 요청
+     */
+    private class commentRequest extends AsyncTask<String, Void, ItemGetPost[]> {
+
+
+        @Override
+        protected ItemGetPost[] doInBackground(String... params) {
+            String severURL = params[0];
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("group", String.valueOf(group))
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(severURL)
+                    .post(formBody)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+
+                //gson을 이용하여 json을 자바 객채로 전환하기
+                Gson gson = new GsonBuilder().setLenient().create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootObject = parser.parse(response.body().charStream())
+                        .getAsJsonObject().get("result");
+                Log.e("rootObject", String.valueOf(rootObject));
+                ItemGetPost[] post = gson.fromJson(rootObject, ItemGetPost[].class);
+                return post;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ItemGetPost[] posts) {
+            super.onPostExecute(posts);
+            if (ObjectUtils.isEmpty(posts)) {
+            } else {
+
+                if (posts != null || posts.length > 0) {
+                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
+                    for (ItemGetPost post : posts) {
+
+                        if(post.getLvl()>0){ // 댓글만
+                            commentList.put(post.getOrder(),
+                                    new ItemGetPost(
+                                            post.getGroup(),
+                                            post.getLvl(),
+                                            post.getOrder(),
+                                            post.getNickname(),
+                                            post.getDrinkKind(),
+                                            post.getEmotion(),
+                                            post.getSelectContent(),
+                                            post.getCocktailReceived(),
+                                            post.getCheeringCock(),
+                                            post.getLaughCock(),
+                                            post.getComfortCock(),
+                                            post.getSadCock(),
+                                            post.getAngerCock(),
+                                            post.getViews(),
+                                            post.getText(),
+                                            post.getImage(),
+                                            post.getUploadTime()
+                                    ));
+                        }
+
+                    }
+                    showCommentList();
+                }
+
+            }
+
+        }
+
     }
 }

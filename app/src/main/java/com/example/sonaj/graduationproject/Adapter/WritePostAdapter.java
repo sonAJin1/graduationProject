@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.ItemGetPost;
 import com.example.sonaj.graduationproject.R;
+import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.Util.ShadowUtils;
 import com.example.sonaj.graduationproject.View.ContentsView;
 import com.example.sonaj.graduationproject.databinding.ItemMyPostBinding;
@@ -34,7 +37,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -55,6 +60,7 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
 
     int deleteGroup;
     int deletePosition;
+    String uploadTime;
 
     /** 서버 통신 */
     private static String WRITE_POST_IP_ADDRESS = "http://13.209.48.183/addPost.php";
@@ -128,8 +134,9 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                         writePostBinding.imWrite.setVisibility(View.GONE); // 이미지 클릭하면 이미지는 사라진다.
                         writePostBinding.tvWriteMyPost.setVisibility(View.VISIBLE); //edit text 는 나타남
                         writePostBinding.tvWriteMyPost.setFocusable(true);
-                        writePostBinding.btnUnSendMyPost.setVisibility(View.GONE); // 버튼 비활성화 된거 사라짐
+                        writePostBinding.divider.setVisibility(View.VISIBLE);
                         writePostBinding.btnSendMyPost.setVisibility(View.VISIBLE); // 활성화 된 버튼 살아남
+                        writePostBinding.btnUnSendMyPost.setVisibility(View.VISIBLE); // 비활성화 된거 나타남
 
                         //키보드 보이게 하는 부분
                         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -150,7 +157,10 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                             usrContent = usrSP.getString("usrContent","선택한 콘텐츠가 없습니다");
                             usrDrink = usrSP.getInt("usrDrink",0);
                             usrEmotion = usrSP.getInt("usrEmotion",0);
-
+                            long now = System.currentTimeMillis();
+                            Date date = new Date(now);
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            uploadTime = sdf.format(date);
                             //서버에 보내기
                             writePost task = new writePost();
                             task.execute(WRITE_POST_IP_ADDRESS);
@@ -159,6 +169,24 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                         }
                     }
                 });
+
+                writePostBinding.tvWriteMyPost.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        writePostBinding.btnUnSendMyPost.setVisibility(View.GONE); // 버튼 비활성화 된거 사라짐
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
                 break;
 
             case CELL_TYPE_MY_POST_ITEM:
@@ -219,6 +247,7 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 int key = integerIteratorKey.next();
                 sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
             }
+            Log.e("sortCommentList", String.valueOf(sortCommentList.size()));
             commentAdapter = new CommentAdapter(context, sortCommentList);
             myPostBinding.rcLikeContents.setAdapter(commentAdapter);
             myPostBinding.rcLikeContents.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
@@ -252,11 +281,10 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
         return MyPostList.get(position);
     }
 
-
-
-
-
-
+    public void addItem(ItemGetPost item){
+        MyPostList.add(item);
+        notifyDataSetChanged();
+    }
 
     public class WViewHolder extends RecyclerView.ViewHolder {
 
@@ -279,10 +307,10 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
 
     /** 내 이야기 쓰기 요청 */
     /** API에 DATA 요청*/
-    private class writePost extends AsyncTask<String, Void, String> {
+    private class writePost extends AsyncTask<String, Void, ItemGetPost[]> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected ItemGetPost[] doInBackground(String... params) {
             String severURL = params[0];
 
             OkHttpClient client = new OkHttpClient.Builder().build();
@@ -296,7 +324,6 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                     .add("emotion", String.valueOf(usrEmotion))
                     .add("selectContent",usrContent)
                     .add("text",myPost)
-//                    .add("uploadTime","") > uploadTime 은 서버에 현재시간으로 넣어줄 것
                     .build();
 
             Request request = new Request.Builder()
@@ -306,28 +333,59 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
 
             try{
                 Response response = client.newCall(request).execute();
-                String phpResponse = response.body().string();
-                Log.e("response", phpResponse);
 
-                return phpResponse;
+                //gson을 이용하여 json을 자바 객채로 전환하기
+                Gson gson = new GsonBuilder().setLenient().create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootObject = parser.parse(response.body().charStream())
+                        .getAsJsonObject().get("result");
+                Log.e("rootObject", String.valueOf(rootObject));
+                ItemGetPost[] post = gson.fromJson(rootObject,ItemGetPost[].class);
+                return post;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
         }
         @Override
-        protected void onPostExecute(String posts){
+        protected void onPostExecute(ItemGetPost[] posts){
             super.onPostExecute(posts);
-            // 성공했다는 메세지 받고 local list 에 추가
-            if(posts.equals("insert ok")){
-                Toast.makeText(context,"이야기가 등록되었습니다",Toast.LENGTH_LONG).show();
-                //보내고 초기화
-                writePostBinding.tvWriteMyPost.setText("");
+            if(ObjectUtils.isEmpty(posts)){
+                Toast.makeText(context,"이야기 등록에 실패했습니다",Toast.LENGTH_LONG).show();
+            }else {
 
-                //자체 list에 add
-//                MyPostList.add();
-//                notifyDataSetChanged();
+                if (posts != null || posts.length > 0) {
+                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
+                    for (ItemGetPost post : posts) {
+                        // 등록된 댓글
+                        if(post.getNickname()==usrNickname){
+                            MyPostList.add(new ItemGetPost(
+                                    post.getGroup(),
+                                    post.getLvl(),
+                                    post.getOrder(),
+                                    post.getNickname(),
+                                    post.getDrinkKind(),
+                                    post.getEmotion(),
+                                    post.getSelectContent(),
+                                    post.getCocktailReceived(),
+                                    post.getCheeringCock(),
+                                    post.getLaughCock(),
+                                    post.getComfortCock(),
+                                    post.getSadCock(),
+                                    post.getAngerCock(),
+                                    post.getViews(),
+                                    post.getText(),
+                                    post.getImage(),
+                                    post.getUploadTime()
+                            ));
+                        }
+                       notifyDataSetChanged();
+                    }
+                }
+                Toast.makeText(context,"이야기가 등록되었습니다",Toast.LENGTH_LONG).show();
+                writePostBinding.tvWriteMyPost.setText(""); //올리면 초기화
             }
+
         }
     }
 

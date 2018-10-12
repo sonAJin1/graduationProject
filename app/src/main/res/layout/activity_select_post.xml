@@ -23,9 +23,19 @@
             android:layout_height="380dp"
             android:background="@color/white"
             android:orientation="vertical"
-            android:layout_marginTop="90dp"
             android:layout_centerInParent="true"
             >
+
+            <ScrollView
+                android:id="@+id/sv_select_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+            <RelativeLayout
+                android:layout_width="286dp"
+                android:layout_height="match_parent"
+                >
 
             <RelativeLayout
                 android:id="@+id/rl_drink_color"
@@ -64,14 +74,14 @@
                 android:textColor="@color/black"
                 android:lineSpacingExtra="6sp"
                 android:layout_marginLeft="68dp"
-                android:layout_marginTop="30dp"
-                android:layout_alignBaseline="@+id/rl_drink_color"/>
+                android:layout_marginTop="20.7dp"/>
+
             <TextView
                 android:id="@+id/tv_usr_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="#c5c5c5"
                 android:lineSpacingExtra="6sp"
                 android:layout_alignLeft="@+id/tv_usr_nickname"
                 android:layout_below="@+id/tv_usr_nickname"
@@ -82,11 +92,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="#c5c5c5"
                 android:lineSpacingExtra="6sp"
                 android:layout_below="@+id/tv_usr_nickname"
                 android:layout_toRightOf="@+id/tv_usr_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
                 />
 
             <TextView
@@ -366,6 +376,8 @@
                 android:layout_below="@+id/view_divider"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 />
+            </RelativeLayout>
+            </ScrollView>
         </RelativeLayout>
 
         <ImageView

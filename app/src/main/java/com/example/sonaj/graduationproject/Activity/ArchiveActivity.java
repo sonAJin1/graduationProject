@@ -275,7 +275,6 @@ public class ArchiveActivity extends AppCompatActivity {
     /** API에 DATA 요청*/
     private class GetPostData extends AsyncTask<String, Void, ItemGetPost[]> {
 
-
         @Override
         protected ItemGetPost[] doInBackground(String... params) {
             String severURL = params[0];
@@ -316,53 +315,56 @@ public class ArchiveActivity extends AppCompatActivity {
                 if(posts!=null || posts.length>0){
                     //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for(ItemGetPost post : posts){
-                        // serverContentItem.put(post.getNickname(),post);
 
                         if(post.getLvl()==0) { // 댓글 말고 게시글만
                             if (isReceivePost) {
                                 // 다른사람들의 post
-                                receivePostList.add(new ItemGetPost(
-                                        post.getGroup(),
-                                        post.getLvl(),
-                                        post.getOrder(),
-                                        post.getNickname(),
-                                        post.getDrinkKind(),
-                                        post.getEmotion(),
-                                        post.getSelectContent(),
-                                        post.getCocktailReceived(),
-                                        post.getCheeringCock(),
-                                        post.getLaughCock(),
-                                        post.getComfortCock(),
-                                        post.getSadCock(),
-                                        post.getAngerCock(),
-                                        post.getViews(),
-                                        post.getText(),
-                                        post.getImage(),
-                                        post.getUploadTime()
+                                if(!post.getNickname().equals(usrNickname)){
+                                    receivePostList.add(new ItemGetPost(
+                                            post.getGroup(),
+                                            post.getLvl(),
+                                            post.getOrder(),
+                                            post.getNickname(),
+                                            post.getDrinkKind(),
+                                            post.getEmotion(),
+                                            post.getSelectContent(),
+                                            post.getCocktailReceived(),
+                                            post.getCheeringCock(),
+                                            post.getLaughCock(),
+                                            post.getComfortCock(),
+                                            post.getSadCock(),
+                                            post.getAngerCock(),
+                                            post.getViews(),
+                                            post.getText(),
+                                            post.getImage(),
+                                            post.getUploadTime()
+                                    ));
+                                }
 
-                                ));
                             } else if (!isReceivePost) {
                                 // 내 post
-                                sendPostList.add(new ItemGetPost(
-                                        post.getGroup(),
-                                        post.getLvl(),
-                                        post.getOrder(),
-                                        post.getNickname(),
-                                        post.getDrinkKind(),
-                                        post.getEmotion(),
-                                        post.getSelectContent(),
-                                        post.getCocktailReceived(),
-                                        post.getCheeringCock(),
-                                        post.getLaughCock(),
-                                        post.getComfortCock(),
-                                        post.getSadCock(),
-                                        post.getAngerCock(),
-                                        post.getViews(),
-                                        post.getText(),
-                                        post.getImage(),
-                                        post.getUploadTime()
+                                if(post.getNickname().equals(usrNickname)){
+                                    sendPostList.add(new ItemGetPost(
+                                            post.getGroup(),
+                                            post.getLvl(),
+                                            post.getOrder(),
+                                            post.getNickname(),
+                                            post.getDrinkKind(),
+                                            post.getEmotion(),
+                                            post.getSelectContent(),
+                                            post.getCocktailReceived(),
+                                            post.getCheeringCock(),
+                                            post.getLaughCock(),
+                                            post.getComfortCock(),
+                                            post.getSadCock(),
+                                            post.getAngerCock(),
+                                            post.getViews(),
+                                            post.getText(),
+                                            post.getImage(),
+                                            post.getUploadTime()
+                                    ));
+                                }
 
-                                ));
                             }
                         }
 

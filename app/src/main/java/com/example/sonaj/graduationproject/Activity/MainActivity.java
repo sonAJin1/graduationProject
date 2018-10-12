@@ -69,7 +69,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     final int POSITION_MARKET_VIEW = 2;
 
     //bluetooth 로 gauge 조절
-    int currentWeight = 95; // 처음엔 95 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 95로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
+    int currentWeight = 80; // 처음엔 95 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 95로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
     int drunkDegree=0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
     int newWeight;
     int oldWeight = 0;
@@ -511,16 +511,32 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                         }else if(isStringDouble(bMsg)){ // 숫자로 바꿀 수 있는 값인지 확인하고
                             newWeight = Integer.parseInt(bMsg); // 지금 들어 온 값은 new
                             if(oldWeight>0){
-                                if(newWeight>oldWeight){ // 새로운 값이 더 크다면 새잔
-                                    currentWeight = 95; //new (새잔)을 받으면 게이지는 95로 돌아감
+                                if(newWeight>oldWeight+5){ // 새로운 값이 더 크다면 새잔
+                                    currentWeight = 80; //new (새잔)을 받으면 게이지는 95로 돌아감
                                     Log.e("currentWeight", String.valueOf(currentWeight));
                                     if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
                                         drunkDegree++;
                                     }
                                     showDrunk(drunkDegree); // 취한 정도 보여주기
                                 }else{
-                                    currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
-                                    Log.e("currentWeight", String.valueOf(currentWeight));
+                                    if(currentWeight>0){
+                                        currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
+                                        Log.e("currentWeight", String.valueOf(currentWeight));
+                                    }
+//                                    if(currentWeight<=0){
+//                                        currentWeight = 0;
+//                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
+//                                            drunkDegree++;
+//                                        }
+//                                        showDrunk(drunkDegree); // 취한 정도 보여주기
+//                                    }
+//                                    if(currentWeight<10){ //10보다 작으면 다 먹은걸로 간주
+//                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
+//                                            drunkDegree++;
+//                                        }
+//                                        showDrunk(drunkDegree); // 취한 정도 보여주기
+//                                    }
+
                                 }
                             }
                             binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight); // 게이지에 반영

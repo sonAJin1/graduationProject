@@ -94,7 +94,6 @@
             android:layout_below="@+id/tv_usr_nickname"
             android:layout_marginTop="4dp"
             android:textColor="@color/black"
-            android:maxLength="19"
             android:text="@{PostItem.getText}"
             />
         </RelativeLayout>
@@ -107,7 +106,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="53.8dp"
             android:textColor="#c5c5c5"
-            android:maxLength="19"
             android:text="답글 달기"
             />
 
@@ -172,7 +170,6 @@
                 android:layout_below="@+id/tv_usr_nickname_sub"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/black"
-                android:maxLength="19"
                 android:text="@{PostItem.getText}"
                 />
         </RelativeLayout>

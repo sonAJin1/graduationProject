@@ -72,7 +72,7 @@
                 android:layout_below="@+id/tv_usr_nickname"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/black"
-                android:maxLength="19"
+                android:maxLength="17"
                 android:text="@{PostItem.getText}"
                 />
 

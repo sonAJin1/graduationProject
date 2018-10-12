@@ -19,6 +19,7 @@ import com.example.sonaj.graduationproject.ItemTodayRecommendMovie;
 import com.example.sonaj.graduationproject.ItemWeekHotMovie;
 import com.example.sonaj.graduationproject.Util.BaseView;
 
+import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.databinding.ContentsViewBinding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -214,83 +215,86 @@ public class ContentsView extends BaseView {
         protected void onPostExecute(ItemGetContentsServer[] posts){
             super.onPostExecute(posts);
             serverContentItem.clear();
-            if(posts!=null || posts.length>0){
-                //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
-                for(ItemGetContentsServer post : posts){
-                    serverContentItem.put(post.getTitle(),post);
+            if (ObjectUtils.isEmpty(posts)) {
+            } else {
+                if (posts != null || posts.length > 0) {
+                    //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
+                    for (ItemGetContentsServer post : posts) {
+                        serverContentItem.put(post.getTitle(), post);
 
-                    // localdb 가져와서 postTitle에 일치하는게 있는지 확인 후 boolean value 하나 만들어서 true false 값 담아 Item 추가하는 부분에 넣어주기
-                    SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
-                    String value = likeSP.getString(post.getTitle(),"없음");
-                    boolean like;
-                    if(value.equals(post.getTitle())){ // like list 에 있는 작품이면
-                        like = true;
+                        // localdb 가져와서 postTitle에 일치하는게 있는지 확인 후 boolean value 하나 만들어서 true false 값 담아 Item 추가하는 부분에 넣어주기
+                        SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
+                        String value = likeSP.getString(post.getTitle(), "없음");
+                        boolean like;
+                        if (value.equals(post.getTitle())) { // like list 에 있는 작품이면
+                            like = true;
 
-                        /** TODO 만약 like list에는 있는데 서버에서 받아왔을 때 없는 작품이면 삭제*/
-                    }else{
-                        like = false;
-                    }
-                    // 오늘의 추천 영화
-                    if(post.getTodayContents()==1){
-                        TodayRecommendmovieList.add(new ItemTodayRecommendMovie(
-                                post.getTitle(),
-                                post.getSubtitle(),
-                                post.getDate(),
-                                post.getNaverScore(),
-                                post.getimdbScore(),
-                                post.getrtScore(),
-                                post.getDirector(),
-                                post.getActor(),
-                                post.getSummary(),
-                                post.getContents(),
-                                post.getimgURL(),
-                                like,
-                                post.getType()
+                            /** TODO 만약 like list에는 있는데 서버에서 받아왔을 때 없는 작품이면 삭제*/
+                        } else {
+                            like = false;
+                        }
+                        // 오늘의 추천 영화
+                        if (post.getTodayContents() == 1) {
+                            TodayRecommendmovieList.add(new ItemTodayRecommendMovie(
+                                    post.getTitle(),
+                                    post.getSubtitle(),
+                                    post.getDate(),
+                                    post.getNaverScore(),
+                                    post.getimdbScore(),
+                                    post.getrtScore(),
+                                    post.getDirector(),
+                                    post.getActor(),
+                                    post.getSummary(),
+                                    post.getContents(),
+                                    post.getimgURL(),
+                                    like,
+                                    post.getType()
 
-                        ));
+                            ));
 
-                    }
-                    // 이번주의 핫 콘텐츠
-                    if(post.getLikeCount()>100){
-                        weekHotMovieList.add(new ItemWeekHotMovie(
-                                post.getTitle(),
-                                post.getSubtitle(),
-                                post.getDate(),
-                                post.getNaverScore(),
-                                post.getimdbScore(),
-                                post.getrtScore(),
-                                post.getDirector(),
-                                post.getActor(),
-                                post.getSummary(),
-                                post.getContents(),
-                                post.getimgURL(),
-                                like,
-                                post.getLikeCount(),
-                                post.getType()
-                        ));
+                        }
+                        // 이번주의 핫 콘텐츠
+                        if (post.getLikeCount() > 100) {
+                            weekHotMovieList.add(new ItemWeekHotMovie(
+                                    post.getTitle(),
+                                    post.getSubtitle(),
+                                    post.getDate(),
+                                    post.getNaverScore(),
+                                    post.getimdbScore(),
+                                    post.getrtScore(),
+                                    post.getDirector(),
+                                    post.getActor(),
+                                    post.getSummary(),
+                                    post.getContents(),
+                                    post.getimgURL(),
+                                    like,
+                                    post.getLikeCount(),
+                                    post.getType()
+                            ));
 
-                        justSelectedsList.add(new ItemJustSelected(
-                                post.getTitle(),
-                                post.getSubtitle(),
-                                post.getDate(),
-                                post.getNaverScore(),
-                                post.getimdbScore(),
-                                post.getrtScore(),
-                                post.getDirector(),
-                                post.getActor(),
-                                post.getSummary(),
-                                post.getContents(),
-                                post.getimgURL(),
-                                like,
-                                post.getLikeCount(),
-                                post.getType()
-                        ));
+                            justSelectedsList.add(new ItemJustSelected(
+                                    post.getTitle(),
+                                    post.getSubtitle(),
+                                    post.getDate(),
+                                    post.getNaverScore(),
+                                    post.getimdbScore(),
+                                    post.getrtScore(),
+                                    post.getDirector(),
+                                    post.getActor(),
+                                    post.getSummary(),
+                                    post.getContents(),
+                                    post.getimgURL(),
+                                    like,
+                                    post.getLikeCount(),
+                                    post.getType()
+                            ));
 
-                    }
+                        }
                     }
 
                 }
                 setRecyclerView(); // 받아온 데이터를 어뎁터에 넣어주기
+            }
             }
         }
 

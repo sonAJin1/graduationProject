@@ -16,25 +16,14 @@
         android:background="@color/white"
         >
         
-        <Button
-            android:id="@+id/btn_camera"
-            android:layout_width="18dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="16dp"
-            android:background="@drawable/ic_camera_icon"
-            />
-
-
 
         <ImageView
             android:id="@+id/im_write"
             android:layout_width="254dp"
             android:layout_height="93dp"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_marginTop="50dp"
-            android:background="@drawable/write_img_test"/>
+            android:background="@drawable/write_img"/>
 
         <EditText
             android:id="@+id/tv_write_my_post"
@@ -42,19 +31,22 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:visibility="gone"
             android:textSize="12sp"
+            android:background="@null"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:lineSpacingExtra="6sp"/>
 
         <View
+            android:id="@+id/divider"
             android:layout_height="1dp"
             android:layout_width="match_parent"
             android:background="#c9c9c9"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="55dp"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/tv_write_my_post"
+            android:visibility="gone"
             />
         
         <Button
@@ -63,8 +55,10 @@
             android:layout_height="28dp"
             android:background="@drawable/ic_send_un"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="17dp"/>
+            android:layout_margin="17dp"
+            android:layout_below="@+id/divider"
+            android:visibility="gone"
+            />
 
         <Button
             android:id="@+id/btn_send_my_post"
@@ -72,8 +66,8 @@
             android:layout_height="28dp"
             android:background="@drawable/ic_send"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_margin="17dp"
+            android:layout_below="@+id/divider"
             android:visibility="gone"/>
 
     </RelativeLayout>

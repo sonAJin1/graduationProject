@@ -16,6 +16,7 @@
         android:background="@null"
         android:orientation="vertical"
         android:gravity="center"
+
         >
 
 
@@ -68,8 +69,7 @@
             android:layout_height="1dp"
             android:layout_width="match_parent"
             android:background="@color/white"
-            android:layout_marginLeft="37dp"
-            android:layout_marginRight="37dp"
+
             android:layout_marginBottom="21dp"
             android:layout_marginTop="20.8dp"
             android:layout_below="@+id/drink_btn_group"
@@ -154,6 +154,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="11dp"
+            android:paddingRight="11dp"
             android:layout_below="@+id/notification_text"
             android:layout_centerHorizontal="true"/>
 
@@ -175,33 +176,33 @@
             android:layout_height="15dp"
             android:src="@drawable/ic_emotion00"
             android:layout_marginTop="119dp"
-            android:layout_marginLeft="40dp"/>
+            android:layout_marginLeft="23.5dp"/>
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@drawable/ic_emotion01"
             android:layout_marginTop="119dp"
-            android:layout_marginLeft="96dp"/>
+            android:layout_marginLeft="79.5dp"/>
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@drawable/ic_emotion02"
             android:layout_marginTop="119dp"
-            android:layout_marginLeft="151.5dp"
+            android:layout_marginLeft="135.5dp"
             />
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@drawable/ic_emotion03"
             android:layout_marginTop="119dp"
-            android:layout_marginLeft="208dp"
+            android:layout_marginLeft="192dp"
             />
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@drawable/ic_emotion04"
             android:layout_marginTop="119dp"
-            android:layout_marginLeft="264dp"
+            android:layout_marginLeft="248dp"
             />
 
     </RelativeLayout>

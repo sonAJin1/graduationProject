@@ -97,7 +97,8 @@
                                 android:lineSpacingExtra="6sp"
                                 android:layout_below="@+id/tv_usr_nickname"
                                 android:layout_toRightOf="@+id/tv_usr_content"
-                                android:text="@{PostItem.getUploadTime}"/>
+                                android:layout_marginLeft="5dp"
+                                android:text="@{PostItem.getTestTime}"/>
                         </LinearLayout>
                         <TextView
                             android:id="@+id/receive_cocktail_title"
@@ -344,8 +345,9 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             >
+
                             <Button
-                                android:id="@+id/ib_cocktail_send"
+                                android:id="@+id/ib_cocktail_send_m"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -357,8 +359,6 @@
                                 android:textStyle="bold"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="15dp"
-                                android:focusable="true"
-                                android:clickable="true"
                                 />
                             <Button
                                 android:id="@+id/ib_comment_send"

@@ -26,6 +26,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -134,12 +135,12 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         postCommentList = new ArrayList<>();
         myPostCommentList = new ArrayList<>();
 
-        binding.tvCountPost.setText("오늘 "+postCount+"번째 받은 이야기");
+        binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");
         salonView = new SalonView(context, binding.icSalonView,this);
         setSalonViewButton();
 
 
-        binding.icSalonView.tvSalonStatus1.setText("1,266명의 사용자, 3,541개의 이야기");
+        binding.icSalonView.tvSalonStatus1.setText("1,266명의 사용자 3,541개의 이야기");
 
 
     }
@@ -156,6 +157,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         usrNickname = usrSP.getString("usrNickname","사용자 닉네임");
         usrDrink = usrSP.getInt("usrDrink",0);
         int usrEmotion = usrSP.getInt("usrEmotion",0);
+        binding.imDrinkGauge.setProgressValue(80); // 게이지에 반영
 
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
@@ -169,13 +171,15 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             postAdapter.clear();
         }
         getPostPHP(POST); // 서버에 다른사람 데이터 요청
-        binding.imNeonOn.setVisibility(View.VISIBLE);
+        showBackgroundNeon(POST);
         showSelectContent(); // salon view 에 선택한 콘텐츠 보여주기
+
 
     }
 
     // 이야기쓰기 화면 보여줄 때
     public void setWritePostView(){
+        showBackgroundNeon(WRITE_POST);
         if(myPostList.size()>0){
             writePostAdapter.clear();
         }
@@ -183,7 +187,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 0,0,0,0,"","","")); // position 0 자리는 메세지를 보내는 화면이 뜨기 때문에 0에 들어가서 가려지는 내용이 없게하기 위함
 
         getPostPHP(MY_POST); // 서버에 내가 쓴 데이터 요청
-        binding.imNeonOn.setVisibility(View.GONE);
     }
 
     public void setSalonViewButton(){
@@ -208,44 +211,26 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         binding.icSalonView.tvSelectContent.setText(usrContent);
     }
 
-    public void showBackgroundLight(int drinkKind,boolean isMyPost){
+    public void setBackgroundLight(int drinkKind, ImageView imageView){
         Animation showAnimation = new AlphaAnimation(0.6f,1);
         showAnimation.setDuration(500);
-
-        if(isMyPost){ // 내 이야기를 보는 곳일 경우
-            switch (drinkKind){
-                case 0: // 맥주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.beer_bg_);
-                    break;
-                case 1: // 소주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.soju_bg_);
-                    break;
-                case 2: // 막걸리인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.traditional_bg_);
-                    break;
-                case 3: // 와인인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.wine_bg_);
-                    break;
-            }
-            binding.llNeonOn.startAnimation(showAnimation);
-
-        }else{// 다른사람의 이야기를 보는 곳일 경우
-            switch (drinkKind){
-                case 0: // 맥주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.beer_bg_);
-                    break;
-                case 1: // 소주인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.soju_bg_);
-                    break;
-                case 2: // 막걸리인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.traditional_bg_);
-                    break;
-                case 3: // 와인인 경우
-                    binding.llNeonOn.setBackgroundResource(R.drawable.wine_bg_);
-                    break;
-            }
-            binding.llNeonOn.startAnimation(showAnimation);
+        switch (drinkKind){
+            case 0: // 맥주인 경우
+                imageView.setBackgroundResource(R.drawable.beer_bg_);
+                break;
+            case 1: // 소주인 경우
+                imageView.setBackgroundResource(R.drawable.soju_bg_);
+                break;
+            case 2: // 막걸리인 경우
+                imageView.setBackgroundResource(R.drawable.traditional_bg_);
+                break;
+            case 3: // 와인인 경우
+                imageView.setBackgroundResource(R.drawable.wine_bg_);
+                break;
         }
+        imageView.startAnimation(showAnimation);
+
+
     }
 
 
@@ -321,12 +306,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         final int itemPosition = parent.getChildAdapterPosition(view);
 
                         outRect.set(0, verOverlap,0,0);
-//                        if(itemPosition==postAdapter.getItemCount()-1){
-//
-//                        }else{
-//                            outRect.set(horiOverlap, verOverlap,0,0);
-//                        }
-
 
                     }
                 });
@@ -349,14 +328,14 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");
 
                         if(postAdapter.getItemCount()==0) { //이야기를 다 봤으면
-                            binding.llNeonOn.setBackgroundResource(R.drawable.background_on);
+                           // binding.llNeonOn.setBackgroundResource(R.drawable.background_on);
                             binding.imNeonOn.setVisibility(View.VISIBLE);
                             Toast.makeText(context, "이야기를 모두 보셨습니다", Toast.LENGTH_LONG).show();
                         }
 
                         if(swipedPosition>0){
                             int currentDrinkKind = postAdapter.getItem(swipedPosition-1).getDrinkKind(); // 지금 이야기를 쓴 사람이 어떤 맥주를 마셨는지
-                            showBackgroundLight(currentDrinkKind,false); // 주종에 따라서 배경 빛 색깔 바꾸기
+                            setBackgroundLight(currentDrinkKind,binding.llNeonOn); // 주종에 따라서 배경 빛 색깔 바꾸기
                         }
 
                     }
@@ -384,8 +363,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                         super.getItemOffsets(outRect, view, parent, state);
-                        outRect.right = 30;
-                        outRect.left = 30;
+                        outRect.right = 5;
+                        outRect.left = 5;
                     }
                 }); // 간격 설정 적용
 
@@ -424,11 +403,15 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         if(targetPosition==0){
                             binding.tvCountMyPost.setText("이야기 쓰기");
                             binding.imTrashBtn.setVisibility(View.GONE);
-                            showBackgroundLight(usrDrink,true); // 이야기 쓰기 배경은 사용자가 마시고 있는 주류의 빛 색깔
+                            showBackgroundNeon(WRITE_POST);
+                            setBackgroundLight(usrDrink,binding.llNeonOnWrite); // 이야기 쓰기 배경은 사용자가 마시고 있는 주류의 빛 색깔
+
                         }else{
                             binding.tvCountMyPost.setText("오늘의 "+myPostPosition+"번째 내 이야기");
                             binding.imTrashBtn.setVisibility(View.VISIBLE);
-                            showBackgroundLight(writePostAdapter.getItem(myPostPosition).getDrinkKind(),false); // 내가 어떤 술을 마시면서 썼던 내용들인지
+                            showBackgroundNeon(MY_POST);
+                            setBackgroundLight(writePostAdapter.getItem(myPostPosition).getDrinkKind(),binding.llNeonOnMyPost); // 내가 어떤 술을 마시면서 썼던 내용들인지
+
                             if(targetPosition==lastItem){
                             }
                         }
@@ -464,6 +447,26 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     }
 
+    private void showBackgroundNeon(int status){
+        switch (status){
+            case POST:
+                binding.llNeonOnMyPost.setVisibility(View.GONE);
+                binding.llNeonOn.setVisibility(View.VISIBLE);
+                binding.llNeonOnWrite.setVisibility(View.GONE);
+                break;
+            case MY_POST:
+                binding.llNeonOnMyPost.setVisibility(View.VISIBLE);
+                binding.llNeonOn.setVisibility(View.GONE);
+                binding.llNeonOnWrite.setVisibility(View.GONE);
+                break;
+            case WRITE_POST:
+                binding.llNeonOnMyPost.setVisibility(View.GONE);
+                binding.llNeonOn.setVisibility(View.GONE);
+                binding.llNeonOnWrite.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
 
     public class OnClick {
         public void writePost(View view) {
@@ -472,7 +475,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             setWritePostView(); // 서버에서 데이터 가져오게 요청
             binding.tvCountMyPost.setVisibility(View.VISIBLE);
             binding.tvCountPost.setVisibility(View.GONE);
-            showBackgroundLight(usrDrink,true); // 이야기 쓰기 배경은 사용자가 마시고 있는 주류의 빛 색깔
+            setBackgroundLight(usrDrink,binding.llNeonOnWrite); // 이야기 쓰기 배경은 사용자가 마시고 있는 주류의 빛 색깔
+
         }
         public void showArchive(View view){
             // 받은이야기, 보낸이야기가 보이는 화면으로 변환
@@ -485,7 +489,9 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             setButonvisible(1); // 상단 버튼 변경
             binding.tvCountMyPost.setVisibility(View.GONE);
             binding.tvCountPost.setVisibility(View.VISIBLE);
-            showBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),false); // 내가 어떤 술을 마시면서 썼던 내용들인지
+            showBackgroundNeon(POST);
+            setBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),binding.llNeonOn);
+
         }
 
         public void deleteMyPost(View view){ //post 삭제
@@ -676,8 +682,9 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 setRecyclerView(MY_POST); // 받아온 데이터를 어뎁터에 넣어주기
             }
             Log.e("postCommentList", String.valueOf(postCommentList.size()));
+            Log.e("myPostCommentList", String.valueOf(myPostCommentList.size()));
             //처음 보여지는 post 사용자의 주류 종류에 따른 배경 빛색깔
-            showBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),false);
+            setBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),binding.llNeonOn);
 
         }
     }

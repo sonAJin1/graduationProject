@@ -67,7 +67,7 @@
         android:layout_below="@+id/tv_usr_nickname"
         android:layout_toRightOf="@+id/tv_usr_content"
         android:layout_marginLeft="20dp"
-        android:text="@{ItemMyPost.getUploadTime}"/>
+        android:text="@{ItemMyPost.getTestTime}"/>
 
     <TextView
         android:id="@+id/receive_cocktail_title"
