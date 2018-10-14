@@ -17,19 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_off"
-
             >
 
             <ImageView
-                android:id="@+id/im_neon_on"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/neon_logo_on"
-                android:layout_centerInParent="true"
+                android:id="@+id/ll_neon_on_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_on"
                 android:visibility="gone"
                 />
-
 
             <me.itangqi.waveloadingview.WaveLoadingView
                 android:id="@+id/im_drink_gauge"
@@ -47,6 +43,7 @@
                 />
 
                 <ImageView
+                    android:id="@+id/im_drink_gauge_shape"
                     android:layout_width="136dp"
                     android:layout_height="136dp"
                     android:background="@drawable/beer_gauge"
@@ -84,8 +81,6 @@
                 android:layout_marginTop="70dp"
                 android:visibility="gone"
                 />
-
-            
             <ImageView
                 android:id="@+id/im_drunk01"
                 android:layout_width="22.9dp"
@@ -230,6 +225,16 @@
                 android:visibility="gone"
                 />
 
+            <ImageView
+                android:id="@+id/im_neon_on_loading"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/neon_logo_on"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                />
+
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
@@ -254,6 +259,7 @@
                 android:layout_marginBottom="80dp"
                 android:visibility="gone"
                 android:onClick="@{OnClick::deleteMyPost}"/>
+
 
 
         </RelativeLayout>

@@ -81,42 +81,6 @@ public class SalonView extends BaseView {
         //showSelectContent(); //선택한 콘텐츠가 있으면 변경
     }
 
-    /**MainActivity 에서 coaster의 유무를 받을 수 있게*/
-    public boolean getIsCoaster(){
-        return isCoaster;
-    }
-//
-//    public void startBlinkAnimation(){
-//        salonBinding.imNeonOn.setAlpha(1f); //켜진 neon 보이게 변경
-//        salonBinding.llNeonOn.setAlpha(1f); //켜진 neon 배경 보이게 변경
-//
-//        Animation animation = new AlphaAnimation(0.1f,1);
-//        animation.setDuration(110);
-//        animation.setInterpolator(new AccelerateDecelerateInterpolator()); //점점 빠르게
-//        animation.setRepeatCount(2);
-//        animation.setRepeatMode(Animation.REVERSE);
-//        salonBinding.imNeonOn.startAnimation(animation);
-//        salonBinding.llNeonOn.startAnimation(animation);
-//
-//
-//
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Animation showAnimation = new AlphaAnimation(0.2f,1);
-//                showAnimation.setDuration(1000);
-//                salonBinding.imNeonOn.startAnimation(showAnimation);
-//                salonBinding.llNeonOn.startAnimation(showAnimation);
-//
-//            }
-//        },400);
-//
-//    }
-//
-//    public void changeOnView(){
-//        salonBinding.imDivider.setVisibility(View.GONE); //하단의 하얀색 바 제거
-//        salonBinding.tvNotification.setText("혼술살롱에 오신 것을 환영합니다"); //text 변경
-//    }
 
 
     public class OnClick{

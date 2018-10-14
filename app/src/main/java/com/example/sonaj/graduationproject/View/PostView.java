@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ import com.example.sonaj.graduationproject.ItemWeekHotMovie;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.BaseView;
 import com.example.sonaj.graduationproject.Util.ObjectUtils;
+import com.example.sonaj.graduationproject.Util.OverlapDecoration;
 import com.example.sonaj.graduationproject.databinding.ItemPostBinding;
 import com.example.sonaj.graduationproject.databinding.PostViewBinding;
 import com.google.gson.Gson;
@@ -158,10 +160,13 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         usrDrink = usrSP.getInt("usrDrink",0);
         int usrEmotion = usrSP.getInt("usrEmotion",0);
         binding.imDrinkGauge.setProgressValue(80); // 게이지에 반영
+        CharactorMake.setGuageImage(usrDrink,usrEmotion,binding.imDrinkGaugeShape); // 게이지 모양 사용자가 선택한 주종으로 변경
+        setGuageColor(usrDrink); // 게이지 색깔 설정
 
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
-       // CharactorMake.setEmotionFace(usrEmotion,binding.imEmotion);
+
+
 
     }
 
@@ -229,11 +234,25 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 break;
         }
         imageView.startAnimation(showAnimation);
-
-
     }
 
+    public void setGuageColor(int drinkKind){
+        switch (drinkKind){
+            case 0: // 맥주
+                binding.imDrinkGauge.setWaveColor(R.color.beerColor);
+                break;
+            case 1: // 소주
+                binding.imDrinkGauge.setWaveColor(R.color.sojuColor);
+                break;
+            case 2: // 막걸리
+                binding.imDrinkGauge.setWaveColor(R.color.transitionColor);
+                break;
+            case 3: // 와인
+                binding.imDrinkGauge.setWaveColor(R.color.wineColor);
+                break;
 
+        }
+    }
 
 
     public void startBlinkAnimation(){
@@ -296,6 +315,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 }
 
            //      recyclerView 사이 간격 설정
+
                 binding.rcPostListView.addItemDecoration(new ItemDecoration() {
 
                     int verOverlap = -1125, horiOverlap = 60;
@@ -305,7 +325,9 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         super.getItemOffsets(outRect, view, parent, state);
                         final int itemPosition = parent.getChildAdapterPosition(view);
 
+
                         outRect.set(0, verOverlap,0,0);
+
 
                     }
                 });
@@ -314,6 +336,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+
                         return false;
                     }
 
@@ -322,14 +345,18 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
                         int swipedPosition = viewHolder.getAdapterPosition();
                         PostAdapter postAdapter = (PostAdapter)binding.rcPostListView.getAdapter();
-                        postAdapter.onItemDismiss(swipedPosition);
+                      //  postAdapter.onItemDismiss(swipedPosition);
+
+                        Animation showAnimation = new ScaleAnimation(0.9f,1f,0.9f,1f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                        showAnimation.setDuration(200);
+                        binding.rcPostListView.startAnimation(showAnimation);
 
                         postCount++;
                         binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");
 
                         if(postAdapter.getItemCount()==0) { //이야기를 다 봤으면
                            // binding.llNeonOn.setBackgroundResource(R.drawable.background_on);
-                            binding.imNeonOn.setVisibility(View.VISIBLE);
+                            binding.imNeonOnLoading.setVisibility(View.VISIBLE);
                             Toast.makeText(context, "이야기를 모두 보셨습니다", Toast.LENGTH_LONG).show();
                         }
 
@@ -338,10 +365,13 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                             setBackgroundLight(currentDrinkKind,binding.llNeonOn); // 주종에 따라서 배경 빛 색깔 바꾸기
                         }
 
+
+
                     }
                 };
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
                 itemTouchHelper.attachToRecyclerView(binding.rcPostListView);
+
 
                 break;
 
@@ -568,6 +598,20 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 return null;
             }
         }
+
+        protected void onPreExecute(){
+            super.onPreExecute();
+            binding.llNeonOnLoading.setVisibility(View.VISIBLE);
+            binding.imNeonOnLoading.setVisibility(View.VISIBLE);
+            Animation animation = new AlphaAnimation(0.8f,1);
+            animation.setDuration(110);
+            animation.setInterpolator(new AccelerateDecelerateInterpolator()); //점점 빠르게
+            animation.setRepeatCount(Animation.INFINITE);
+            animation.setRepeatMode(Animation.REVERSE);
+            binding.imNeonOnLoading.startAnimation(animation);
+            binding.llNeonOnLoading.startAnimation(animation);
+        }
+
         @Override
         protected void onPostExecute(ItemGetPost[] posts){
             super.onPostExecute(posts);
@@ -578,6 +622,10 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             }else{
 
                 if(posts!=null || posts.length>0){
+                    binding.imNeonOnLoading.clearAnimation();
+                    binding.llNeonOnLoading.clearAnimation();
+                    binding.imNeonOnLoading.setVisibility(View.GONE);
+                    binding.llNeonOnLoading.setVisibility(View.GONE);
                     //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for(ItemGetPost post : posts){
                             if(isPost){

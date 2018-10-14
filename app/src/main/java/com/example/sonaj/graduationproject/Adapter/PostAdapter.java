@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -102,6 +103,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         ItemPostBinding Binding = ItemPostBinding.
                 inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
 
+        
+
         return new PostAdapter.PViewHolder(Binding);
     }
 
@@ -112,6 +115,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         final ItemGetPost item = PostList.get(i);
         pViewHolder.bind(item);
         binding = pViewHolder.binding;
+
+       // TransitionManager.
 
         showCommentList(item); // 댓글
 
@@ -167,8 +172,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                 }
             });
 
-
-
     }
 
     private void writeMessage(ItemPostBinding binding){
@@ -217,7 +220,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         });
     }
 
-    private void sendNewComment(TreeMap<Integer,ItemGetPost> commentList){
+    private void sendNewComment(ItemPostBinding binding,TreeMap<Integer,ItemGetPost> commentList){
         List<ItemGetPost> sortCommentList = new ArrayList<>();
 
         Log.e("commentList size", String.valueOf(commentList.size()));
@@ -225,8 +228,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             while(integerIteratorKey.hasNext()){
                 int key = integerIteratorKey.next();
                 sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
-                commentAdapter.add(commentList.get(key));
         }
+        //RecyclerView.Adapter rvCommentAdapter = binding.rvComment.getAdapter();
+        Log.e("commentAdapter Count", String.valueOf(commentAdapter.getItemCount()));
+        commentAdapter.clean();
+        commentAdapter.add(sortCommentList);
         Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
         binding.etComment.setText(""); //올리면 초기화
 
@@ -251,6 +257,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                  // 댓글 서버로 보내기
                  writePost task = new writePost();
                  task.execute(IP_ADDRESS);
+                 sendNewComment(binding,commentList); // adapter 에 들어온 댓글 적용
+
              }
          });
     }
@@ -275,7 +283,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             binding.rvComment.setAdapter(commentAdapter);
             binding.rvComment.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         }
-
     }
 
 
@@ -424,7 +431,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                             ));
                         }
                     }
-                    sendNewComment(commentList); // adapter 에 들어온 댓글 적용
+//                    sendNewComment(commentList); // adapter 에 들어온 댓글 적용
 
                 }
 

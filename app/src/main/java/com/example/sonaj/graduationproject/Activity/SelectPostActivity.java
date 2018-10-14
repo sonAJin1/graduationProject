@@ -3,6 +3,7 @@ package com.example.sonaj.graduationproject.Activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -91,6 +93,7 @@ public class SelectPostActivity extends Activity {
     ImageView imTrashBtn;
     ImageView x_btn;
     Button ibCocktailSend;
+    Button ibCommentSend;
     RadioGroup llCocktailImageGroup;
     LinearLayout llCocktailSendGroup;
     RecyclerView commentRecyclerview;
@@ -103,7 +106,13 @@ public class SelectPostActivity extends Activity {
     TreeMap<Integer,ItemGetPost> commentList;
 
     final static String IP_ADDRESS =  "http://13.209.48.183/getComment.php";
+    final static String SEND_MESSAGE_ADDRESS = "http://13.209.48.183/setComment.php";
 
+    String usrContent;
+    String usrNickname;
+    int usrDrink;
+    int usrEmotion;
+    String comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +173,7 @@ public class SelectPostActivity extends Activity {
         imTrashBtn = (ImageView) findViewById(R.id.im_trash_btn);
         x_btn = (ImageView) findViewById(R.id.x_btn);
         ibCocktailSend = (Button) findViewById(R.id.ib_cocktail_send);
+        ibCommentSend = (Button) findViewById(R.id.ib_comment_send);
         llCocktailImageGroup = (RadioGroup) findViewById(R.id.ll_cocktail_image_group);
         llCocktailSendGroup = (LinearLayout) findViewById(R.id.ll_cocktail_send_group);
         commentRecyclerview = (RecyclerView) findViewById(R.id.rc_like_contents);
@@ -245,26 +255,57 @@ public class SelectPostActivity extends Activity {
     }
 
     public void clickTrashBtn() {
+        //지우기 버튼
         imTrashBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        // x 버튼
         x_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        //칵테일 주기
         ibCocktailSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 llCocktailSendGroup.setVisibility(View.VISIBLE);
-
             }
         });
+
+        ibCommentSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llComment.setVisibility(View.VISIBLE);
+                //키보드 보이게 하는 부분
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(mContext.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        });
+
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comment = String.valueOf(etComment.getText());
+                SharedPreferences usrSP = mContext.getSharedPreferences("usrInfo", 0);
+                usrContent = usrSP.getString("usrContent","선택한 콘텐츠가 없습니다");
+                usrNickname = usrSP.getString("usrNickname","사용자 닉네임");
+                usrDrink = usrSP.getInt("usrDrink",0);
+                usrEmotion = usrSP.getInt("usrEmotion",0);
+
+                // 댓글 서버로 보내기
+                commentSendRequest task = new commentSendRequest();
+                task.execute(SEND_MESSAGE_ADDRESS);
+            }
+        });
+
+
 
         llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -307,12 +348,27 @@ public class SelectPostActivity extends Activity {
 
     }
 
+    private void sendNewComment(TreeMap<Integer,ItemGetPost> commentList){
+        List<ItemGetPost> sortCommentList = new ArrayList<>();
+
+        Log.e("commentList size", String.valueOf(commentList.size()));
+        Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
+        while(integerIteratorKey.hasNext()){
+            int key = integerIteratorKey.next();
+            sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
+        }
+        commentAdapter.clean();
+        commentAdapter.add(sortCommentList);
+        Toast.makeText(mContext,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
+        etComment.setText(""); //올리면 초기화
+
+    }
+
     /** 댓글 요청 */
     /**
      * API에 DATA 요청
      */
     private class commentRequest extends AsyncTask<String, Void, ItemGetPost[]> {
-
 
         @Override
         protected ItemGetPost[] doInBackground(String... params) {
@@ -402,9 +458,19 @@ public class SelectPostActivity extends Activity {
             String severURL = params[0];
 
             OkHttpClient client = new OkHttpClient.Builder().build();
+            /**post로 게시물 내용 보내기*/
             RequestBody formBody = new FormBody.Builder()
                     .add("group", String.valueOf(group))
+                    .add("lvl","1")
+                    //  .add("postOrder","0")
+                    .add("usrNickname",usrNickname) // 얘네는 sharedPreference 에서 가져와서 보여주기
+                    .add("drinkKind", String.valueOf(usrDrink))
+                    .add("emotion", String.valueOf(usrEmotion))
+                    .add("selectContent",usrContent)
+                    .add("text",comment)
+//                    .add("uploadTime","") > uploadTime 은 서버에 현재시간으로 넣어줄 것
                     .build();
+
 
             Request request = new Request.Builder()
                     .url(severURL)
@@ -420,6 +486,7 @@ public class SelectPostActivity extends Activity {
                 JsonElement rootObject = parser.parse(response.body().charStream())
                         .getAsJsonObject().get("result");
                 Log.e("rootObject", String.valueOf(rootObject));
+
                 ItemGetPost[] post = gson.fromJson(rootObject, ItemGetPost[].class);
                 return post;
 
@@ -464,7 +531,7 @@ public class SelectPostActivity extends Activity {
                         }
 
                     }
-                    showCommentList();
+                    sendNewComment(commentList);
                 }
 
             }
