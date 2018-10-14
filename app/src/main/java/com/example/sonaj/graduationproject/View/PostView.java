@@ -660,25 +660,27 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                             }else if(!isPost){
                                 // 내 post
                                 if(post.getLvl()==0) { // 댓글 말고 게시글만
-                                    myPostList.add(new ItemGetPost(
-                                            post.getGroup(),
-                                            post.getLvl(),
-                                            post.getOrder(),
-                                            post.getNickname(),
-                                            post.getDrinkKind(),
-                                            post.getEmotion(),
-                                            post.getSelectContent(),
-                                            post.getCocktailReceived(),
-                                            post.getCheeringCock(),
-                                            post.getLaughCock(),
-                                            post.getComfortCock(),
-                                            post.getSadCock(),
-                                            post.getAngerCock(),
-                                            post.getViews(),
-                                            post.getText(),
-                                            post.getImage(),
-                                            post.getUploadTime()
-                                    ));
+                                    if(post.getNickname().equals(usrNickname)) {// 내가 쓴 글들만
+                                        myPostList.add(new ItemGetPost(
+                                                post.getGroup(),
+                                                post.getLvl(),
+                                                post.getOrder(),
+                                                post.getNickname(),
+                                                post.getDrinkKind(),
+                                                post.getEmotion(),
+                                                post.getSelectContent(),
+                                                post.getCocktailReceived(),
+                                                post.getCheeringCock(),
+                                                post.getLaughCock(),
+                                                post.getComfortCock(),
+                                                post.getSadCock(),
+                                                post.getAngerCock(),
+                                                post.getViews(),
+                                                post.getText(),
+                                                post.getImage(),
+                                                post.getUploadTime()
+                                        ));
+                                    }
                                 }
                                 else if(post.getLvl()>0){ // 댓글
                                     myPostCommentList.add(new ItemGetPost(

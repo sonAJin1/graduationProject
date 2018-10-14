@@ -247,11 +247,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
 
         synchronized (this){
             notifyAll();
-           // binding.rvComment.invalidate();
         }
 
 
-      //  binding.etComment.setText(""); //올리면 초기화
+        binding.etComment.setText(""); //올리면 초기화
 
     }
 
@@ -279,7 +278,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                      @Override
                      public void run() {
                          sendNewComment(binding,commentList); // adapter 에 들어온 댓글 적용
-                         binding.etComment.setText(""); //올리면 초기화
                      }
                  },200);
 
@@ -458,7 +456,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                         }
                     }
 
-                   // sendNewComment(commentList); // adapter 에 들어온 댓글 적용
                 }
 
             }
