@@ -3,50 +3,32 @@ package com.example.sonaj.graduationproject.View;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
-import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.Activity.ArchiveActivity;
 
-import com.example.sonaj.graduationproject.Activity.MainActivity;
 import com.example.sonaj.graduationproject.Adapter.PostAdapter;
-import com.example.sonaj.graduationproject.Adapter.TodayMovieRecommendAdapter;
-import com.example.sonaj.graduationproject.Adapter.WeekHotMovieAdapter;
 import com.example.sonaj.graduationproject.Adapter.WritePostAdapter;
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.ItemGetPost;
-import com.example.sonaj.graduationproject.ItemWeekHotMovie;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.BaseView;
 import com.example.sonaj.graduationproject.Util.ObjectUtils;
-import com.example.sonaj.graduationproject.Util.OverlapDecoration;
-import com.example.sonaj.graduationproject.databinding.ItemPostBinding;
 import com.example.sonaj.graduationproject.databinding.PostViewBinding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -163,6 +145,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         CharactorMake.setGuageImage(usrDrink,usrEmotion,binding.imDrinkGaugeShape); // 게이지 모양 사용자가 선택한 주종으로 변경
         setGuageColor(usrDrink); // 게이지 색깔 설정
 
+
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
 
@@ -239,16 +222,16 @@ public class PostView extends BaseView implements SalonView.RequestListener{
     public void setGuageColor(int drinkKind){
         switch (drinkKind){
             case 0: // 맥주
-                binding.imDrinkGauge.setWaveColor(R.color.beerColor);
+                binding.imDrinkGauge.setWaveColor(context.getColor(R.color.beerColor));
                 break;
             case 1: // 소주
-                binding.imDrinkGauge.setWaveColor(R.color.sojuColor);
+                binding.imDrinkGauge.setWaveColor(context.getColor(R.color.sojuColor));
                 break;
             case 2: // 막걸리
-                binding.imDrinkGauge.setWaveColor(R.color.transitionColor);
+                binding.imDrinkGauge.setWaveColor(context.getColor(R.color.transitionColor));
                 break;
             case 3: // 와인
-                binding.imDrinkGauge.setWaveColor(R.color.wineColor);
+                binding.imDrinkGauge.setWaveColor(context.getColor(R.color.wineColor));
                 break;
 
         }
@@ -325,7 +308,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         super.getItemOffsets(outRect, view, parent, state);
                         final int itemPosition = parent.getChildAdapterPosition(view);
 
-
                         outRect.set(0, verOverlap,0,0);
 
 
@@ -336,7 +318,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-
                         return false;
                     }
 
@@ -345,11 +326,11 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
                         int swipedPosition = viewHolder.getAdapterPosition();
                         PostAdapter postAdapter = (PostAdapter)binding.rcPostListView.getAdapter();
-                      //  postAdapter.onItemDismiss(swipedPosition);
+                        postAdapter.onItemDismiss(swipedPosition);
 
-                        Animation showAnimation = new ScaleAnimation(0.9f,1f,0.9f,1f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-                        showAnimation.setDuration(200);
-                        binding.rcPostListView.startAnimation(showAnimation);
+//                        Animation showAnimation = new ScaleAnimation(0.9f,1f,0.9f,1f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+//                        showAnimation.setDuration(200);
+//                        binding.rcPostListView.startAnimation(showAnimation);
 
                         postCount++;
                         binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");
@@ -371,6 +352,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 };
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
                 itemTouchHelper.attachToRecyclerView(binding.rcPostListView);
+
+
 
 
                 break;
