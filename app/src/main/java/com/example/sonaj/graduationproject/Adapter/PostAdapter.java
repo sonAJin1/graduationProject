@@ -226,7 +226,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
         });
     }
 
-    private void sendNewComment(TreeMap<Integer,ItemGetPost> commentList){
+    private void sendNewComment(ItemPostBinding binding,TreeMap<Integer,ItemGetPost> commentList){
         List<ItemGetPost> sortCommentList = new ArrayList<>();
 
         Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
@@ -234,16 +234,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
             int key = integerIteratorKey.next();
             sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
         }
+
         CommentAdapter commentA = (CommentAdapter) binding.rvComment.getAdapter();
-        commentA.clean();
+        Log.e("commentA.getItemCount_b", String.valueOf(commentA.getItemCount()));
+//        commentA.clean();
+        binding.rvComment.invalidate();
         commentA.add(sortCommentList);
         Log.e("commentA.getItemCount()", String.valueOf(commentA.getItemCount()));
+
         Toast.makeText(context,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
 
 
         synchronized (this){
-            notifyDataSetChanged();
-            notify();
+            notifyAll();
+           // binding.rvComment.invalidate();
         }
 
 
@@ -270,8 +274,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                  // 댓글 서버로 보내기
                  writePost task = new writePost();
                  task.execute(IP_ADDRESS);
-                 binding.etComment.setText(""); //올리면 초기화
-                 //sendNewComment(binding,commentList); // adapter 에 들어온 댓글 적용
+
+                 new android.os.Handler().postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         sendNewComment(binding,commentList); // adapter 에 들어온 댓글 적용
+                         binding.etComment.setText(""); //올리면 초기화
+                     }
+                 },200);
+
 
              }
          });
@@ -447,7 +458,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder>{
                         }
                     }
 
-                    sendNewComment(commentList); // adapter 에 들어온 댓글 적용
+                   // sendNewComment(commentList); // adapter 에 들어온 댓글 적용
                 }
 
             }
