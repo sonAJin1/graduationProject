@@ -51,13 +51,24 @@
                     android:layout_marginTop="5dp"/>
 
             <ImageView
-                android:id="@+id/im_drunk_cheek"
+                android:id="@+id/im_drunk_cheek_beer"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginBottom="18dp"
                 android:layout_alignBottom="@+id/im_drink_gauge"
+
                 />
+
+            <!--<ImageView-->
+                <!--android:id="@+id/im_drunk_cheek_soju"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="18dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_alignBottom="@+id/im_drink_gauge"-->
+                <!--android:background="@drawable/traditional_drunken03"-->
+                <!--/>-->
 
 
             <ImageView

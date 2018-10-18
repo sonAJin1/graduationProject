@@ -3,12 +3,15 @@ package com.example.sonaj.graduationproject;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
@@ -170,7 +173,65 @@ static Context context;
         }
     }
 
+    public static void setEmptyDrinkShape(int drinkKind, ImageView imDrunk01, ImageView imDrunk02, ImageView imDrunk03){
+        switch (drinkKind){
+            case 0: // 맥주일 때
+                imDrunk01.setImageResource(R.drawable.ic_beer_completion);
+                imDrunk02.setImageResource(R.drawable.ic_beer_completion);
+                imDrunk03.setImageResource(R.drawable.ic_beer_completion);
+                break;
+            case 1: // 소주일 때
+                imDrunk01.setImageResource(R.drawable.ic_soju_completion);
+                imDrunk02.setImageResource(R.drawable.ic_soju_completion);
+                imDrunk03.setImageResource(R.drawable.ic_soju_completion);
+                break;
+            case 2: // 막걸리일 때
+                imDrunk01.setImageResource(R.drawable.ic_traditional_completion_0);
+                imDrunk02.setImageResource(R.drawable.ic_traditional_completion_0);
+                imDrunk03.setImageResource(R.drawable.ic_traditional_completion_0);
+                break;
+            case 3: // 와인일 때
+                imDrunk01.setImageResource(R.drawable.ic_wine_completion);
+                imDrunk02.setImageResource(R.drawable.ic_wine_completion);
+                imDrunk03.setImageResource(R.drawable.ic_wine_completion);
+                break;
+        }
+    }
 
+    public static void setCheekMargin(int drinkKind, ImageView imDrinkCheek){
 
+        /**맥주인 경우 marginBottom 18dp
+         * 소주, 막걸리인 경우 marginBottom 5dp*/
 
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)imDrinkCheek.getLayoutParams();
+        layoutParams.bottomMargin = 0;
+        imDrinkCheek.setLayoutParams(layoutParams);
+
+        switch (drinkKind){
+            case 0: // 맥주
+                layoutParams.bottomMargin = 55;
+                break;
+            case 1: // 소주
+                layoutParams.bottomMargin = 12;
+                break;
+            case 2: // 막걸리
+                layoutParams.bottomMargin = 12;
+                break;
+            case 3: // 와인
+                layoutParams.bottomMargin = 100;
+                break;
+        }
+        imDrinkCheek.setLayoutParams(layoutParams);
+    }
+
+    public static void setCheekColor(int drinkKind, ImageView imDrinkCheek){
+        // 와인인 경우에만 볼이 노란색
+        if(drinkKind==3){
+            imDrinkCheek.setColorFilter(R.color.beerColor);
+            Log.e("drinkKind", String.valueOf(drinkKind));
+        }else{
+            imDrinkCheek.setColorFilter( 0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
+
+        }
+    }
 }

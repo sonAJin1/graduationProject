@@ -142,15 +142,16 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         usrNickname = usrSP.getString("usrNickname","사용자 닉네임");
         usrDrink = usrSP.getInt("usrDrink",0);
         int usrEmotion = usrSP.getInt("usrEmotion",0);
-        binding.imDrinkGauge.setProgressValue(80); // 게이지에 반영
-        CharactorMake.setGuageImage(usrDrink,usrEmotion,binding.imDrinkGaugeShape); // 게이지 모양 사용자가 선택한 주종으로 변경
-        setGuageColor(usrDrink); // 게이지 색깔 설정
-        setEmptyDrinkShape(usrDrink); //다 먹은 잔 모양 설정
-
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
 
-
+        // 게이지 관련
+        binding.imDrinkGauge.setProgressValue(80); // 게이지에 반영
+        CharactorMake.setGuageImage(usrDrink,usrEmotion,binding.imDrinkGaugeShape); // 게이지 모양 사용자가 선택한 주종으로 변경
+        setGuageColor(usrDrink); // 게이지 색깔 설정
+        CharactorMake.setEmptyDrinkShape(usrDrink,binding.imDrunk01,binding.imDrunk02,binding.imDrunk03); //다 먹은 잔 모양 설정
+        CharactorMake.setCheekMargin(usrDrink,binding.imDrunkCheekBeer); // 게이지 취한 정도 (발그레) 의 높이 설정
+        CharactorMake.setCheekColor(usrDrink,binding.imDrunkCheekBeer);
 
     }
 
@@ -218,6 +219,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         imageView.startAnimation(showAnimation);
     }
 
+    //게이지 색깔
     public void setGuageColor(int drinkKind){
         switch (drinkKind){
             case 0: // 맥주
@@ -235,30 +237,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         }
     }
 
-    public void setEmptyDrinkShape(int drinkKind){
-        switch (drinkKind){
-            case 0: // 맥주일 때
-                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
-                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
-                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
-                break;
-            case 1: // 소주일 때
-                binding.imDrunk01.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
-                binding.imDrunk02.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
-                binding.imDrunk03.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
-                break;
-            case 2: // 막걸리일 때
-                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
-                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
-                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
-                break;
-            case 3: // 와인일 때
-                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
-                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
-                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
-                break;
-        }
-    }
+
 
 
     public void startBlinkAnimation(){

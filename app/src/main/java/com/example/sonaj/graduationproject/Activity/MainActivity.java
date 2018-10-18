@@ -562,34 +562,35 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         }
     }
 
+    //취함 정도를 보여주는 요소들 -게이지 발그레, 옆에 쌓인 술잔
     public void showDrunk(int drunk){
         switch (drunk){
-            case 0:
+            case 0: // 아예 안취함
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.GONE);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.GONE);
                 break;
-            case 1:
+            case 1: // 취함정도 1
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken01);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken01);
                 break;
-            case 2:
+            case 2: // 취함정도 2
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken02);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken02);
                 break;
-            case 3:
+            case 3: // 취함정도 3
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheek.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheek.setBackgroundResource(R.drawable.traditional_drunken03);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
+                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken03);
                 break;
         }
     }
