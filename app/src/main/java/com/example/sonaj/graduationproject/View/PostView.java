@@ -126,6 +126,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
         binding.icSalonView.tvSalonStatus1.setText("1,266명의 사용자 3,541개의 이야기");
 
+        clickSalonViewNeon(); // 네온사인 클릭해서 다이얼로그 띄우기
 
     }
 
@@ -144,7 +145,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         binding.imDrinkGauge.setProgressValue(80); // 게이지에 반영
         CharactorMake.setGuageImage(usrDrink,usrEmotion,binding.imDrinkGaugeShape); // 게이지 모양 사용자가 선택한 주종으로 변경
         setGuageColor(usrDrink); // 게이지 색깔 설정
-
+        setEmptyDrinkShape(usrDrink); //다 먹은 잔 모양 설정
 
         binding.tvUsrNickname.setText(usrNickname);
         binding.tvUsrSelectContent.setText(usrContent);
@@ -161,8 +162,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
         getPostPHP(POST); // 서버에 다른사람 데이터 요청
         showBackgroundNeon(POST);
         showSelectContent(); // salon view 에 선택한 콘텐츠 보여주기
-
-
     }
 
     // 이야기쓰기 화면 보여줄 때
@@ -233,7 +232,31 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             case 3: // 와인
                 binding.imDrinkGauge.setWaveColor(context.getColor(R.color.wineColor));
                 break;
+        }
+    }
 
+    public void setEmptyDrinkShape(int drinkKind){
+        switch (drinkKind){
+            case 0: // 맥주일 때
+                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
+                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
+                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_beer_completion));
+                break;
+            case 1: // 소주일 때
+                binding.imDrunk01.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
+                binding.imDrunk02.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
+                binding.imDrunk03.setImageDrawable(context.getDrawable(R.drawable.ic_soju_completion));
+                break;
+            case 2: // 막걸리일 때
+                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
+                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
+                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_traditional_completion_0));
+                break;
+            case 3: // 와인일 때
+                binding.imDrunk01.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
+                binding.imDrunk02.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
+                binding.imDrunk03.setBackground(context.getDrawable(R.drawable.ic_wine_completion));
+                break;
         }
     }
 
@@ -511,6 +534,28 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             writePostAdapter.delete(myPostPosition); // 지금 이야기 삭제
         }
 
+
+    }
+
+    public void clickSalonViewNeon(){
+        binding.icSalonView.imNeonOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(salonView.isCoaster == true){
+                    // 코스터가 올라와서 애니메이션까지 다 보고 클릭하면 주류정보와 내 닉네임 선택, 입력할 수 있는 화면
+
+                    salonView.enterPostInformationDialog.show();
+
+                }else{
+                    startBlinkAnimation();
+                    changeOnView();
+                    /**TODO 코스터가 연결되었으면 OnClick 에서 다른화면으로 넘어갈 수 있는 상태를 결정하는게 아니라
+                     * TODO 블루투스가 인지 되었는지 확인 후에 IScoaster 를 true 로 바꿔야한다 */
+                    salonView.isCoaster = true; //이제 다른 화면으로 넘어갈 수 있는 상태 > 코스터 올라왔음
+                }
+            }
+        });
+
     }
 
 
@@ -584,15 +629,18 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
         protected void onPreExecute(){
             super.onPreExecute();
-            binding.llNeonOnLoading.setVisibility(View.VISIBLE);
-            binding.imNeonOnLoading.setVisibility(View.VISIBLE);
-            Animation animation = new AlphaAnimation(0.8f,1);
-            animation.setDuration(110);
-            animation.setInterpolator(new AccelerateDecelerateInterpolator()); //점점 빠르게
-            animation.setRepeatCount(Animation.INFINITE);
-            animation.setRepeatMode(Animation.REVERSE);
-            binding.imNeonOnLoading.startAnimation(animation);
-            binding.llNeonOnLoading.startAnimation(animation);
+            if(isPost){
+                binding.llNeonOnLoading.setVisibility(View.VISIBLE);
+                binding.imNeonOnLoading.setVisibility(View.VISIBLE);
+                Animation animation = new AlphaAnimation(0.8f,1);
+                animation.setDuration(110);
+                animation.setInterpolator(new AccelerateDecelerateInterpolator()); //점점 빠르게
+                animation.setRepeatCount(Animation.INFINITE);
+                animation.setRepeatMode(Animation.REVERSE);
+                binding.imNeonOnLoading.startAnimation(animation);
+                binding.llNeonOnLoading.startAnimation(animation);
+            }
+
         }
 
         @Override
@@ -711,11 +759,12 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             }
             if(isPost){
                 setRecyclerView(POST); // 받아온 데이터를 어뎁터에 넣어주기
+                //처음 보여지는 post 사용자의 주류 종류에 따른 배경 빛색깔
+                setBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),binding.llNeonOn);
             }else if(!isPost){
                 setRecyclerView(MY_POST); // 받아온 데이터를 어뎁터에 넣어주기
             }
-            //처음 보여지는 post 사용자의 주류 종류에 따른 배경 빛색깔
-            setBackgroundLight(postAdapter.getItem(postList.size()-1).getDrinkKind(),binding.llNeonOn);
+
 
         }
     }

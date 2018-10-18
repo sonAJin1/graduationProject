@@ -50,8 +50,8 @@ public class SalonView extends BaseView {
         this.context = context;
         this.salonBinding = dataBinding;
         this.requestListener = requestListener;
-        onClick = new OnClick();
-        salonBinding.setOnClick(onClick);
+//        onClick = new OnClick();
+       // salonBinding.setOnClick(onClick);
         init();
     }
 
@@ -60,8 +60,8 @@ public class SalonView extends BaseView {
         this.context = context;
         this.salonBinding = dataBinding;
 //        this.requestListener = requestListener;
-        onClick = new OnClick();
-        salonBinding.setOnClick(onClick);
+  //      onClick = new OnClick();
+  //      salonBinding.setOnClick(onClick);
         init();
     }
 
@@ -84,27 +84,27 @@ public class SalonView extends BaseView {
 
 
     public class OnClick{
-        public void animClick(View view){
-            if(isCoaster == true){
-                // 코스터가 올라와서 애니메이션까지 다 보고 클릭하면 선택한 콘텐츠가 있는지 확인
-//                SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
-//                String value = likeSP.getString("usrContent","없음");
-//                if(value.equals("없음")){ // 없으면 다른 화면으로 안넘겨줌
-//                    Toast.makeText(context,"콘텐츠를 선택해 주세요",Toast.LENGTH_LONG).show();
-//                }else{ // 콘텐츠가 있는 경우 내 정보를 입력할 수 있는 창으로 넘김
+//        public void animClick(View view){
+//            if(isCoaster == true){
+//                // 코스터가 올라와서 애니메이션까지 다 보고 클릭하면 선택한 콘텐츠가 있는지 확인
+////                SharedPreferences likeSP = context.getSharedPreferences(sharedKey, 0);
+////                String value = likeSP.getString("usrContent","없음");
+////                if(value.equals("없음")){ // 없으면 다른 화면으로 안넘겨줌
+////                    Toast.makeText(context,"콘텐츠를 선택해 주세요",Toast.LENGTH_LONG).show();
+////                }else{ // 콘텐츠가 있는 경우 내 정보를 입력할 수 있는 창으로 넘김
+////
+////                }
 //
-//                }
-
-                enterPostInformationDialog.show();
-
-            }else{
-//                startBlinkAnimation();
-//                changeOnView();
-                /**TODO 코스터가 연결되었으면 OnClick 에서 다른화면으로 넘어갈 수 있는 상태를 결정하는게 아니라
-                 * TODO 블루투스가 인지 되었는지 확인 후에 IScoaster 를 true 로 바꿔야한다 */
-            //    isCoaster = true; //이제 다른 화면으로 넘어갈 수 있는 상태 > 코스터 올라왔음
-            }
-        }
+//                enterPostInformationDialog.show();
+//
+//            }else{
+////                startBlinkAnimation();
+////                changeOnView();
+//                /**TODO 코스터가 연결되었으면 OnClick 에서 다른화면으로 넘어갈 수 있는 상태를 결정하는게 아니라
+//                 * TODO 블루투스가 인지 되었는지 확인 후에 IScoaster 를 true 로 바꿔야한다 */
+//              //  isCoaster = true; //이제 다른 화면으로 넘어갈 수 있는 상태 > 코스터 올라왔음
+//            }
+//        }
 //        public void scanBluetooth(View view){
 //          //  requestListener.doScan();
 //        }

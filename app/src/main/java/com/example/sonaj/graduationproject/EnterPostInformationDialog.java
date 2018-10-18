@@ -51,10 +51,6 @@ public class EnterPostInformationDialog extends Dialog{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //타이틀 바 삭제
-      //  getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-      //  getWindow().setBackgroundDrawableResource(R.color.transferBackground);
-
 
         binding = DialogEnterPostInformationBinding.inflate(LayoutInflater.from(getContext()));
         setContentView(binding.getRoot());

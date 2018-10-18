@@ -18,22 +18,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/titleWhite"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/backgroundColor">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="콘텐츠 보관함"
-                android:textSize="@dimen/contents_detail_content"/>
-        </LinearLayout>
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/contents_title"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/backgroundColor">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

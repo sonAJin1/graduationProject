@@ -17,13 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_off"
+            android:visibility="gone"
             >
 
             <ImageView
                 android:id="@+id/ll_neon_on_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/background_on"
+                android:background="@drawable/postview_neon_on_background"
                 android:visibility="gone"
                 />
 
@@ -46,7 +47,6 @@
                     android:id="@+id/im_drink_gauge_shape"
                     android:layout_width="136dp"
                     android:layout_height="136dp"
-                    android:background="@drawable/beer_gauge"
                     android:layout_marginLeft="-10dp"
                     android:layout_marginTop="5dp"/>
 
@@ -83,32 +83,31 @@
                 />
             <ImageView
                 android:id="@+id/im_drunk01"
-                android:layout_width="22.9dp"
+                android:layout_width="20.9dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_beer_completion"
                 android:layout_toRightOf="@+id/im_drink_gauge"
                 android:layout_alignBottom="@+id/im_drink_gauge"
-                android:visibility="gone"
+                android:scaleType="fitCenter"
                 />
             <ImageView
                 android:id="@+id/im_drunk02"
                 android:layout_width="20.9dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_beer_completion"
                 android:layout_toRightOf="@+id/im_drunk01"
                 android:layout_alignBottom="@+id/im_drink_gauge"
-                android:visibility="gone"
+                android:scaleType="fitCenter"
+
                 />
             <ImageView
                 android:id="@+id/im_drunk03"
                 android:layout_width="20.9dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_beer_completion"
                 android:layout_toRightOf="@+id/im_drunk02"
                 android:layout_alignBottom="@+id/im_drink_gauge"
-                android:visibility="gone"
+                android:scaleType="fitCenter"
+
                 />
 
             <TextView
@@ -268,7 +267,7 @@
             layout="@layout/salon_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+
             />
 
     </RelativeLayout>

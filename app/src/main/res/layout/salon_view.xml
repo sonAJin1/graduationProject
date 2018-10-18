@@ -6,11 +6,6 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable
-            name="OnClick"
-            type="com.example.sonaj.graduationproject.View.SalonView.OnClick"/>
-
-
 
     </data>
 
@@ -46,7 +41,6 @@
             android:layout_marginTop="45dp"
             android:background="@drawable/neon_logo_on"
             android:layout_centerHorizontal="true"
-            android:onClick="@{OnClick::animClick}"
             android:clickable="true"
             android:focusable="true"
             />

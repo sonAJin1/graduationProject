@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.ItemGetPost;
@@ -61,7 +63,36 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
         CharactorMake.setDrinkBackgroundColor(item.getDrinkKind(), binding.rlDrinkColorSub);
         CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotionSub);
 
+        sendSubContent(binding);
+    }
 
+    public void sendSubContent(ItemPostCommentBinding binding){
+        binding.tvCommentSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.llComment.setVisibility(View.VISIBLE);
+                binding.tvCommentSend.setVisibility(View.GONE);
+
+                binding.etComment.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.etComment.setFocusable(true);
+                        binding.etComment.requestFocus();
+                        //키보드 보이게 하는 부분
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+                    }
+                });
+                binding.imSendCommend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"click",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
     }
 
     public void add(List<ItemGetPost> item){
@@ -92,7 +123,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
 
         void bind(ItemGetPost item) {
               binding.setPostItem(item);
-
         }
     }
 }

@@ -156,7 +156,8 @@
             android:paddingLeft="11dp"
             android:paddingRight="11dp"
             android:layout_below="@+id/notification_text"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:maxLength="6"/>
 
         <TextView
             android:id="@+id/btn_ok"
