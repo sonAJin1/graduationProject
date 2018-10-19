@@ -18,6 +18,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.Activity.ArchiveActivity;
@@ -89,6 +90,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     SalonView salonView;
     RequestListener requestListener;
+
+    RelativeLayout.LayoutParams layoutParams ; // 내 이야기 리스트 마진 주기 위해서 받아오는 값
 
 
     /**
@@ -167,6 +170,10 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     // 이야기쓰기 화면 보여줄 때
     public void setWritePostView(){
+        layoutParams = (RelativeLayout.LayoutParams)binding.rcMyPostListView.getLayoutParams();
+        layoutParams.leftMargin = 100; // 이야기 쓰는 부분 왼쪽 마진 주기
+        binding.rcMyPostListView.setLayoutParams(layoutParams);
+
         showBackgroundNeon(WRITE_POST);
         if(myPostList.size()>0){
             writePostAdapter.clear();
@@ -354,10 +361,6 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                 };
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
                 itemTouchHelper.attachToRecyclerView(binding.rcPostListView);
-
-
-
-
                 break;
 
             case MY_POST:
@@ -378,8 +381,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                         super.getItemOffsets(outRect, view, parent, state);
-                        outRect.right = 5;
-                        outRect.left = 5;
+                        outRect.right = 10;
+                        outRect.left = 10;
                     }
                 }); // 간격 설정 적용
 
@@ -414,6 +417,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                         targetPosition = Math.min(lastItem, Math.max(targetPosition, firstItem));
                         myPostPosition = targetPosition;
 
+
                         /** 타겟 position 잡아서 휴지통 띄워주기*/
                         if(targetPosition==0){
                             binding.tvCountMyPost.setText("이야기 쓰기");
@@ -421,13 +425,22 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                             showBackgroundNeon(WRITE_POST);
                             setBackgroundLight(usrDrink,binding.llNeonOnWrite); // 이야기 쓰기 배경은 사용자가 마시고 있는 주류의 빛 색깔
 
+                            layoutParams.leftMargin = 100; // 오른쪽 마진 설정으로 가운데 맞추기
+                            binding.rcMyPostListView.setLayoutParams(layoutParams);
+
                         }else{
                             binding.tvCountMyPost.setText("오늘의 "+myPostPosition+"번째 내 이야기");
                             binding.imTrashBtn.setVisibility(View.VISIBLE);
                             showBackgroundNeon(MY_POST);
                             setBackgroundLight(writePostAdapter.getItem(myPostPosition).getDrinkKind(),binding.llNeonOnMyPost); // 내가 어떤 술을 마시면서 썼던 내용들인지
 
+                            layoutParams.leftMargin = 0; // 마진 초기화
+                            layoutParams.rightMargin = 0; // 마진 초기화
+                            binding.rcMyPostListView.setLayoutParams(layoutParams);
+
                             if(targetPosition==lastItem){
+                                layoutParams.rightMargin = 100; // 왼쪽 마진 설정으로 가운데 맞추기
+                                binding.rcMyPostListView.setLayoutParams(layoutParams);
                             }
                         }
                         return targetPosition;

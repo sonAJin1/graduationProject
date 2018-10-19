@@ -14,6 +14,7 @@ import com.example.sonaj.graduationproject.Adapter.JustSelectedAdapter;
 import com.example.sonaj.graduationproject.Adapter.TodayMovieRecommendAdapter;
 import com.example.sonaj.graduationproject.Adapter.WeekHotMovieAdapter;
 import com.example.sonaj.graduationproject.ItemGetContentsServer;
+import com.example.sonaj.graduationproject.ItemGetPost;
 import com.example.sonaj.graduationproject.ItemJustSelected;
 import com.example.sonaj.graduationproject.ItemTodayRecommendMovie;
 import com.example.sonaj.graduationproject.ItemWeekHotMovie;
@@ -34,7 +35,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -53,7 +56,8 @@ public class ContentsView extends BaseView {
     /** adapter item */
     List<ItemTodayRecommendMovie> TodayRecommendmovieList;
     List<ItemJustSelected> justSelectedsList;
-    List<ItemWeekHotMovie> weekHotMovieList;
+    TreeMap<Integer,ItemWeekHotMovie> weekHotMovieList;
+    List<ItemWeekHotMovie> sortLikeList;
 
 
 
@@ -78,8 +82,9 @@ public class ContentsView extends BaseView {
        this.context = context;
        this.contentBinding  = dataBinding;
        TodayRecommendmovieList = new ArrayList();
-       weekHotMovieList = new ArrayList<>();
+       weekHotMovieList = new TreeMap<>();
        justSelectedsList = new ArrayList<>();
+        sortLikeList = new ArrayList<>();
        init();
        setContentView();
     }
@@ -121,7 +126,16 @@ public class ContentsView extends BaseView {
                 });
 
                 /** 주간 인기 콘텐츠 recyclerView */
-                weekHotMovieAdapter = new WeekHotMovieAdapter(context,weekHotMovieList);
+
+                // 좋아요 수가 많은 것 부터 앞쪽에 배치
+                if(weekHotMovieList.size()>0) {
+                    Iterator<Integer> integerIteratorKey = weekHotMovieList.descendingKeySet().iterator(); //키값 오름차순 정렬
+                    while (integerIteratorKey.hasNext()) {
+                        int key = integerIteratorKey.next();
+                        sortLikeList.add(weekHotMovieList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
+                    }
+                }
+                weekHotMovieAdapter = new WeekHotMovieAdapter(context,sortLikeList);
                 contentBinding.rcWeekHotMovie.setAdapter(weekHotMovieAdapter);
 
                 // recyclerView 스크롤 방향설정
@@ -169,6 +183,7 @@ public class ContentsView extends BaseView {
         TodayMovieAdapter.clear();
         weekHotMovieAdapter.clear();
         justSelectedAdapter.clear();
+        sortLikeList.clear();
     }
 
     /** API에 DATA 요청*/
@@ -255,7 +270,8 @@ public class ContentsView extends BaseView {
                         }
                         // 이번주의 핫 콘텐츠
                         if (post.getLikeCount() > 100) {
-                            weekHotMovieList.add(new ItemWeekHotMovie(
+                            weekHotMovieList.put(post.getLikeCount(),
+                                    new ItemWeekHotMovie(
                                     post.getTitle(),
                                     post.getSubtitle(),
                                     post.getDate(),

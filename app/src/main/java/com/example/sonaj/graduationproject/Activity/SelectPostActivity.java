@@ -78,6 +78,7 @@ public class SelectPostActivity extends Activity {
     String UploadTime;
     String text;
     String nickname;
+    int position;
 
     //
     TextView tvUsrNickname;
@@ -130,6 +131,7 @@ public class SelectPostActivity extends Activity {
 
         //인텐트로 관련 내용 받아오기
         Intent intent = getIntent();
+        position = intent.getIntExtra("position",-1);
         group = intent.getIntExtra("group", 0);
         lvl = intent.getIntExtra("lvl", 0);
         order = intent.getIntExtra("order", 0);
@@ -259,6 +261,10 @@ public class SelectPostActivity extends Activity {
         imTrashBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",position);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });
@@ -267,6 +273,9 @@ public class SelectPostActivity extends Activity {
         x_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
             }
         });
@@ -306,7 +315,6 @@ public class SelectPostActivity extends Activity {
         });
 
 
-
         llCocktailImageGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -330,6 +338,8 @@ public class SelectPostActivity extends Activity {
             }
         });
     }
+
+
     private void showCommentList(){
 
         List<ItemGetPost> sortCommentList = new ArrayList<>();

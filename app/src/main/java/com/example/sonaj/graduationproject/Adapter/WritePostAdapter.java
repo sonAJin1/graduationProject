@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.CharactorMake;
@@ -125,8 +126,14 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
         final ItemGetPost item = MyPostList.get(position);
         switch (wViewHolder.getItemViewType()){
             case CELL_TYPE_WRITE:
+
                 writePostBinding = wViewHolder.writePostBinding;
                 writePostBinding.setWritePostItem(item);
+
+//                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)writePostBinding.rlWritePost.getLayoutParams();
+//                layoutParams.leftMargin = 210; // 오른쪽 마진 설정으로 가운데 맞추기
+//                layoutParams.rightMargin = 0;
+//                writePostBinding.rlWritePost.setLayoutParams(layoutParams);
 
                 writePostBinding.imWrite.setOnClickListener(new View.OnClickListener() {
                     @Override

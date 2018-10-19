@@ -10,6 +10,7 @@
      >
 
     <RelativeLayout
+        android:id="@+id/rl_write_post"
         android:layout_width="286dp"
         android:layout_height="216dp"
         android:layout_centerHorizontal="true"

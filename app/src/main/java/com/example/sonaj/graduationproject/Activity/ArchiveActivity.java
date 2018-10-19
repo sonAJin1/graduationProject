@@ -1,6 +1,7 @@
 package com.example.sonaj.graduationproject.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
@@ -70,6 +71,9 @@ public class ArchiveActivity extends AppCompatActivity {
     final static int MY_POST = 1; // 내가 쓴 POST
 
     boolean isReceivePost = true; //true 면 다른사람 post 가져옴
+
+    ArchivePostAdapter archivePostAdapter;
+    ArchiveMyPostAdapter archiveMyPostAdapter;
 
 
 
@@ -148,18 +152,18 @@ public class ArchiveActivity extends AppCompatActivity {
     public void setRecyclerView(int postType, boolean isReceivePost){
 
         if(isReceivePost){ // 이야기 관련 된 경우
-            RecyclerView.Adapter adapter = null;
+          //  RecyclerView.Adapter adapter = null;
 
             switch (postType){
                 case POST:
-                    adapter = new ArchivePostAdapter(mContext, receivePostList);
+                    archivePostAdapter = new ArchivePostAdapter(mContext, receivePostList);
+                    binding.rcArchiveList.setAdapter(archivePostAdapter);
                     break;
                 case MY_POST :
-                    adapter = new ArchiveMyPostAdapter(mContext,sendPostList);
+                    archiveMyPostAdapter = new ArchiveMyPostAdapter(mContext,sendPostList);
+                    binding.rcArchiveList.setAdapter(archiveMyPostAdapter);
                     break;
             }
-
-            binding.rcArchiveList.setAdapter(adapter);
 
             //recyclerView 스크롤 방향 설정
             binding.rcArchiveList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
@@ -201,6 +205,12 @@ public class ArchiveActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        archivePostAdapter.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     public void setTextSelect(int position){
         switch (position){

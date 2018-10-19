@@ -1,5 +1,6 @@
 package com.example.sonaj.graduationproject.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.Activity.SelectMyPostActivity;
 import com.example.sonaj.graduationproject.Activity.SelectPostActivity;
@@ -125,6 +127,7 @@ public class ArchivePostAdapter extends RecyclerView.Adapter<ArchivePostAdapter.
             public void onClick(View view) {
                 // 댓글 제외하고 dialog 로 보낸 뒤 dialog 에서 댓글 관련 호출
                 Intent intent = new Intent(context.getApplicationContext(), SelectPostActivity.class);
+                intent.putExtra("position",i);
                 intent.putExtra("group",itemPostList.get(i).getGroup());
                 intent.putExtra("lvl",itemPostList.get(i).getLvl());
                 intent.putExtra("order",itemPostList.get(i).getOrder());
@@ -142,14 +145,34 @@ public class ArchivePostAdapter extends RecyclerView.Adapter<ArchivePostAdapter.
                 intent.putExtra("UploadTime",itemPostList.get(i).getUploadTime());
                 intent.putExtra("text",itemPostList.get(i).getText());
                 intent.putExtra("nickname",itemPostList.get(i).getNickname());
-                context.startActivity(intent);
+             //   context.startActivity(intent);
+                Activity activity = (Activity)context;
+                activity.startActivityForResult(intent,1);
             }
         });
 
-
-
-
 }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==1){
+            if(resultCode ==Activity.RESULT_OK){
+                int result = data.getIntExtra("result",-1);
+                deleteItem(result); // 날아온 position 값 가지고 있는 item 삭제
+                Toast.makeText(context,"이야기가 삭제되었습니다",Toast.LENGTH_LONG).show();
+            }else if(resultCode ==Activity.RESULT_CANCELED){
+                // 반환값이 없을 경우
+            }
+        }
+    }
+
+
+    public void deleteItem(int position){
+        itemPostList.remove(position);
+        notifyDataSetChanged();
+
+    }
+
+
 
     @Override
     public int getItemCount() {

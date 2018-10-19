@@ -230,8 +230,7 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 android:layout_below="@+id/tv_count_my_post"
-                android:layout_marginLeft="29.5dp"
-                android:layout_marginRight="29.5dp"
+
                 android:visibility="gone"
                 />
 
