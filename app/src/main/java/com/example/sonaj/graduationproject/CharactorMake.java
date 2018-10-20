@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -244,20 +245,51 @@ static Context context;
                 layoutParams.bottomMargin = 35;
                 break;
             case 3: // 와인
-                layoutParams.bottomMargin = 200;
+                layoutParams.bottomMargin = 190;
                 break;
         }
         imDrinkCheek.setLayoutParams(layoutParams);
     }
 
-    public static void setCheekColor(int drinkKind, ImageView imDrinkCheek){
-        // 와인인 경우에만 볼이 노란색
-        if(drinkKind==3){
-            imDrinkCheek.setColorFilter(R.color.beerColor);
-            Log.e("drinkKind", String.valueOf(drinkKind));
-        }else{
-            imDrinkCheek.setColorFilter( 0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
-
+    public static void setCheekDegree(int drinkDegree, int drinkKind, ImageView imDrinkCheek){
+        if(drinkKind==3){ // 와인인 경우
+            switch (drinkDegree){
+                case 0: // 맥주
+                    imDrinkCheek.setVisibility(View.GONE);
+                    break;
+                case 1: // 소주
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.wine_drunken01);
+                    break;
+                case 2: // 막걸리
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.wine_drunken02);
+                    break;
+                case 3: // 와인
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.wine_drunken03);
+                    break;
+            }
+        }else{ // 다른 주류인 경우
+            switch (drinkDegree){
+                case 0: // 맥주
+                    imDrinkCheek.setVisibility(View.GONE);
+                    break;
+                case 1: // 소주
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.traditional_drunken01);
+                    break;
+                case 2: // 막걸리
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.traditional_drunken02);
+                    break;
+                case 3: // 와인
+                    imDrinkCheek.setVisibility(View.VISIBLE);
+                    imDrinkCheek.setBackgroundResource(R.drawable.traditional_drunken03);
+                    break;
+            }
         }
+
+
     }
 }

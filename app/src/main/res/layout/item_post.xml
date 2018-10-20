@@ -63,7 +63,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_centerHorizontal="true"
                             android:layout_alignBottom="@+id/drink_gauge"
-                            android:src="@drawable/traditional_drunken03"
+
                             />
                       
                         <TextView

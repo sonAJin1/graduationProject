@@ -144,6 +144,7 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
     public interface RequestListener{
         void doScan();
         int getDrunkDegree();
+        void showDrunk(int i);
     }
 
 
@@ -162,8 +163,14 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
         setGuageColor(usrDrink); // 게이지 색깔 설정
         CharactorMake.setEmptyDrinkShape(usrDrink,binding.imDrunk01,binding.imDrunk02,binding.imDrunk03); //다 먹은 잔 모양 설정
         CharactorMake.setCheekMargin(usrDrink,binding.imDrunkCheekBeer); // 게이지 취한 정도 (발그레) 의 높이 설정
-        CharactorMake.setCheekColor(usrDrink,binding.imDrunkCheekBeer);
 
+
+    }
+
+    /** salon view 에서 게이지 취한 정도 표시*/
+    @Override
+    public void showDrunk(int drunkDegree) {
+        requestListener.showDrunk(drunkDegree);
     }
 
     //post 화면 보여줄 때

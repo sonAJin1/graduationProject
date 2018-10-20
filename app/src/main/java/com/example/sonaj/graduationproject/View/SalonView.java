@@ -117,9 +117,10 @@ public class SalonView extends BaseView {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 // 다이얼로그가 닫히면 postView 로 넘어간다
-//                requestListener.showSalonViewDo();
                 requestListener.showPostView();
                 requestListener.setUsrInfo();
+                requestListener.showDrunk(0);
+
             }
         });
     }
@@ -127,9 +128,9 @@ public class SalonView extends BaseView {
 
     /**Salon view 에서 postView 에 있는 메소드를 호출해야 할 경우*/
     public interface RequestListener{
-
         void showPostView();
         void setUsrInfo();
+        void showDrunk(int drunkDegree);
     }
 
 }

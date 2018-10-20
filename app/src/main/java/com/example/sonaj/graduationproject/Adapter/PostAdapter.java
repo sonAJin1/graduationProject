@@ -164,6 +164,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
         CharactorMake.setEmotionFace(item.getEmotion(), binding.imEmotion); // 사용자의 감정에 따라서 표정 변경
         CharactorMake.setPostTitleImage(item.getDrinkKind(), item.getEmotion(), binding.drinkGauge); // 사용자가 선택한 주류 종류에 따라 캐릭터 변경
         CharactorMake.setCheekMarginPost(item.getDrinkKind(),binding.imDrunkCheek); // 취한 정도에 따라 bottom margin 표시
+        CharactorMake.setCheekDegree(item.getDrunkDegree(),item.getDrinkKind(),binding.imDrunkCheek); // 취한 정도에 따라 bottom margin 표시
+
 
         // text 부분 limint (더보기 출력)
         final int limit = 4;

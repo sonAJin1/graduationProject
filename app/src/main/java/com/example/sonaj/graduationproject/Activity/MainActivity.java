@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.Adapter.WritePostAdapter;
+import com.example.sonaj.graduationproject.CharactorMake;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.AppSettings;
 import com.example.sonaj.graduationproject.Util.Constants;
@@ -71,10 +73,14 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 
     //bluetooth 로 gauge 조절
     int currentWeight = 80; // 처음엔 95 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 95로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
-    int drunkDegree=0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
+    int drunkDegree = 0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
     int newWeight;
     int oldWeight = 0;
 
+
+    /**sharedPreference */
+    static String sharedKey = "usrInfo";
+    int usrDrink;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -119,7 +125,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         drunkDegree = 0;
         oldWeight = 0;
         currentWeight = 100;
-        showDrunk(drunkDegree);
+        //showDrunk(drunkDegree);
 
 
         // Do data initialization after service started and binded
@@ -552,33 +558,34 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 
     //취함 정도를 보여주는 요소들 -게이지 발그레, 옆에 쌓인 술잔
     public void showDrunk(int drunk){
+
+        SharedPreferences usrSP = mContext.getSharedPreferences(sharedKey, 0);
+        usrDrink = usrSP.getInt("usrDrink",0);
+
         switch (drunk){
             case 0: // 아예 안취함
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.GONE);
+                CharactorMake.setCheekDegree(drunk,usrDrink,binding.appBarContent.viewPost.imDrunkCheekBeer);
                 break;
             case 1: // 취함정도 1
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.GONE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken01);
+                CharactorMake.setCheekDegree(drunk,usrDrink,binding.appBarContent.viewPost.imDrunkCheekBeer);
                 break;
             case 2: // 취함정도 2
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.GONE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken02);
+                CharactorMake.setCheekDegree(drunk,usrDrink,binding.appBarContent.viewPost.imDrunkCheekBeer);
                 break;
             case 3: // 취함정도 3
                 binding.appBarContent.viewPost.imDrunk01.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk02.setVisibility(View.VISIBLE);
                 binding.appBarContent.viewPost.imDrunk03.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setVisibility(View.VISIBLE);
-                binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken03);
+                CharactorMake.setCheekDegree(drunk,usrDrink,binding.appBarContent.viewPost.imDrunkCheekBeer);
                 break;
         }
     }
