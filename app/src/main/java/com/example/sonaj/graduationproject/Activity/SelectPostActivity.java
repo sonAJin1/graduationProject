@@ -442,7 +442,8 @@ public class SelectPostActivity extends Activity {
                                     post.getViews(),
                                     post.getText(),
                                     post.getImage(),
-                                    post.getUploadTime()
+                                    post.getUploadTime(),
+                                            post.getDrunkDegree()
                             ));
                         }
 
@@ -536,7 +537,8 @@ public class SelectPostActivity extends Activity {
                                             post.getViews(),
                                             post.getText(),
                                             post.getImage(),
-                                            post.getUploadTime()
+                                            post.getUploadTime(),
+                                            post.getDrunkDegree()
                                     ));
                         }
 

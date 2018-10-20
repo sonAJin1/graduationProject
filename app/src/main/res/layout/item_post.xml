@@ -55,6 +55,16 @@
                             android:layout_height="160dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="46dp"/>
+
+                        <ImageView
+                            android:id="@+id/im_drunk_cheek"
+                            android:layout_width="100dp"
+                            android:layout_height="70dp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignBottom="@+id/drink_gauge"
+                            android:src="@drawable/traditional_drunken03"
+                            />
                       
                         <TextView
                             android:id="@+id/tv_usr_nickname"

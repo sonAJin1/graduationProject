@@ -224,6 +224,32 @@ static Context context;
         imDrinkCheek.setLayoutParams(layoutParams);
     }
 
+    public static void setCheekMarginPost(int drinkKind, ImageView imDrinkCheek){
+
+        /**맥주인 경우 marginBottom 18dp
+         * 소주, 막걸리인 경우 marginBottom 5dp*/
+
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)imDrinkCheek.getLayoutParams();
+        layoutParams.bottomMargin = 0;
+        imDrinkCheek.setLayoutParams(layoutParams);
+
+        switch (drinkKind){
+            case 0: // 맥주
+                layoutParams.bottomMargin = 110;
+                break;
+            case 1: // 소주
+                layoutParams.bottomMargin = 35;
+                break;
+            case 2: // 막걸리
+                layoutParams.bottomMargin = 35;
+                break;
+            case 3: // 와인
+                layoutParams.bottomMargin = 200;
+                break;
+        }
+        imDrinkCheek.setLayoutParams(layoutParams);
+    }
+
     public static void setCheekColor(int drinkKind, ImageView imDrinkCheek){
         // 와인인 경우에만 볼이 노란색
         if(drinkKind==3){

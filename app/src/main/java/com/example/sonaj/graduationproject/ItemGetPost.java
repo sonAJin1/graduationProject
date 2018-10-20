@@ -18,9 +18,10 @@ public class ItemGetPost {
     String text;
     String image;
     String uploadTime;
+    int drunkDegree;
 
     public ItemGetPost(int unicGroup, int lvl, int postOrder, String nickname,int drinkKind,int emotion,String selectContent,int cocktailReceived,int cheeringCock,int laughCock,
-                       int comfortCock,int sadCock,int angerCock,int views,String text,String image,String uploadTime) {
+                       int comfortCock,int sadCock,int angerCock,int views,String text,String image,String uploadTime,int drunkDegree) {
         this.unicGroup = unicGroup;
         this.lvl = lvl;
         this.postOrder = postOrder;
@@ -38,6 +39,15 @@ public class ItemGetPost {
         this.text = text;
         this.image = image;
         this.uploadTime = uploadTime;
+        this.drunkDegree = drunkDegree;
+    }
+
+    public int getDrunkDegree() {
+        return drunkDegree;
+    }
+
+    public void setDrunkDegree(int drunkDegree) {
+        this.drunkDegree = drunkDegree;
     }
 
     public void setGroup(int unicGroup) {

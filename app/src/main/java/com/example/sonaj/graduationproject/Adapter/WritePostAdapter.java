@@ -29,6 +29,7 @@ import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.ObjectUtils;
 import com.example.sonaj.graduationproject.Util.ShadowUtils;
 import com.example.sonaj.graduationproject.View.ContentsView;
+import com.example.sonaj.graduationproject.View.PostView;
 import com.example.sonaj.graduationproject.databinding.ItemMyPostBinding;
 import com.example.sonaj.graduationproject.databinding.ItemPostBinding;
 import com.example.sonaj.graduationproject.databinding.ItemWritePostBinding;
@@ -63,6 +64,9 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
     int deletePosition;
     String uploadTime;
 
+    int drunkDegree; // 이야기 쓸 때 서버로 보낼 내 취한 정도
+    RequestListener requestListener; // mainActivity 에서 필요한 메소드를 가져다 쓸 때
+
     /** 서버 통신 */
     private static String WRITE_POST_IP_ADDRESS = "http://13.209.48.183/addPost.php";
     private static String DELETE_POST_IP_ADDRESS = "http://13.209.48.183/deletePost.php";
@@ -82,9 +86,10 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
     CommentAdapter commentAdapter;
     TreeMap<Integer,ItemGetPost> commentList;
 
-    public WritePostAdapter(Context context, List<ItemGetPost> MyPostList, List<ItemGetPost> allCommentList) {
+    public WritePostAdapter(Context context,RequestListener requestListener, List<ItemGetPost> MyPostList, List<ItemGetPost> allCommentList) {
         this.context = context;
         this.MyPostList = MyPostList;
+        this.requestListener = requestListener;
         //댓글 list
         this.allCommentList = allCommentList;
     }
@@ -130,11 +135,6 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                 writePostBinding = wViewHolder.writePostBinding;
                 writePostBinding.setWritePostItem(item);
 
-//                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)writePostBinding.rlWritePost.getLayoutParams();
-//                layoutParams.leftMargin = 210; // 오른쪽 마진 설정으로 가운데 맞추기
-//                layoutParams.rightMargin = 0;
-//                writePostBinding.rlWritePost.setLayoutParams(layoutParams);
-
                 writePostBinding.imWrite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -168,6 +168,9 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                             Date date = new Date(now);
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             uploadTime = sdf.format(date);
+
+                            drunkDegree = requestListener.getDrunkDegree(); //postView 에서 취한 정도 받아오기
+
                             //서버에 보내기
                             writePost task = new writePost();
                             task.execute(WRITE_POST_IP_ADDRESS);
@@ -262,6 +265,10 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
 
     }
 
+    /** post View 에 있는 메소드 가져다 쓸 때*/
+    public interface RequestListener{
+        int getDrunkDegree();
+    }
 
     @Override
     public int getItemCount() {
@@ -328,6 +335,7 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                     .add("postOrder","0")
                     .add("usrNickname",usrNickname)
                     .add("drinkKind", String.valueOf(usrDrink))
+                    .add("drunkDegree", String.valueOf(drunkDegree))
                     .add("emotion", String.valueOf(usrEmotion))
                     .add("selectContent",usrContent)
                     .add("text",myPost)
@@ -383,7 +391,8 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                                     post.getViews(),
                                     post.getText(),
                                     post.getImage(),
-                                    post.getUploadTime()
+                                    post.getUploadTime(),
+                                    post.getDrunkDegree()
                             ));
                         }
                        notifyDataSetChanged();

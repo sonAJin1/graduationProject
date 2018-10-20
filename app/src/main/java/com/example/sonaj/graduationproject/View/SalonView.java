@@ -127,8 +127,6 @@ public class SalonView extends BaseView {
 
     /**Salon view 에서 postView 에 있는 메소드를 호출해야 할 경우*/
     public interface RequestListener{
-//        void doScan();
-//        void showSalonViewDo();
 
         void showPostView();
         void setUsrInfo();

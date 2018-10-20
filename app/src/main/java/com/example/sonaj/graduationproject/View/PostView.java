@@ -47,7 +47,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class PostView extends BaseView implements SalonView.RequestListener{
+public class PostView extends BaseView implements SalonView.RequestListener, WritePostAdapter.RequestListener{
     Context context;
     PostViewBinding binding;
 
@@ -93,6 +93,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     RelativeLayout.LayoutParams layoutParams ; // 내 이야기 리스트 마진 주기 위해서 받아오는 값
 
+    int drunkDegree; // 이야기 쓸 때 보낼 취한 정도
+
 
     /**
      * 생성자에서 view 를 설정하므로 setView 메소드를 생성하지 않음.
@@ -133,9 +135,15 @@ public class PostView extends BaseView implements SalonView.RequestListener{
 
     }
 
+    @Override
+    public int getDrunkDegree() {
+        return requestListener.getDrunkDegree();
+    }
+
     /** 메인 activity 에 있는 메소드 가져다 쓸 때*/
     public interface RequestListener{
         void doScan();
+        int getDrunkDegree();
     }
 
 
@@ -179,7 +187,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             writePostAdapter.clear();
         }
         myPostList.add(0,new ItemGetPost(0,0,0,"",0,0,"",0,0,0,
-                0,0,0,0,"","","")); // position 0 자리는 메세지를 보내는 화면이 뜨기 때문에 0에 들어가서 가려지는 내용이 없게하기 위함
+                0,0,0,0,"","","",0)); // position 0 자리는 메세지를 보내는 화면이 뜨기 때문에 0에 들어가서 가려지는 내용이 없게하기 위함
 
         getPostPHP(MY_POST); // 서버에 내가 쓴 데이터 요청
     }
@@ -366,7 +374,7 @@ public class PostView extends BaseView implements SalonView.RequestListener{
             case MY_POST:
 
                 /** 내 이야기 recyclerView */
-                writePostAdapter = new WritePostAdapter(context, myPostList,myPostCommentList);
+                writePostAdapter = new WritePostAdapter(context,this, myPostList,myPostCommentList);
                 binding.rcMyPostListView.setAdapter(writePostAdapter);
 
                 // recyclerView 스크롤 방향설정
@@ -672,7 +680,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                                                 post.getViews(),
                                                 post.getText(),
                                                 post.getImage(),
-                                                post.getUploadTime()
+                                                post.getUploadTime(),
+                                                post.getDrunkDegree()
                                         ));
                                     }
 
@@ -694,7 +703,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                                             post.getViews(),
                                             post.getText(),
                                             post.getImage(),
-                                            post.getUploadTime()
+                                            post.getUploadTime(),
+                                            post.getDrunkDegree()
                                     ));
                                 }
                             }else if(!isPost){
@@ -718,7 +728,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                                                 post.getViews(),
                                                 post.getText(),
                                                 post.getImage(),
-                                                post.getUploadTime()
+                                                post.getUploadTime(),
+                                                post.getDrunkDegree()
                                         ));
                                     }
                                 }
@@ -740,7 +751,8 @@ public class PostView extends BaseView implements SalonView.RequestListener{
                                             post.getViews(),
                                             post.getText(),
                                             post.getImage(),
-                                            post.getUploadTime()
+                                            post.getUploadTime(),
+                                            post.getDrunkDegree()
                                     ));
                             }
                             }

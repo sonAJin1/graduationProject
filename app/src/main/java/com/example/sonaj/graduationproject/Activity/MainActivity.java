@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.sonaj.graduationproject.Adapter.WritePostAdapter;
 import com.example.sonaj.graduationproject.R;
 import com.example.sonaj.graduationproject.Util.AppSettings;
 import com.example.sonaj.graduationproject.Util.Constants;
@@ -112,7 +113,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         init();
 
         // 처음 bluetooth 상태 표시
-       // salonView.setBluetoothStatus(0);
         setBluetoothStatus(0);
 
         //맨처음 취한 정도
@@ -211,18 +211,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
             }
         }
     }
-
-    // 살롱 화면 보여주기 (salon View 에서 가져다 쓰기 위해 onClick 밖으로 꺼내서 메소드 형태로 둠)
-//    public void showSalonViewDo() {
-//        if(salonView.getIsCoaster()){ //코스터가 올라갔다고 인지가 된 상황이면
-//            removeView(0); //salon view 없애고
-//            addView(postView,0); //post view 보이게
-//            salonView.getView().setVisibility(View.GONE);
-//        }
-//        setView(POSITION_SALON_View);
-//        postView.setPostView(); // 화면을 보여줄 때 서버에서 데이터 가져오기
-//        postView.setUsrInfo(); // 누를 때 마다 사용자 info 갱신 > 오늘 즐길 콘텐츠가 달라 질 수 있기 때문
-//    }
 
 
 
@@ -593,6 +581,10 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                 binding.appBarContent.viewPost.imDrunkCheekBeer.setImageResource(R.drawable.traditional_drunken03);
                 break;
         }
+    }
+
+    public int getDrunkDegree(){
+        return drunkDegree;
     }
 
     /**

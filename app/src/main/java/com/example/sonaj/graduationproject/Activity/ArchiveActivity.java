@@ -347,7 +347,8 @@ public class ArchiveActivity extends AppCompatActivity {
                                             post.getViews(),
                                             post.getText(),
                                             post.getImage(),
-                                            post.getUploadTime()
+                                            post.getUploadTime(),
+                                            post.getDrunkDegree()
                                     ));
                                 }
 
@@ -371,7 +372,8 @@ public class ArchiveActivity extends AppCompatActivity {
                                             post.getViews(),
                                             post.getText(),
                                             post.getImage(),
-                                            post.getUploadTime()
+                                            post.getUploadTime(),
+                                            post.getDrunkDegree()
                                     ));
                                 }
 
