@@ -145,8 +145,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
                         usrDrink = usrSP.getInt("usrDrink",0);
                         usrEmotion = usrSP.getInt("usrEmotion",0);
 
+                        // 서버에 대댓글 요청
                         writeComment task = new writeComment();
                         task.execute(IP_ADDRESS);
+
+                        binding.etComment.setText(""); //editText 원상태
+                        binding.llComment.setVisibility(View.GONE); // 대댓글 다는 부분 안보이게
+                        binding.tvCommentSend.setVisibility(View.VISIBLE); // 댓글달기 보이게
+                        //키보드 내리는 부분
+                        InputMethodManager immhide = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                     }
                 });
 
@@ -203,7 +211,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
                     .add("emotion", String.valueOf(usrEmotion)) // 얘네는 sharedPreference 에서 가져와서 보여주기
                     .add("selectContent", usrContent) // 얘네는 sharedPreference 에서 가져와서 보여주기
                     .add("text", text)
-//                    .add("uploadTime","") > uploadTime 은 서버에 현재시간으로 넣어줄 것
                     .build();
 
             Request request = new Request.Builder()
@@ -236,6 +243,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
             if (ObjectUtils.isEmpty(posts)) {
                 Toast.makeText(context, "댓글 등록에 실패했습니다", Toast.LENGTH_LONG).show();
             } else {
+                TreeMap<Integer,ItemGetPost> sortComment = new TreeMap<>();
 
                 if (posts != null || posts.length > 0) {
                     commentList.clear(); // 댓글창 clear
@@ -244,7 +252,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
                         // 댓글을 등록하면 해당 게시물의 댓글을 모두 가져온다
                         //lvl 이 0보다 큰것만 (댓글만) list 에 등록
                         if (post.getLvl() > 0) {
-                            commentList.add(
+                            sortComment.put(post.getOrder(),
                                     new ItemGetPost(
                                             post.getGroup(),
                                             post.getLvl(),
@@ -267,6 +275,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.RViewHol
                                     ));
                         }
                     }
+                    // order 순서부터
+                    if(sortComment.size()>0) {
+                        Iterator<Integer> integerIteratorKey = sortComment.keySet().iterator(); //키값 오름차순 정렬
+                        while (integerIteratorKey.hasNext()) {
+                            int key = integerIteratorKey.next();
+                            commentList.add(sortComment.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist 로 만든다
+                        }
+                    }
+
+                    notifyDataSetChanged();
 
                 }
 

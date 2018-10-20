@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,6 +91,7 @@ public class SelectPostActivity extends Activity {
     TextView tvWriteTime;
     TextView tvPostContent;
     TextView tvViews;
+    TextView tvComment;
     TextView tvreceiveCocktail;
     RelativeLayout rlDrinkColor;
     RelativeLayout rlDrinkBackgroundColor;
@@ -153,7 +155,7 @@ public class SelectPostActivity extends Activity {
         UploadTime = intent.getStringExtra("UploadTime");
         nickname = intent.getStringExtra("nickname");
 
-        setContentText(); // intent 로 보낸 내용 ui 에 적용
+
         setTextViewMaxLine(); // 게시글 더보기 기능 설정
         showBackgroundLight(DrinkKind); // 배경 빛 색상 설정
         clickTrashBtn(); // 쓰레기통 적용
@@ -162,6 +164,17 @@ public class SelectPostActivity extends Activity {
         commentRequest task = new commentRequest();
         task.execute(IP_ADDRESS);
 
+        CharactorMake.setDrinkBackgroundColor(DrinkKind, rlDrinkColor); // 주류 종류에 따라 동그라미 색깔
+        CharactorMake.setEmotionFace(Emotion, imEmotion); // 감정에 따라 표정
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContentText(); // intent 로 보낸 내용 ui 에 적용
+            }
+        },100);
+
+
     }
 
     public void init() {
@@ -169,6 +182,7 @@ public class SelectPostActivity extends Activity {
         tvUsrContent = (TextView) findViewById(R.id.tv_usr_content);
         tvWriteTime = (TextView) findViewById(R.id.tv_write_time);
         tvPostContent = (TextView) findViewById(R.id.tv_post_content);
+        tvComment = (TextView) findViewById(R.id.tv_comment);
         tvViews = (TextView) findViewById(R.id.tv_views);
         tvContentMore = (TextView) findViewById(R.id.tv_content_more);
         tvreceiveCocktail = (TextView) findViewById(R.id.receive_cocktail);
@@ -195,7 +209,6 @@ public class SelectPostActivity extends Activity {
         tvWriteTime.setText("20분 전");
         tvPostContent.setText(text);
 
-
         //view
         String views = "";
         if (Views > 9) {
@@ -205,6 +218,20 @@ public class SelectPostActivity extends Activity {
         }
         tvViews.setText(views);
 
+        // comment
+        String commentCountShow = "";
+        int commentCount =0;
+        if(commentAdapter.getItemCount()>0){
+            commentCount = commentAdapter.getItemCount();
+        }
+
+        if(commentCount>9) {
+            commentCountShow = commentCount + "개";
+        }else{
+            commentCountShow = "0" + commentCount + "개";
+        }
+        tvComment.setText(commentCountShow);
+
         //receive cocktail
         String receiveCocktail = "";
         if (CocktailReceived > 9) {
@@ -213,11 +240,6 @@ public class SelectPostActivity extends Activity {
             receiveCocktail = "0" + CocktailReceived + "개";
         }
         tvreceiveCocktail.setText(receiveCocktail);
-
-        CharactorMake.setDrinkBackgroundColor(DrinkKind, rlDrinkColor);
-        CharactorMake.setEmotionFace(Emotion, imEmotion);
-
-
     }
 
     public void setTextViewMaxLine() {

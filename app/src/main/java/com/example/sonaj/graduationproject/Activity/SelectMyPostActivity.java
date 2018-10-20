@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class SelectMyPostActivity extends Activity {
    // ActivitySelectPostBinding binding;
 
     //intent 로 받아오는 값
+    int position;
     int group;
     int lvl;
     int order;
@@ -75,6 +77,7 @@ public class SelectMyPostActivity extends Activity {
     TextView tvWriteTime;
     TextView tvPostContent;
     TextView tvViews;
+    TextView tvComment;
     TextView tvreceiveCocktail;
     TextView tvCheeringCocktailCount;
     TextView tvLaughCocktailCount;
@@ -106,8 +109,6 @@ public class SelectMyPostActivity extends Activity {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
         setContentView(R.layout.activity_select_post);
-       // binding = DataBindingUtil.setContentView(this, R.layout.activity_select_post);
-
 
         init();
 
@@ -132,12 +133,20 @@ public class SelectMyPostActivity extends Activity {
         UploadTime = intent.getStringExtra("UploadTime");
         nickname = intent.getStringExtra("nickname");
 
-        setContentText();
+
         showBackgroundLight(DrinkKind);
         clickTrashBtn();
+
         // 댓글 서버로 요청 보내기
         commentRequest task = new commentRequest();
         task.execute(IP_ADDRESS);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContentText(); // intent 로 보낸 내용 ui 에 적용
+            }
+        },200);
 
     }
 
@@ -147,6 +156,7 @@ public class SelectMyPostActivity extends Activity {
         tvWriteTime = (TextView)findViewById(R.id.tv_write_time);
         tvPostContent = (TextView)findViewById(R.id.tv_post_content);
         tvViews = (TextView)findViewById(R.id.tv_views);
+        tvComment = (TextView)findViewById(R.id.tv_comment);
         tvContentMore = (TextView)findViewById(R.id.tv_content_more);
         tvreceiveCocktail = (TextView)findViewById(R.id.receive_cocktail);
         rlDrinkColor = (RelativeLayout) findViewById(R.id.rl_drink_color);
@@ -184,6 +194,20 @@ public class SelectMyPostActivity extends Activity {
             views = "0"+Views+"회";
         }
         tvViews.setText(views);
+
+        // comment
+        String commentCountShow = "";
+        int commentCount =0;
+        if(commentAdapter.getItemCount()>0){
+            commentCount = commentAdapter.getItemCount();
+        }
+
+        if(commentCount>9) {
+            commentCountShow = commentCount + "개";
+        }else{
+            commentCountShow = "0" + commentCount + "개";
+        }
+        tvComment.setText(commentCountShow);
 
         //receive cocktail
         String receiveCocktail = "";
@@ -226,12 +250,17 @@ public class SelectMyPostActivity extends Activity {
         imTrashBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",position);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });
         x_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
             }
         });
@@ -242,13 +271,12 @@ public class SelectMyPostActivity extends Activity {
         List<ItemGetPost> sortCommentList = new ArrayList<>();
 
         if(commentList.size()>0){
-
             Iterator<Integer> integerIteratorKey = commentList.keySet().iterator(); //키값 오름차순 정렬
             while(integerIteratorKey.hasNext()){
                 int key = integerIteratorKey.next();
                 sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
             }
-            commentAdapter = new CommentAdapter(mContext, sortCommentList);
+            commentAdapter = new CommentAdapter(mContext, sortCommentList,group,order);
             commentRecyclerview.setAdapter(commentAdapter);
             commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         }

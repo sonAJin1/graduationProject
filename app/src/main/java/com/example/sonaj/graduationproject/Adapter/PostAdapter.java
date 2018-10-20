@@ -244,6 +244,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
         }
 
         CommentAdapter commentA = (CommentAdapter) binding.rvComment.getAdapter();
+      //  binding.rvComment.invalidate();
+        commentA.clean();
         binding.rvComment.invalidate();
         commentA.add(sortCommentList);
 
@@ -253,6 +255,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
             notifyAll();
         }
         binding.etComment.setText(""); //올리면 초기화
+        //키보드 내리는 부분
+        InputMethodManager immhide = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
     }
 
@@ -388,10 +393,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
                     //  .add("postOrder","0")
                     .add("usrNickname", usrNickname) // 얘네는 sharedPreference 에서 가져와서 보여주기
                     .add("drinkKind", String.valueOf(usrDrink))
+                    .add("drunkDegree", String.valueOf(0))
                     .add("emotion", String.valueOf(usrEmotion))
                     .add("selectContent", usrContent)
                     .add("text", comment)
-//                    .add("uploadTime","") > uploadTime 은 서버에 현재시간으로 넣어줄 것
                     .build();
 
             Request request = new Request.Builder()
