@@ -244,11 +244,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
         }
 
         CommentAdapter commentA = (CommentAdapter) binding.rvComment.getAdapter();
-        Log.e("commentA.getItemCount_b", String.valueOf(commentA.getItemCount()));
-//        commentA.clean();
         binding.rvComment.invalidate();
         commentA.add(sortCommentList);
-        Log.e("commentA.getItemCount()", String.valueOf(commentA.getItemCount()));
 
         Toast.makeText(context, "댓글이 등록되었습니다", Toast.LENGTH_LONG).show();
 

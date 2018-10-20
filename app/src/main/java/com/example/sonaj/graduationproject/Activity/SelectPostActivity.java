@@ -60,6 +60,9 @@ public class SelectPostActivity extends Activity {
     Context mContext;
     //ActivitySelectPost2Binding binding;
 
+    /** activity 배경 투명도를 조절하는 것이 AppCompatActivity 에서 databinding 하는 방법으로는 불가하여 activity 로 변경하고
+     * databinding 방법이 아니라 예전 findById 으로 사용*/
+
     //intent 로 받아오는 값
     int group;
     int lvl;
@@ -79,6 +82,7 @@ public class SelectPostActivity extends Activity {
     String text;
     String nickname;
     int position;
+
 
     //
     TextView tvUsrNickname;
@@ -125,7 +129,6 @@ public class SelectPostActivity extends Activity {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
         setContentView(R.layout.activity_select_post2);
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_select_post2);
 
         init();
 
@@ -182,7 +185,8 @@ public class SelectPostActivity extends Activity {
         llComment = (LinearLayout)findViewById(R.id.ll_comment);
         etComment = (EditText)findViewById(R.id.et_comment);
         btnComment = (ImageButton)findViewById(R.id.im_send_commend);
-        commentList = new TreeMap<>();
+
+        commentList = new TreeMap<>(); // 댓글 리스트 초기화
     }
 
     public void setContentText() {
@@ -371,7 +375,6 @@ public class SelectPostActivity extends Activity {
         commentAdapter.add(sortCommentList);
         Toast.makeText(mContext,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
         etComment.setText(""); //올리면 초기화
-
     }
 
     /** 댓글 요청 */
@@ -476,6 +479,7 @@ public class SelectPostActivity extends Activity {
                     //  .add("postOrder","0")
                     .add("usrNickname",usrNickname) // 얘네는 sharedPreference 에서 가져와서 보여주기
                     .add("drinkKind", String.valueOf(usrDrink))
+                    .add("drunkDegree", String.valueOf(0))
                     .add("emotion", String.valueOf(usrEmotion))
                     .add("selectContent",usrContent)
                     .add("text",comment)
