@@ -355,7 +355,7 @@ public class SelectPostActivity extends Activity {
                 int key = integerIteratorKey.next();
                 sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
             }
-            commentAdapter = new CommentAdapter(mContext, sortCommentList);
+            commentAdapter = new CommentAdapter(mContext, sortCommentList,group,order);
             commentRecyclerview.setAdapter(commentAdapter);
             commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         }
