@@ -161,15 +161,15 @@
 
         <TextView
             android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
             android:text="완료"
             android:layout_alignBaseline="@+id/et_usr_nickname"
             android:layout_alignRight="@+id/et_usr_nickname"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black"
             android:textSize="@dimen/item_sub_title"
-            android:visibility="gone"
+
             android:onClick="@{onClick::clickOkBtn}"/>
 
         <ImageView

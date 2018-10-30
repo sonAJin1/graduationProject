@@ -72,7 +72,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     final int POSITION_MARKET_VIEW = 2;
 
     //bluetooth 로 gauge 조절
-    int currentWeight = 80; // 처음엔 95 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 95로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
+    int currentWeight = 80; // 처음엔 80 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 80로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
     int drunkDegree = 0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
     int newWeight;
     int oldWeight = 0;
@@ -124,8 +124,8 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         //맨처음 취한 정도
         drunkDegree = 0;
         oldWeight = 0;
-        currentWeight = 100;
-        //showDrunk(drunkDegree);
+        currentWeight = 80;
+       // showDrunk(drunkDegree);
 
 
         // Do data initialization after service started and binded
@@ -141,23 +141,18 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         switch (status){
             case 0: //초기화중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_invisible));
-               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothInvisible));
                 break;
             case 1: // 대기중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_invisible));
-              //  binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothInvisible));
                 break;
             case 2: //연결중
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_away));
-               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothAway));
                 break;
             case 3:  //연결됨
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_online));
-               // binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothOnline));
                 break;
             case 4: //연결오류
                 binding.appBarContent.viewPost.icSalonView.bluetoothStatus.setImageDrawable(mContext.getDrawable(R.drawable.ic_bluetooth_error));
-              //  binding.appBarContent.viewPost.imBluetoothStatus.setBackgroundColor(mContext.getColor(R.color.bluetoothError));
                 break;
         }
     }
@@ -172,8 +167,6 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         contentsView = new ContentsView(this, binding.appBarContent.viewContents);
         likeView = new LikeView(this, binding.appBarContent.viewLike);
         postView = new PostView(this,binding.appBarContent.viewPost,this);
-
-        //salonView에서 넘어가서 게시글 보여질 때 볼 화면
 
 
         //네비게이션 바
@@ -249,6 +242,17 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     public void onDestroy() {
         super.onDestroy();
         finalizeActivity();
+
+        // 저장해뒀던 콘텐츠 삭제
+        SharedPreferences usrSP = mContext.getSharedPreferences(sharedKey, 0);
+        String usrContent = usrSP.getString("usrContent","선택한 콘텐츠가 없습니다");
+
+        if(usrContent!=null) { // 해당 값이 있는 경우
+            SharedPreferences.Editor editor = usrSP.edit();
+            editor.remove("usrContent"); // 삭제
+            editor.commit();
+        }
+
     }
 
     @Override
@@ -498,32 +502,29 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 
                         if (bMsg.equals("s")) {
                             if(oldWeight==0){ // 처음 들어오는 값이라면
-                                postView.startBlinkAnimation();
-                                postView.changeOnView();
+                                postView.startBlinkAnimation(); //salonView 의 네온사인 깜빡거리는 애니메이션
+                                postView.changeOnView(); // salonView 하단의 text 변경
                             }
 
                         }else if(isStringDouble(bMsg)){ // 숫자로 바꿀 수 있는 값인지 확인하고
                             newWeight = Integer.parseInt(bMsg); // 지금 들어 온 값은 new
-                            if(oldWeight>0){
-                                if(newWeight>oldWeight+5){ // 새로운 값이 더 크다면 새잔
-                                    currentWeight = 80; //new (새잔)을 받으면 게이지는 95로 돌아감
-                                    Log.e("currentWeight", String.valueOf(currentWeight));
-                                    if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
-                                        drunkDegree++;
-                                    }
-                                    showDrunk(drunkDegree); // 취한 정도 보여주기
-                                }else{
-                                    if(currentWeight>0){
-                                        currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
+                            if(newWeight==1){
+
+                            }else{
+                                if(oldWeight>0){
+                                    if(newWeight>oldWeight+1){ // 새로운 값이 예전 값보다 1이상 더 크다면 새잔 (1정도는 가만히 둔 상태에서도 왔다갔다 할 수 있기 때문)
+                                        currentWeight = 80; //new (새잔)을 받으면 게이지는 80로 돌아감
                                         Log.e("currentWeight", String.valueOf(currentWeight));
-                                    }
-//                                    if(currentWeight<=0){
-//                                        currentWeight = 0;
-//                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
-//                                            drunkDegree++;
-//                                        }
-//                                        showDrunk(drunkDegree); // 취한 정도 보여주기
-//                                    }
+                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
+                                            drunkDegree++;
+                                        }
+                                        showDrunk(drunkDegree); // 취한 정도 보여주기
+                                    }else{ // 새로운 값이 예전값 보다 작다면 (마시고 내려놓은 경우)
+                                        if(currentWeight>0){
+                                            currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
+                                            Log.e("currentWeight", String.valueOf(currentWeight));
+                                        }
+
 //                                    if(currentWeight<10){ //10보다 작으면 다 먹은걸로 간주
 //                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
 //                                            drunkDegree++;
@@ -531,10 +532,12 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 //                                        showDrunk(drunkDegree); // 취한 정도 보여주기
 //                                    }
 
+                                    }
                                 }
+                                binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight); // 게이지에 반영
+                                oldWeight = newWeight;
                             }
-                            binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight); // 게이지에 반영
-                            oldWeight = newWeight;
+
                         }
                     }
                     break;
@@ -592,6 +595,10 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 
     public int getDrunkDegree(){
         return drunkDegree;
+    }
+    public void setDrunkDegree(){ //postview에서 다이얼로그가 닫히는 순간 취한 정도 reset
+        drunkDegree = 0;
+        currentWeight = 80;
     }
 
     /**

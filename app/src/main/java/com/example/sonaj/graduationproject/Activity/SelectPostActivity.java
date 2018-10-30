@@ -167,12 +167,7 @@ public class SelectPostActivity extends Activity {
         CharactorMake.setDrinkBackgroundColor(DrinkKind, rlDrinkColor); // 주류 종류에 따라 동그라미 색깔
         CharactorMake.setEmotionFace(Emotion, imEmotion); // 감정에 따라 표정
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setContentText(); // intent 로 보낸 내용 ui 에 적용
-            }
-        },100);
+
 
 
     }
@@ -221,7 +216,7 @@ public class SelectPostActivity extends Activity {
         // comment
         String commentCountShow = "";
         int commentCount =0;
-        if(commentAdapter.getItemCount()>0){
+        if(commentList.size()>0){
             commentCount = commentAdapter.getItemCount();
         }
 
@@ -287,7 +282,6 @@ public class SelectPostActivity extends Activity {
         imTrashBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",position);
                 setResult(Activity.RESULT_OK, returnIntent);
@@ -299,7 +293,6 @@ public class SelectPostActivity extends Activity {
         x_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
@@ -381,6 +374,8 @@ public class SelectPostActivity extends Activity {
             commentRecyclerview.setAdapter(commentAdapter);
             commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         }
+
+        setContentText(); // intent 로 보낸 내용 ui 에 적용
 
     }
 

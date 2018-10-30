@@ -91,6 +91,7 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
     SalonView salonView;
     RequestListener requestListener;
 
+
     RelativeLayout.LayoutParams layoutParams ; // 내 이야기 리스트 마진 주기 위해서 받아오는 값
 
     int drunkDegree; // 이야기 쓸 때 보낼 취한 정도
@@ -132,6 +133,7 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
         binding.icSalonView.tvSalonStatus1.setText("1,266명의 사용자 3,541개의 이야기");
 
         clickSalonViewNeon(); // 네온사인 클릭해서 다이얼로그 띄우기
+        postCount = 0; // 본 이야기 count 초기화
 
     }
 
@@ -145,6 +147,7 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
         void doScan();
         int getDrunkDegree();
         void showDrunk(int i);
+        void setDrunkDegree();
     }
 
 
@@ -171,6 +174,7 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
     @Override
     public void showDrunk(int drunkDegree) {
         requestListener.showDrunk(drunkDegree);
+        requestListener.setDrunkDegree(); // 취한 정도 0으로 리셋
     }
 
     //post 화면 보여줄 때
@@ -306,15 +310,15 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
                 postAdapter = new PostAdapter(context, postList, postCommentList);
                 binding.rcPostListView.setAdapter(postAdapter);
 
-                LinearLayoutManager layoutManager = new LinearLayoutManager(context){
+                LinearLayoutManager PostLayoutManager = new LinearLayoutManager(context){
                     @Override
                     public boolean canScrollVertically() { // 세로스크롤 막기
                         return false;
                     } // recyclerview 세로 스크롤 막기 (item scrollView 가 작동할 수 있게 하기 위해서)
                 };
-                layoutManager.setReverseLayout(false);
-                layoutManager.setStackFromEnd(true);
-                binding.rcPostListView.setLayoutManager(layoutManager);
+                PostLayoutManager.setReverseLayout(false);
+                PostLayoutManager.setStackFromEnd(true);
+                binding.rcPostListView.setLayoutManager(PostLayoutManager);
 
 
                 if(binding.rcPostListView.getItemDecorationCount()>0){ // 전에 설정된 간격이 있으면
@@ -325,7 +329,8 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
 
                 binding.rcPostListView.addItemDecoration(new ItemDecoration() {
 
-                    int verOverlap = -1125, horiOverlap = 60;
+                    int verOverlap = -1130, horiOverlap = 60;
+                    //int verOverlap = -1125, horiOverlap = 60;
 
                     @Override
                     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -352,9 +357,8 @@ public class PostView extends BaseView implements SalonView.RequestListener, Wri
                         PostAdapter postAdapter = (PostAdapter)binding.rcPostListView.getAdapter();
                         postAdapter.onItemDismiss(swipedPosition);
 
-//                        Animation showAnimation = new ScaleAnimation(0.9f,1f,0.9f,1f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-//                        showAnimation.setDuration(200);
-//                        binding.rcPostListView.startAnimation(showAnimation);
+
+
 
                         postCount++;
                         binding.tvCountPost.setText("오늘의 "+postCount+"번째 받은 이야기");

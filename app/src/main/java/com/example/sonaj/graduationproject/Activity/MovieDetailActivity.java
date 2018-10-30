@@ -99,7 +99,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         imgUrl = intent.getStringExtra("imageUrl");
         type = intent.getIntExtra("type",0);
         year = intent.getIntExtra("year",2018);
-        isLike = intent.getBooleanExtra("like",true);
+        isLike = intent.getBooleanExtra("like",false);
 
         Picasso.with(this).load(imgUrl).fit().centerCrop().into(binding.imContentsDetailTitle); // imageLoad
 
@@ -199,6 +199,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     }
 
+
+
+
     public void setLikeBtnChange(){
         // like 버튼 누를때 sharedPreference 에 저장하고 삭제하는 부분
         binding.btnDetailLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -291,7 +294,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     public class OnClick{
         public void backClick(View view){
-            Log.e("눌린다","");
             // 화면을 꺼버린다. 해당 액티비티를 호출하는 화면이 여러군데이기 때문에
             MovieDetailActivity movieDetailActivity = MovieDetailActivity.this;
             movieDetailActivity.finish();

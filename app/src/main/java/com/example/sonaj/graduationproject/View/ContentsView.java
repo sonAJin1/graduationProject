@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.sonaj.graduationproject.Adapter.JustSelectedAdapter;
@@ -87,6 +88,7 @@ public class ContentsView extends BaseView {
         sortLikeList = new ArrayList<>();
        init();
        setContentView();
+        getScrollViewTouchEvent(); // 자식 스크롤뷰를 스크롤 할 때 부모의 스크롤 이벤트를 무시
     }
 
     public void setContentView(){
@@ -101,8 +103,6 @@ public class ContentsView extends BaseView {
     }
 
     private void setRecyclerView(){
-
-
                 /** 오늘의 추천 콘텐츠 recyclerView */
 
                 TodayMovieAdapter = new TodayMovieRecommendAdapter(context, TodayRecommendmovieList);
@@ -175,8 +175,39 @@ public class ContentsView extends BaseView {
                     }
                 });
 
+                Log.e("justSelect size", String.valueOf(justSelectedAdapter.getItemCount()));
 
+    }
 
+    public void getScrollViewTouchEvent(){
+        contentBinding.totalScroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                contentBinding.rcTodayRecommendMovie.getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+        contentBinding.rcTodayRecommendMovie.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        contentBinding.rcWeekHotMovie.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        contentBinding.rcJustSelectedMovie.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     public void clearRecyclerViewItem(){
@@ -272,22 +303,22 @@ public class ContentsView extends BaseView {
                         if (post.getLikeCount() > 100) {
                             weekHotMovieList.put(post.getLikeCount(),
                                     new ItemWeekHotMovie(
-                                    post.getTitle(),
-                                    post.getSubtitle(),
-                                    post.getDate(),
-                                    post.getNaverScore(),
-                                    post.getimdbScore(),
-                                    post.getrtScore(),
-                                    post.getDirector(),
-                                    post.getActor(),
-                                    post.getSummary(),
-                                    post.getContents(),
-                                    post.getimgURL(),
-                                    like,
-                                    post.getLikeCount(),
-                                    post.getType()
-                            ));
-
+                                            post.getTitle(),
+                                            post.getSubtitle(),
+                                            post.getDate(),
+                                            post.getNaverScore(),
+                                            post.getimdbScore(),
+                                            post.getrtScore(),
+                                            post.getDirector(),
+                                            post.getActor(),
+                                            post.getSummary(),
+                                            post.getContents(),
+                                            post.getimgURL(),
+                                            like,
+                                            post.getLikeCount(),
+                                            post.getType()
+                                    ));
+                        }
                             justSelectedsList.add(new ItemJustSelected(
                                     post.getTitle(),
                                     post.getSubtitle(),
@@ -305,7 +336,7 @@ public class ContentsView extends BaseView {
                                     post.getType()
                             ));
 
-                        }
+
                     }
 
                 }

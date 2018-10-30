@@ -109,8 +109,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PViewHolder> {
         ItemPostCommentBinding Abinding = ItemPostCommentBinding.
                 inflate(LayoutInflater.from(context),viewGroup,false);
 
-//        viewGroup.setScaleX(0.9f);
-//        viewGroup.setScaleY(0.9f);
 
         return new PostAdapter.PViewHolder(Binding);
     }

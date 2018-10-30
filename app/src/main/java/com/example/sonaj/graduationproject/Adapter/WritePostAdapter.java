@@ -174,6 +174,11 @@ public class WritePostAdapter extends RecyclerView.Adapter<WritePostAdapter.WVie
                             //서버에 보내기
                             writePost task = new writePost();
                             task.execute(WRITE_POST_IP_ADDRESS);
+
+                            //키보드 내리는 부분
+                            InputMethodManager immhide = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
                         }else{
                             Toast.makeText(context,"내용이 너무 짧습니다 (5글자 이상)",Toast.LENGTH_LONG).show();
                         }

@@ -141,12 +141,8 @@ public class SelectMyPostActivity extends Activity {
         commentRequest task = new commentRequest();
         task.execute(IP_ADDRESS);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setContentText(); // intent 로 보낸 내용 ui 에 적용
-            }
-        },200);
+
+
 
     }
 
@@ -198,7 +194,7 @@ public class SelectMyPostActivity extends Activity {
         // comment
         String commentCountShow = "";
         int commentCount =0;
-        if(commentAdapter.getItemCount()>0){
+        if(commentList.size()>0){
             commentCount = commentAdapter.getItemCount();
         }
 
@@ -280,6 +276,9 @@ public class SelectMyPostActivity extends Activity {
             commentRecyclerview.setAdapter(commentAdapter);
             commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         }
+
+        setContentText(); // intent 로 보낸 내용 ui 에 적용
+
 
     }
 

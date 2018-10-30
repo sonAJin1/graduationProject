@@ -208,8 +208,13 @@ public class ArchiveActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        archivePostAdapter.onActivityResult(requestCode, resultCode, data);
-        archiveMyPostAdapter.onActivityResult(requestCode, resultCode, data);
+        if(archivePostAdapter!=null){
+            archivePostAdapter.onActivityResult(requestCode, resultCode, data);
+        }
+        if(archiveMyPostAdapter!=null){
+            archiveMyPostAdapter.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 
 

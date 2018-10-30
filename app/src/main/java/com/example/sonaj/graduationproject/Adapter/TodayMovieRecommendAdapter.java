@@ -52,6 +52,32 @@ public class TodayMovieRecommendAdapter extends RecyclerView.Adapter<TodayMovieR
         final ItemTodayRecommendMovie item = todayRecommendMovies.get(i);
         tMovieViewHolder.bind(item);
 
+        switch (item.getType()){
+            case 0: //영화
+                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvImbdScore.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvImbdScoreTitle.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.VISIBLE);
+                break;
+            case 1: //책
+                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvImbdScore.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvImbdScoreTitle.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.GONE);
+                break;
+            case 2: //드라마
+                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvImbdScore.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvImbdScoreTitle.setVisibility(View.VISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.GONE);
+                break;
+        }
         if(item.getisLike()){ // 좋아요가 눌러져서 true 값을 가지고 있는 작품은 눌려지게
          //   tMovieViewHolder.Tbinding.btnTodayLike.setChecked(true);
         }else{ // 아니면 좋아요 해제

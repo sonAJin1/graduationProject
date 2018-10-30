@@ -121,6 +121,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_rttomato_score_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/iv_today_movies"
