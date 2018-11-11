@@ -1,5 +1,6 @@
 package com.example.sonaj.graduationproject.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.sonaj.graduationproject.Activity.MovieDetailActivity;
 import com.example.sonaj.graduationproject.binding.BaseRecyclerViewAdapter;
@@ -62,20 +64,20 @@ public class TodayMovieRecommendAdapter extends RecyclerView.Adapter<TodayMovieR
                 tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.VISIBLE);
                 break;
             case 1: //책
-                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.GONE);
-                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.INVISIBLE);
+                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.INVISIBLE);
                 tMovieViewHolder.Tbinding.tvImbdScore.setVisibility(View.VISIBLE);
                 tMovieViewHolder.Tbinding.tvImbdScoreTitle.setVisibility(View.VISIBLE);
-                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.GONE);
-                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.INVISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.INVISIBLE);
                 break;
             case 2: //드라마
-                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.GONE);
-                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvNaverScore.setVisibility(View.INVISIBLE);
+                tMovieViewHolder.Tbinding.tvNaverScoreTitle.setVisibility(View.INVISIBLE);
                 tMovieViewHolder.Tbinding.tvImbdScore.setVisibility(View.VISIBLE);
                 tMovieViewHolder.Tbinding.tvImbdScoreTitle.setVisibility(View.VISIBLE);
-                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.GONE);
-                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.GONE);
+                tMovieViewHolder.Tbinding.tvRttomatoScore.setVisibility(View.INVISIBLE);
+                tMovieViewHolder.Tbinding.tvRttomatoScoreTitle.setVisibility(View.INVISIBLE);
                 break;
         }
         if(item.getisLike()){ // 좋아요가 눌러져서 true 값을 가지고 있는 작품은 눌려지게
@@ -133,6 +135,18 @@ public class TodayMovieRecommendAdapter extends RecyclerView.Adapter<TodayMovieR
 
 
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==2){
+            if(resultCode == Activity.RESULT_OK){
+                int likeItemPosition = data.getIntExtra("like",-1);
+                todayRecommendMovies.get(likeItemPosition).setLike(true); // like 설정된 item에 변경된 값 저장
+
+            }else if(resultCode ==Activity.RESULT_CANCELED){
+                // 반환값이 없을 경우
+            }
+        }
     }
 
     @Override

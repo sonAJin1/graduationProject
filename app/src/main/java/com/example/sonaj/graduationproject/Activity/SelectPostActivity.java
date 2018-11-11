@@ -388,8 +388,18 @@ public class SelectPostActivity extends Activity {
             int key = integerIteratorKey.next();
             sortCommentList.add(commentList.get(key)); //key 값으로 정렬된 순서대로 value 값 넣어서 arraylist로 만든다
         }
-        commentAdapter.clean();
-        commentAdapter.add(sortCommentList);
+        if(commentAdapter!=null){ // 댓글이 한번 등록 된 경우
+            Log.e("adapter status :","not null");
+            commentAdapter.clean();
+            commentAdapter.add(sortCommentList);
+        }
+        else{ // 댓글이 한번도 등록되지 않은 경우
+            Log.e("adapter status :","null");
+            commentAdapter = new CommentAdapter(mContext, sortCommentList,group,order);
+            commentRecyclerview.setAdapter(commentAdapter);
+            commentRecyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,true));
+        }
+
         Toast.makeText(mContext,"댓글이 등록되었습니다",Toast.LENGTH_LONG).show();
         etComment.setText(""); //올리면 초기화
     }
@@ -438,7 +448,6 @@ public class SelectPostActivity extends Activity {
             super.onPostExecute(posts);
             if (ObjectUtils.isEmpty(posts)) {
             } else {
-
                 if (posts != null || posts.length > 0) {
                     //받아온 데이터가 있으면 일단 ItemGetContentsServer 에 넣은 후 꺼내쓴다.
                     for (ItemGetPost post : posts) {
@@ -470,7 +479,6 @@ public class SelectPostActivity extends Activity {
                     }
                     showCommentList();
                 }
-
             }
 
         }

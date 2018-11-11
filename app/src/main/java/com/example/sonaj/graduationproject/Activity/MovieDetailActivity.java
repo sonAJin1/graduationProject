@@ -121,11 +121,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         binding.tvContentsDetailContents.setText(contents); //내용
         binding.tvContentsDetailImdbScore.setText(String.valueOf(IMDB)); // 가운데 imdb 평점은 어떤 콘텐츠이던 값이 찍힘
         binding.tvContentsYear.setText(String.valueOf(year));
-        if(isLike){
-            binding.btnDetailLike.setChecked(true);
-        }else{
-            binding.btnDetailLike.setChecked(false);
-        }
+//        if(isLike){
+//            binding.btnDetailLike.setChecked(true);
+//        }else{
+//            binding.btnDetailLike.setChecked(false);
+//        }
 
         switch (type){
             case 0 : //영화
@@ -148,7 +148,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 binding.tvContentsDetailRttomatoScore.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailRttomatoScoreTitle.setVisibility(View.INVISIBLE);
                 binding.tvContentsDetailImdbScoreTitle.setText("네이버 평점");
-                binding.tvContentsDetailDirectorTitle.setText("저자"); //감독
+                binding.tvContentsDetailDirectorTitle.setText("저자    "); //감독
                 binding.tvContentsDetailActorTitle.setText("출판사"); // 배우
                 binding.tvContentsDetailSummaryTitle.setText("페이지"); // 개요
                 binding.tvContentType.setText("책");
@@ -176,6 +176,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         onClick = new OnClick();
         binding.setOnClick(onClick);
+
+        showLike(); //sharedPreference 에 저장되어있는 좋아요 표시된 거면 좋아요 표시
     }
 
     private void setRecyclerView(){
@@ -200,6 +202,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
 
+    public void showLike(){
+        SharedPreferences likeSP = mContext.getSharedPreferences("like",0);
+        String value = likeSP.getString(title,"없음");
+        Log.e("value",value);
+        if(!value.equals("없음")) { // 해당 값이 있는 경우
+           binding.btnDetailLike.setChecked(true);
+        }
+    }
+
+
+
 
 
     public void setLikeBtnChange(){
@@ -207,14 +220,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         binding.btnDetailLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences likeSP = mContext.getSharedPreferences("like",0);
 
                 if(binding.btnDetailLike.isChecked()) {
-                    SharedPreferences likeSP = mContext.getSharedPreferences("like",0);
                     SharedPreferences.Editor editor = likeSP.edit();
                     editor.putString(title,title); // key 에 title 저장
                     editor.commit();
                 }else{
-                    SharedPreferences likeSP = mContext.getSharedPreferences("like", 0);
                     String value = likeSP.getString(title,"없음");
 
                     if(value!=null) { // 해당 값이 있는 경우

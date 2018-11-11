@@ -72,7 +72,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     final int POSITION_MARKET_VIEW = 2;
 
     //bluetooth 로 gauge 조절
-    int currentWeight = 80; // 처음엔 80 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 80로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
+    int currentWeight = 30; // 처음엔 80 이었다가 들어오는 값으로 빠졌다가 new 가 들어오면 다시 80로 회복 > 100 이 아닌 이유 >  처음에도 찰랑거리는 애니메이션 보여주기 위해서
     int drunkDegree = 0; // new 가 몇번 들어왔는지 최대 3 (취함 정도 표시)
     int newWeight;
     int oldWeight = 0;
@@ -124,7 +124,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
         //맨처음 취한 정도
         drunkDegree = 0;
         oldWeight = 0;
-        currentWeight = 80;
+        currentWeight = 30;
        // showDrunk(drunkDegree);
 
 
@@ -512,8 +512,8 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
 
                             }else{
                                 if(oldWeight>0){
-                                    if(newWeight>oldWeight+1){ // 새로운 값이 예전 값보다 1이상 더 크다면 새잔 (1정도는 가만히 둔 상태에서도 왔다갔다 할 수 있기 때문)
-                                        currentWeight = 80; //new (새잔)을 받으면 게이지는 80로 돌아감
+                                    if(newWeight>oldWeight+2 && newWeight>oldWeight-2){ // 새로운 값이 예전 값보다 1이상 더 크다면 새잔 (1정도는 가만히 둔 상태에서도 왔다갔다 할 수 있기 때문)
+                                        currentWeight = 30; //new (새잔)을 받으면 게이지는 80로 돌아감
                                         Log.e("currentWeight", String.valueOf(currentWeight));
                                         if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
                                             drunkDegree++;
@@ -521,20 +521,16 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
                                         showDrunk(drunkDegree); // 취한 정도 보여주기
                                     }else{ // 새로운 값이 예전값 보다 작다면 (마시고 내려놓은 경우)
                                         if(currentWeight>0){
-                                            currentWeight -= Integer.parseInt(bMsg); // 값이 들어오면 현재 값에서 그만큼 빼주기
-                                            Log.e("currentWeight", String.valueOf(currentWeight));
-                                        }
+                                         //   currentWeight -= Integer.parseInt(bMsg)*3; // 값이 들어오면 현재 값에서 그만큼 빼주기
+                                            currentWeight = currentWeight-(currentWeight-Integer.parseInt(bMsg)); // 값이 들어오면 현재 값에서 그만큼 빼주기
+                                            /** 1정도 크거나 같은 경우에는 값이 변하지 않게 예외처리 해줄것*/
 
-//                                    if(currentWeight<10){ //10보다 작으면 다 먹은걸로 간주
-//                                        if(drunkDegree<3){ // 취한 정도 3보다 작으면 더해주기 (최대가 3)
-//                                            drunkDegree++;
-//                                        }
-//                                        showDrunk(drunkDegree); // 취한 정도 보여주기
-//                                    }
+                                        }
 
                                     }
                                 }
-                                binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight); // 게이지에 반영
+                                binding.appBarContent.viewPost.imDrinkGauge.setProgressValue(currentWeight*3); // 게이지에 반영
+                                Log.e("currentWeight", String.valueOf(currentWeight));
                                 oldWeight = newWeight;
                             }
 
@@ -598,7 +594,7 @@ public class MainActivity extends MultiViewActivity implements PostView.RequestL
     }
     public void setDrunkDegree(){ //postview에서 다이얼로그가 닫히는 순간 취한 정도 reset
         drunkDegree = 0;
-        currentWeight = 80;
+        currentWeight = 30;
     }
 
     /**

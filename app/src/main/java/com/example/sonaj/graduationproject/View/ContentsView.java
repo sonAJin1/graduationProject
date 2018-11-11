@@ -1,6 +1,7 @@
 package com.example.sonaj.graduationproject.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -178,6 +179,7 @@ public class ContentsView extends BaseView {
                 Log.e("justSelect size", String.valueOf(justSelectedAdapter.getItemCount()));
 
     }
+
 
     public void getScrollViewTouchEvent(){
         contentBinding.totalScroll.setOnTouchListener(new View.OnTouchListener() {

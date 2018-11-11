@@ -82,7 +82,7 @@ public class LikeConentsAdapter extends RecyclerView.Adapter<LikeConentsAdapter.
                         SharedPreferences.Editor editor = likeSP.edit();
                         editor.remove(item.getTitle()); // 삭제
                         editor.commit();
-                        likeViewHolder.Lbinding.btnLike.setChecked(true);
+                        likeViewHolder.Lbinding.btnLike.setChecked(false);
                         item.setLike(false);
 
                         // list item 에서도 삭제

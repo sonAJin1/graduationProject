@@ -1,6 +1,7 @@
 package com.example.sonaj.graduationproject.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 import android.view.View;
@@ -28,4 +29,5 @@ public abstract class BaseView extends BaseObservable implements BaseViewInterfa
     public View getView() {
         return view;
     }
+
 }
